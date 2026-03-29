@@ -1,0 +1,41 @@
+1. Visual Identity & Theme
+
+Core Aesthetic: "Premium Stationery." The UI must feel like high-quality physical cardstock. Use --cream (#FAFAF7) as the base.
+
+Texture: Always maintain a subtle SVG noise filter (opacity 0.02) over the background to kill the "flat" digital look.
+
+Glassmorphism: Use backdrop-filter: contrast(95%) brightness(105%) blur(10px) on all major dashboard cards.
+
+Borders: Avoid heavy strokes. Use 1px solid rgba(0,0,0,0.05) for a delicate, paper-like edge.
+
+2. Typography Rules
+
+Human/Emotional Moments: Use Instrument Serif for greetings, "Daily Memo" headers, and mission statements.
+
+Functional/Data Moments: Use DM Sans for all buttons, navigation, tickers, and labels.
+
+Numerical Precision: ALL financial figures and percentages MUST use font-variant-numeric: tabular-nums; to prevent layout shift during updates.
+
+3. Color Strategy (The "Calm" Palette)
+
+Positive (Up): Mint/Emerald (#2D9A7E). Avoid bright "neon" greens.
+
+Negative (Down): Terracotta/Muted Clay (#C87B5B). Avoid "Emergency Red."
+
+Dark Mode: Use "Midnight Ink" (#1A1A1D) instead of pure black to maintain the stationery feel.
+
+4. Motion & Interaction
+
+Easing: Use Spring Physics exclusively: cubic-bezier(0.175, 0.885, 0.32, 1.275).
+
+The "Tilt" Effect: Interactive cards should have a subtle 3D lift and shadow deepening on hover (translateY(-4px)).
+
+Loading: Use "Shimmer" skeleton loaders for all data points and charts to simulate a premium, "thinking" application.
+
+5. Architectural Constraints
+
+Separation: Keep the Landing Page (marketing/storytelling) logic separate from the Dashboard (application) logic.
+
+Sidebar: The Dashboard should always utilize a vertical sidebar containing contextual stats (e.g., "Top Mover").
+
+Mission: Always keep a "Mission Moment" quote at the bottom of the sidebar to reinforce the Tuskegee/First-Gen identity.
