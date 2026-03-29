@@ -138,8 +138,7 @@
       <div class="dash-nav-label">Overview</div>
       <div class="dash-nav-item active" data-tab="dashboard"><div class="dash-nav-icon"></div> Dashboard</div>
       <div class="dash-nav-item" data-tab="portfolio"><div class="dash-nav-icon"></div> Portfolio</div>
-      <div class="dash-nav-item" data-tab="watchlist"><div class="dash-nav-icon"></div> Watchlist</div>
-      <div class="dash-nav-item" data-tab="research"><div class="dash-nav-icon"></div> Markets</div>
+      <div class="dash-nav-item" data-tab="research"><div class="dash-nav-icon"></div> Market Radar</div>
       <div class="dash-nav-item" data-tab="news"><div class="dash-nav-icon"></div> News</div>
       <div class="dash-nav-item" data-tab="transactions"><div class="dash-nav-icon"></div> Activity</div>
       <div class="dash-nav-label">Learn</div>
@@ -227,6 +226,13 @@
 
       <!-- TAB: Portfolio -->
       <div class="tab-panel" id="tab-portfolio">
+        <div class="pulse-point pulse-green">
+          <div class="pulse-icon">🛡️</div>
+          <div class="pulse-content">
+            <div class="pulse-label">Health Check</div>
+            <div class="pulse-value">Allocation: 98% on track</div>
+          </div>
+        </div>
         <div class="portfolio-top-row">
           <div class="portfolio-chart-wrap">
             <canvas id="portfolioChart" width="220" height="220"></canvas>
@@ -338,40 +344,119 @@
         </div>
       </div>
 
-      <!-- TAB: Research -->
+      <!-- TAB: Market Radar -->
       <div class="tab-panel" id="tab-research">
+        <div class="pulse-point pulse-blue">
+          <div class="pulse-icon">📊</div>
+          <div class="pulse-content">
+            <div class="pulse-label">Market Pulse</div>
+            <div class="pulse-value">Volatility: Low - Quiet Day</div>
+          </div>
+        </div>
         <div class="research-search-wrap">
           <input class="research-search" type="text" placeholder="Search a stock, ETF, or fund..." disabled />
           <div class="research-search-note">API integration coming soon.</div>
         </div>
-        <div class="dash-nav-label" style="margin-top:24px;margin-bottom:10px;padding:0">TRENDING TODAY</div>
-        <div class="trending-row">
-          <div class="trending-card">
+
+        <!-- MY WATCHLIST SECTION -->
+        <div class="dash-nav-label" style="margin-top:24px;margin-bottom:10px;padding:0;display:flex;align-items:center;justify-content:space-between;">
+          <span>MY WATCHLIST</span>
+          <span style="font-size:10px;font-weight:400;color:var(--text-muted);cursor:pointer;" id="toggleWatchlist">▼ Collapse</span>
+        </div>
+        <div id="watchlistSection" class="watchlist-section">
+          <div class="watchlist-grid" id="watchlistGrid">
+            <div class="watchlist-card" data-ticker="AAPL">
+              <div class="watchlist-stamp">WATCHING</div>
+              <div class="h-ticker">AAPL</div>
+              <div class="h-name">Apple Inc.</div>
+              <div style="font-size:13px;font-weight:500;margin-top:6px">$213.45</div>
+              <span class="badge-up">+1.2%</span>
+              <div class="star-icon starred" data-ticker="AAPL">★</div>
+            </div>
+            <div class="watchlist-card" data-ticker="MSFT">
+              <div class="watchlist-stamp">WATCHING</div>
+              <div class="h-ticker">MSFT</div>
+              <div class="h-name">Microsoft Corp.</div>
+              <div style="font-size:13px;font-weight:500;margin-top:6px">$425.68</div>
+              <span class="badge-up">+0.9%</span>
+              <div class="star-icon starred" data-ticker="MSFT">★</div>
+            </div>
+            <div class="watchlist-card" data-ticker="GOOGL">
+              <div class="watchlist-stamp">WATCHING</div>
+              <div class="h-ticker">GOOGL</div>
+              <div class="h-name">Alphabet Inc.</div>
+              <div style="font-size:13px;font-weight:500;margin-top:6px">$142.30</div>
+              <span class="badge-up">+1.5%</span>
+              <div class="star-icon starred" data-ticker="GOOGL">★</div>
+            </div>
+          </div>
+          <div id="watchlistEmpty" style="display:none;padding:24px;text-align:center;color:var(--text-muted);font-size:13px;">
+            Star a ticker below to start tracking it here
+          </div>
+        </div>
+
+        <!-- TRENDING TODAY SECTION -->
+        <div class="dash-nav-label" style="margin-top:32px;margin-bottom:10px;padding:0">TRENDING TODAY</div>
+        <div class="trending-row" id="trendingGrid">
+          <div class="trending-card" data-ticker="AAPL">
             <div class="h-ticker">AAPL</div>
             <div class="h-name">Apple Inc.</div>
             <div style="font-size:13px;font-weight:500;margin-top:6px">$213.45</div>
             <span class="badge-up">+1.2%</span>
+            <div class="star-icon starred" data-ticker="AAPL" title="Remove from watchlist">★</div>
           </div>
-          <div class="trending-card">
+          <div class="trending-card" data-ticker="NVDA">
             <div class="h-ticker">NVDA</div>
             <div class="h-name">NVIDIA Corp.</div>
             <div style="font-size:13px;font-weight:500;margin-top:6px">$875.30</div>
             <span class="badge-up">+3.4%</span>
+            <div class="star-icon" data-ticker="NVDA" title="Add to watchlist">☆</div>
           </div>
-          <div class="trending-card">
+          <div class="trending-card" data-ticker="TSLA">
             <div class="h-ticker">TSLA</div>
             <div class="h-name">Tesla Inc.</div>
             <div style="font-size:13px;font-weight:500;margin-top:6px">$177.80</div>
             <span class="badge-down">-0.8%</span>
+            <div class="star-icon" data-ticker="TSLA" title="Add to watchlist">☆</div>
           </div>
-          <div class="trending-card">
+          <div class="trending-card" data-ticker="SPY">
             <div class="h-ticker">SPY</div>
             <div class="h-name">S&P 500 ETF</div>
             <div style="font-size:13px;font-weight:500;margin-top:6px">$524.10</div>
             <span class="badge-up">+0.6%</span>
+            <div class="star-icon" data-ticker="SPY" title="Add to watchlist">☆</div>
+          </div>
+          <div class="trending-card" data-ticker="MSFT">
+            <div class="h-ticker">MSFT</div>
+            <div class="h-name">Microsoft Corp.</div>
+            <div style="font-size:13px;font-weight:500;margin-top:6px">$425.68</div>
+            <span class="badge-up">+0.9%</span>
+            <div class="star-icon starred" data-ticker="MSFT" title="Remove from watchlist">★</div>
+          </div>
+          <div class="trending-card" data-ticker="GOOGL">
+            <div class="h-ticker">GOOGL</div>
+            <div class="h-name">Alphabet Inc.</div>
+            <div style="font-size:13px;font-weight:500;margin-top:6px">$142.30</div>
+            <span class="badge-up">+1.5%</span>
+            <div class="star-icon starred" data-ticker="GOOGL" title="Remove from watchlist">★</div>
+          </div>
+          <div class="trending-card" data-ticker="VTI">
+            <div class="h-ticker">VTI</div>
+            <div class="h-name">Total Market ETF</div>
+            <div style="font-size:13px;font-weight:500;margin-top:6px">$245.80</div>
+            <span class="badge-up">+0.7%</span>
+            <div class="star-icon" data-ticker="VTI" title="Add to watchlist">☆</div>
+          </div>
+          <div class="trending-card" data-ticker="AMZN">
+            <div class="h-ticker">AMZN</div>
+            <div class="h-name">Amazon.com Inc.</div>
+            <div style="font-size:13px;font-weight:500;margin-top:6px">$178.25</div>
+            <span class="badge-up">+2.1%</span>
+            <div class="star-icon" data-ticker="AMZN" title="Add to watchlist">☆</div>
           </div>
         </div>
-        <div class="dash-nav-label" style="margin-top:24px;margin-bottom:10px;padding:0">MARKET SNAPSHOT</div>
+
+        <div class="dash-nav-label" style="margin-top:32px;margin-bottom:10px;padding:0">MARKET SNAPSHOT</div>
         <div class="metrics-row">
           <div class="metric-box">
             <div class="label">S&P 500</div>
@@ -391,40 +476,15 @@
         </div>
       </div>
 
-      <!-- TAB: Watchlist -->
-      <div class="tab-panel" id="tab-watchlist">
-        <div class="dash-nav-label" style="margin-bottom:12px;padding:0">YOUR WATCHLIST</div>
-        <div class="trending-row">
-          <div class="trending-card">
-            <div class="h-ticker">AAPL</div>
-            <div class="h-name">Apple Inc.</div>
-            <div style="font-size:13px;font-weight:500;margin-top:6px">$213.45</div>
-            <span class="badge-up">+1.2%</span>
-          </div>
-          <div class="trending-card">
-            <div class="h-ticker">MSFT</div>
-            <div class="h-name">Microsoft Corp.</div>
-            <div style="font-size:13px;font-weight:500;margin-top:6px">$425.68</div>
-            <span class="badge-up">+0.9%</span>
-          </div>
-          <div class="trending-card">
-            <div class="h-ticker">GOOGL</div>
-            <div class="h-name">Alphabet Inc.</div>
-            <div style="font-size:13px;font-weight:500;margin-top:6px">$142.30</div>
-            <span class="badge-up">+1.5%</span>
-          </div>
-          <div class="trending-card">
-            <div class="h-ticker">VTI</div>
-            <div class="h-name">Total Market ETF</div>
-            <div style="font-size:13px;font-weight:500;margin-top:6px">$245.80</div>
-            <span class="badge-up">+0.7%</span>
-          </div>
-        </div>
-        <p style="font-size:12px;color:var(--text-muted);margin-top:12px;">Add stocks to track their performance. API integration coming soon.</p>
-      </div>
-
       <!-- TAB: News -->
       <div class="tab-panel" id="tab-news">
+        <div class="pulse-point pulse-amber">
+          <div class="pulse-icon">📡</div>
+          <div class="pulse-content">
+            <div class="pulse-label">Signal Strength</div>
+            <div class="pulse-value">Daily Noise Level: 15% - High Signal</div>
+          </div>
+        </div>
         <div class="dash-nav-label" style="margin-bottom:12px;padding:0">MARKET NEWS & INSIGHTS</div>
         <div class="news-feed">
           <div class="news-item">
@@ -453,6 +513,13 @@
 
       <!-- TAB: Transactions/Activity -->
       <div class="tab-panel" id="tab-transactions">
+        <div class="pulse-point pulse-orange">
+          <div class="pulse-icon">🔥</div>
+          <div class="pulse-content">
+            <div class="pulse-label">Legacy Streak</div>
+            <div class="pulse-value">4 Month Building Streak</div>
+          </div>
+        </div>
         <div class="dash-nav-label" style="margin-bottom:12px;padding:0">RECENT ACTIVITY</div>
         <div class="activity-feed">
           <div class="activity-item">

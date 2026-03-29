@@ -125,7 +125,36 @@
 
   /* ─── DASHBOARD TAB SWITCHING ─── */
   var portfolioChartRendered = false;
-  document.querySelectorAll('.dash-nav-item[data-tab]').forEach(function(item) {
+  var currentTab = 'dashboard';
+
+  // AI Placeholder mapping
+  const aiPlaceholderMap = {
+    'dashboard': 'Ask about today\'s briefing...',
+    'portfolio': 'Ask about your allocation or growth...',
+    'research': 'Ask about a specific ticker or trend...',
+    'news': 'Ask about market headlines...',
+    'transactions': 'Ask about your investing streak...',
+    'learn': 'Ask about investing basics...',
+    'foundation': 'Ask about investing basics...'
+  };
+
+  function updateAIPlaceholder(tab) {
+    const aiTriggerText = document.querySelector('.ai-trigger-text');
+    if (aiTriggerText && aiPlaceholderMap[tab]) {
+      aiTriggerText.style.opacity = '0';
+      setTimeout(function() {
+        aiTriggerText.textContent = aiPlaceholderMap[tab];
+        aiTriggerText.style.opacity = '1';
+      }, 100);
+    }
+  }
+
+  document.querySelectorAll('.dash-nav-item[data-tab]').forEach(function(item, index) {
+    // Add ARIA attributes for accessibility
+    item.setAttribute('role', 'tab');
+    item.setAttribute('aria-selected', item.classList.contains('active') ? 'true' : 'false');
+    item.setAttribute('tabindex', item.classList.contains('active') ? '0' : '-1');
+
     item.addEventListener('click', function() {
       var tab = this.getAttribute('data-tab');
 
@@ -134,16 +163,43 @@
         toggleDashboardView(true);
       }
 
-      document.querySelectorAll('.dash-nav-item[data-tab]').forEach(function(i) { i.classList.remove('active'); });
-      this.classList.add('active');
-      document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
-      var panel = document.getElementById('tab-' + tab);
-      if (panel) panel.classList.add('active');
+      // Update ARIA attributes
+      document.querySelectorAll('.dash-nav-item[data-tab]').forEach(function(i) {
+        i.classList.remove('active');
+        i.setAttribute('aria-selected', 'false');
+        i.setAttribute('tabindex', '-1');
+      });
 
-      // Render portfolio chart on first visit
+      this.classList.add('active');
+      this.setAttribute('aria-selected', 'true');
+      this.setAttribute('tabindex', '0');
+
+      document.querySelectorAll('.tab-panel').forEach(function(p) {
+        p.classList.remove('active');
+        p.setAttribute('aria-hidden', 'true');
+      });
+
+      var panel = document.getElementById('tab-' + tab);
+      if (panel) {
+        panel.classList.add('active');
+        panel.setAttribute('aria-hidden', 'false');
+      }
+
+      // Update current tab index for keyboard navigation
+      currentTabIndex = tabOrder.indexOf(tab);
+
+      // Update AI placeholder if tab changed
+      if (tab !== currentTab) {
+        currentTab = tab;
+        updateAIPlaceholder(tab);
+      }
+
+      // Render portfolio chart on first visit (lazy load Chart.js)
       if (tab === 'portfolio' && !portfolioChartRendered) {
-        renderPortfolioChart();
-        portfolioChartRendered = true;
+        loadChartJs(function() {
+          renderPortfolioChart();
+          portfolioChartRendered = true;
+        });
       }
     });
   });
@@ -617,6 +673,155 @@
     });
   }
 
+  /* ─── WATCHLIST STAR TOGGLE ─── */
+  let watchlist = JSON.parse(localStorage.getItem('watchlist') || '["AAPL", "MSFT", "GOOGL"]');
+
+  function saveWatchlist() {
+    localStorage.setItem('watchlist', JSON.stringify(watchlist));
+  }
+
+  function updateWatchlistUI() {
+    const watchlistGrid = document.getElementById('watchlistGrid');
+    const watchlistEmpty = document.getElementById('watchlistEmpty');
+    const trendingGrid = document.getElementById('trendingGrid');
+
+    if (!watchlistGrid || !trendingGrid) return;
+
+    // Update star states in trending section
+    trendingGrid.querySelectorAll('.star-icon').forEach(function(star) {
+      const ticker = star.getAttribute('data-ticker');
+      if (watchlist.includes(ticker)) {
+        star.classList.add('starred');
+        star.textContent = '★';
+        star.setAttribute('title', 'Remove from watchlist');
+      } else {
+        star.classList.remove('starred');
+        star.textContent = '☆';
+        star.setAttribute('title', 'Add to watchlist');
+      }
+    });
+
+    // Rebuild watchlist grid
+    watchlistGrid.innerHTML = '';
+    if (watchlist.length === 0) {
+      watchlistEmpty.style.display = 'block';
+      watchlistGrid.style.display = 'none';
+    } else {
+      watchlistEmpty.style.display = 'none';
+      watchlistGrid.style.display = 'grid';
+
+      watchlist.forEach(function(ticker) {
+        const trendingCard = trendingGrid.querySelector(`.trending-card[data-ticker="${ticker}"]`);
+        if (!trendingCard) return;
+
+        const clone = trendingCard.cloneNode(true);
+        clone.classList.remove('trending-card');
+        clone.classList.add('watchlist-card');
+
+        const stamp = document.createElement('div');
+        stamp.className = 'watchlist-stamp';
+        stamp.textContent = 'WATCHING';
+        clone.appendChild(stamp);
+
+        const star = clone.querySelector('.star-icon');
+        if (star) {
+          star.classList.add('starred');
+          star.textContent = '★';
+        }
+
+        watchlistGrid.appendChild(clone);
+      });
+
+      // Re-attach star click handlers
+      watchlistGrid.querySelectorAll('.star-icon').forEach(attachStarHandler);
+    }
+  }
+
+  // Debounce function for star toggles
+  let starToggleTimeout;
+  function attachStarHandler(star) {
+    star.setAttribute('role', 'button');
+    star.setAttribute('tabindex', '0');
+
+    const handleToggle = function(e) {
+      e.stopPropagation();
+
+      // Debounce rapid clicks
+      clearTimeout(starToggleTimeout);
+      starToggleTimeout = setTimeout(function() {
+        const ticker = star.getAttribute('data-ticker');
+
+        if (watchlist.includes(ticker)) {
+          watchlist = watchlist.filter(function(t) { return t !== ticker; });
+          showToast(`${ticker} removed from watchlist`);
+        } else {
+          watchlist.push(ticker);
+          showToast(`${ticker} added to watchlist`);
+        }
+
+        saveWatchlist();
+        updateWatchlistUI();
+      }, 150);
+    };
+
+    star.addEventListener('click', handleToggle);
+
+    // Keyboard accessibility
+    star.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleToggle(e);
+      }
+    });
+  }
+
+  // Watchlist collapse toggle
+  const toggleWatchlistBtn = document.getElementById('toggleWatchlist');
+  const watchlistSection = document.getElementById('watchlistSection');
+  if (toggleWatchlistBtn && watchlistSection) {
+    toggleWatchlistBtn.addEventListener('click', function() {
+      watchlistSection.classList.toggle('collapsed');
+      this.textContent = watchlistSection.classList.contains('collapsed') ? '▶ Expand' : '▼ Collapse';
+    });
+  }
+
+  /* ─── KEYBOARD NAVIGATION ─── */
+  const tabOrder = ['dashboard', 'portfolio', 'research', 'news', 'transactions', 'learn', 'foundation'];
+  let currentTabIndex = 0;
+
+  document.addEventListener('keydown', function(e) {
+    // Only handle arrow keys when not in input fields
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      currentTabIndex = (currentTabIndex + 1) % tabOrder.length;
+      const nextTab = document.querySelector(`.dash-nav-item[data-tab="${tabOrder[currentTabIndex]}"]`);
+      if (nextTab) nextTab.click();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      currentTabIndex = (currentTabIndex - 1 + tabOrder.length) % tabOrder.length;
+      const prevTab = document.querySelector(`.dash-nav-item[data-tab="${tabOrder[currentTabIndex]}"]`);
+      if (prevTab) prevTab.click();
+    }
+  });
+
+  /* ─── PERFORMANCE: LAZY LOAD CHART.JS ─── */
+  let chartJsLoaded = false;
+  function loadChartJs(callback) {
+    if (chartJsLoaded) {
+      callback();
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+    script.onload = function() {
+      chartJsLoaded = true;
+      callback();
+    };
+    document.head.appendChild(script);
+  }
+
   /* ─── INIT ON LOAD ─── */
   checkAuth();
   updateLearningProgress();
@@ -628,6 +833,18 @@
       toggleAIFab(true);
     }
     initTiltEffects();
+
+    // Initialize watchlist
+    updateWatchlistUI();
+    document.querySelectorAll('.star-icon').forEach(attachStarHandler);
+
+    // Preload Chart.js if on portfolio tab
+    const portfolioTab = document.querySelector('.dash-nav-item[data-tab="portfolio"]');
+    if (portfolioTab) {
+      portfolioTab.addEventListener('mouseenter', function() {
+        loadChartJs(function() {});
+      }, { once: true });
+    }
   }, 500);
 
   /* ─── AI CHATBOT FUNCTIONALITY ─── */
