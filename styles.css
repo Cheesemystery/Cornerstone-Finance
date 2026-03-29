@@ -1572,33 +1572,66 @@ footer {
 }
 
 .ai-chatbot-trigger {
-  width: 64px;
-  height: 64px;
-  background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
-  border-radius: 50%;
-  border: 3px solid white;
-  box-shadow: 0 8px 32px rgba(45,154,126,0.4);
+  width: 380px;
+  max-width: calc(100vw - 64px);
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  backdrop-filter: contrast(95%) brightness(105%) blur(10px);
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  gap: 12px;
+  padding: 14px 20px;
+  cursor: text;
   transition: all 0.3s var(--spring-ease);
-  font-size: 28px;
-  color: white;
   position: relative;
+  overflow: hidden;
+}
+
+.ai-chatbot-trigger::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='triggerNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23triggerNoise)'/%3E%3C/svg%3E");
+  opacity: 0.015;
+  pointer-events: none;
 }
 
 .ai-chatbot-trigger:hover {
-  transform: scale(1.1) translateY(-4px);
-  box-shadow: 0 12px 40px rgba(45,154,126,0.5);
-}
-
-.ai-chatbot-trigger:active {
-  transform: scale(0.95);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+  border-color: var(--green);
 }
 
 .ai-chatbot-trigger.hidden {
   display: none;
+}
+
+.ai-trigger-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  color: white;
+}
+
+.ai-trigger-text {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-muted);
+  font-family: var(--sans);
+  user-select: none;
+  position: relative;
+  z-index: 1;
 }
 
 .ai-chatbot-suggestions {
@@ -1714,9 +1747,18 @@ footer {
   }
 
   .ai-chatbot-trigger {
-    width: 56px;
-    height: 56px;
-    font-size: 24px;
+    width: calc(100vw - 32px);
+    padding: 12px 16px;
+  }
+
+  .ai-trigger-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .ai-trigger-text {
+    font-size: 13px;
   }
 
   .ai-chatbot-suggestions {
