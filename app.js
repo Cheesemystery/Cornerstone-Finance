@@ -629,3 +629,115 @@
     }
     initTiltEffects();
   }, 500);
+
+  /* ─── AI CHATBOT FUNCTIONALITY ─── */
+  let chatbotOpen = false;
+
+  window.toggleAIChatbot = function() {
+    chatbotOpen = !chatbotOpen;
+    const chatbotWindow = document.getElementById('aiChatbotWindow');
+    const chatbotTrigger = document.getElementById('aiChatbotTrigger');
+
+    if (chatbotOpen) {
+      chatbotWindow.classList.add('active');
+      chatbotTrigger.classList.add('hidden');
+      setTimeout(() => {
+        document.getElementById('aiChatbotInput').focus();
+      }, 400);
+    } else {
+      chatbotWindow.classList.remove('active');
+      chatbotTrigger.classList.remove('hidden');
+    }
+  };
+
+  window.sendAIMessage = function() {
+    const input = document.getElementById('aiChatbotInput');
+    const message = input.value.trim();
+
+    if (!message) return;
+
+    addAIChatMessage(message, 'user');
+    input.value = '';
+
+    showAITyping();
+
+    setTimeout(() => {
+      hideAITyping();
+      const response = generateAIResponse(message);
+      addAIChatMessage(response, 'bot');
+    }, 1500 + Math.random() * 1000);
+  };
+
+  window.sendAISuggestion = function(chip) {
+    const message = chip.textContent;
+    document.getElementById('aiChatbotInput').value = message;
+    sendAIMessage();
+  };
+
+  function addAIChatMessage(text, type) {
+    const messagesContainer = document.getElementById('aiChatbotMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `ai-message ${type}`;
+
+    const now = new Date();
+    const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+    messageDiv.innerHTML = `
+      <div class="ai-message-avatar">${type === 'user' ? '👤' : '🤖'}</div>
+      <div class="ai-message-content">
+        <div class="ai-message-text">${text}</div>
+        <div class="ai-message-time">${time}</div>
+      </div>
+    `;
+
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  function showAITyping() {
+    document.getElementById('aiChatbotTyping').classList.add('active');
+    const messagesContainer = document.getElementById('aiChatbotMessages');
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+
+  function hideAITyping() {
+    document.getElementById('aiChatbotTyping').classList.remove('active');
+  }
+
+  function generateAIResponse(message) {
+    const lowerMessage = message.toLowerCase();
+
+    if (lowerMessage.includes('spy') || lowerMessage.includes('s&p 500')) {
+      return "SPY is an ETF that tracks the S&P 500 index — the 500 largest U.S. companies. It's a popular choice for diversified exposure to the U.S. stock market. Your portfolio holds SPY, which gives you instant diversification across multiple sectors.";
+    }
+
+    if (lowerMessage.includes('up') || lowerMessage.includes('gain') || lowerMessage.includes('positive')) {
+      return "Your portfolio is up 1.4% today, mainly driven by SPY's gain of 2.1%. This is likely due to positive market sentiment around recent rate cut optimism. Remember, daily fluctuations are normal — focus on your long-term strategy.";
+    }
+
+    if (lowerMessage.includes('down') || lowerMessage.includes('drop') || lowerMessage.includes('losing')) {
+      return "Market drops are a normal part of investing. Your portfolio is built for long-term growth, not day-to-day swings. If you're concerned, let's talk about your risk tolerance and timeline — I'm here to help you stay confident.";
+    }
+
+    if (lowerMessage.includes('rebalance') || lowerMessage.includes('adjust')) {
+      return "Rebalancing means adjusting your portfolio to match your target allocation. Since you're holding broad index funds like SPY and VXUS, you're already well-diversified. I'd recommend rebalancing quarterly or if any holding drifts more than 5% from target.";
+    }
+
+    if (lowerMessage.includes('vxus') || lowerMessage.includes('international')) {
+      return "VXUS gives you exposure to international stocks outside the U.S. It's showing -0.4% today, which is typical during periods of dollar strength. International diversification helps reduce risk tied to any single country's economy.";
+    }
+
+    if (lowerMessage.includes('briefing') || lowerMessage.includes('explain')) {
+      return "Today's briefing shows your portfolio is up 1.4%, led by SPY amid rate cut optimism. VXUS is seeing mild selling — typical during dollar-strength periods. No action needed. Your diversified strategy is working as designed.";
+    }
+
+    if (lowerMessage.includes('risk') || lowerMessage.includes('safe')) {
+      return "Your current portfolio mix of SPY (U.S. stocks), VXUS (international), and BND (bonds) is moderately balanced. Bonds provide stability, while stocks drive growth. If you want to adjust risk, we can talk about shifting your allocation.";
+    }
+
+    if (lowerMessage.includes('bnd') || lowerMessage.includes('bond')) {
+      return "BND is a bond ETF that tracks U.S. investment-grade bonds. Bonds typically provide stability and income, and they often move opposite to stocks. Your BND holding is up 0.1% today, providing a steady anchor for your portfolio.";
+    }
+
+    return "Great question! I'm here to help you understand your portfolio and make informed decisions. Feel free to ask about specific holdings, market movements, or general investing concepts. What else would you like to know?";
+  }

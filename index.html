@@ -766,6 +766,66 @@
   </div>
 </footer>
 
+<!-- AI CHATBOT ASSISTANT -->
+<div class="ai-chatbot-container" id="aiChatbotContainer">
+  <div class="ai-chatbot-window" id="aiChatbotWindow">
+    <div class="ai-chatbot-header">
+      <div class="ai-chatbot-header-left">
+        <div class="ai-chatbot-avatar">🤖</div>
+        <div class="ai-chatbot-info">
+          <h4>Portfolio Assistant</h4>
+          <div class="ai-chatbot-status">
+            <div class="ai-chatbot-status-dot"></div>
+            Ready to help
+          </div>
+        </div>
+      </div>
+      <button class="ai-chatbot-close" onclick="toggleAIChatbot()">×</button>
+    </div>
+
+    <div class="ai-chatbot-messages" id="aiChatbotMessages">
+      <div class="ai-message">
+        <div class="ai-message-avatar">🤖</div>
+        <div class="ai-message-content">
+          <div class="ai-message-text">Hi! I'm your portfolio assistant. I can help you understand your investments, answer questions about market movements, and explain financial concepts in plain English. What would you like to know?</div>
+          <div class="ai-message-time">Just now</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-chatbot-typing" id="aiChatbotTyping">
+      <div class="ai-message-avatar">🤖</div>
+      <div class="ai-chatbot-typing-bubble">
+        <div class="ai-typing-dot"></div>
+        <div class="ai-typing-dot"></div>
+        <div class="ai-typing-dot"></div>
+      </div>
+    </div>
+
+    <div class="ai-chatbot-suggestions">
+      <div class="ai-suggestion-chip" onclick="sendAISuggestion(this)">Why is my portfolio up today?</div>
+      <div class="ai-suggestion-chip" onclick="sendAISuggestion(this)">What's SPY?</div>
+      <div class="ai-suggestion-chip" onclick="sendAISuggestion(this)">Should I rebalance?</div>
+      <div class="ai-suggestion-chip" onclick="sendAISuggestion(this)">Explain this briefing</div>
+    </div>
+
+    <div class="ai-chatbot-input-wrap">
+      <input
+        type="text"
+        class="ai-chatbot-input"
+        id="aiChatbotInput"
+        placeholder="Ask about your portfolio..."
+        onkeydown="if(event.key==='Enter') sendAIMessage()"
+      />
+      <button class="ai-chatbot-send" id="aiChatbotSend" onclick="sendAIMessage()">➤</button>
+    </div>
+  </div>
+
+  <div class="ai-chatbot-trigger" id="aiChatbotTrigger" onclick="toggleAIChatbot()">
+    💬
+  </div>
+</div>
+
 <script src="app.js"></script>
 </body>
 </html>
