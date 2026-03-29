@@ -195,8 +195,8 @@
   .badge-down { background: #FDE8E0; color: #D85A30; }
 
   /* GUIDES TAB */
-  .guides-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  .guides-grid, .learn-grid {
+    display: grid; grid-template-columns: 1fr; gap: 12px;
   }
   .guide-card {
     background: #1a1a18; border-radius: 12px; padding: 32px 20px;
@@ -207,6 +207,216 @@
   .guide-card .video-title { color: white; font-size: 14px; }
   .guide-lock { font-size: 28px; opacity: 0.4; }
   .guide-coming { font-size: 12px; color: rgba(255,255,255,0.35); }
+
+  /* PORTFOLIO AI ASK SECTION */
+  .portfolio-ai-ask {
+    background: linear-gradient(135deg, var(--green-light) 0%, #E8F9F3 100%);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  .ai-ask-header { margin-bottom: 14px; }
+  .ai-ask-input-wrap {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .ai-ask-input {
+    flex: 1;
+    padding: 11px 16px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: 10px;
+    font-size: 13px;
+    font-family: var(--sans);
+    background: var(--white);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .ai-ask-input:focus { border-color: var(--green); }
+  .ai-ask-btn {
+    background: var(--green);
+    color: white;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--sans);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .ai-ask-btn:hover { background: var(--green-mid); transform: translateY(-1px); }
+  .ai-quick-questions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .ai-quick-q {
+    background: var(--white);
+    border: 0.5px solid var(--border-strong);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: var(--text-mid);
+    cursor: pointer;
+    font-family: var(--sans);
+    transition: all 0.2s;
+  }
+  .ai-quick-q:hover {
+    border-color: var(--green);
+    color: var(--green-mid);
+    background: var(--green-light);
+  }
+
+  /* ENHANCED METRICS */
+  .enhanced-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .enhanced-metric-card {
+    background: var(--white);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .enhanced-metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  .metric-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .metric-content {
+    flex: 1;
+    min-width: 0;
+  }
+  .metric-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .metric-big-val {
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .metric-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* NEWS FEED */
+  .news-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .news-item {
+    background: var(--cream);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    transition: background 0.2s;
+  }
+  .news-item:hover {
+    background: var(--white);
+  }
+  .news-time {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .news-title {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  .news-source {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* ACTIVITY FEED */
+  .activity-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .activity-item {
+    background: var(--cream);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    transition: background 0.2s;
+  }
+  .activity-item:hover {
+    background: var(--white);
+  }
+  .activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .activity-content {
+    flex: 1;
+    min-width: 0;
+  }
+  .activity-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .activity-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .activity-right {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .activity-amount {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .activity-date {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
 
   /* FOUNDATION VIDEOS IN TAB */
   .foundation-videos { max-width: 100%; }
@@ -587,9 +797,12 @@
     .portfolio-top-row { flex-direction: column; }
     .portfolio-chart-wrap { width: 100%; }
     .trending-row { grid-template-columns: repeat(2, 1fr); }
-    .guides-grid { grid-template-columns: 1fr; }
+    .guides-grid, .learn-grid { grid-template-columns: 1fr; }
     .ht-header, .ht-row { grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr; font-size: 11px; }
     .pricing-grid { grid-template-columns: 1fr; }
+    .enhanced-metrics { grid-template-columns: 1fr; }
+    .ai-ask-input-wrap { flex-direction: column; }
+    .ai-ask-btn { width: 100%; }
     footer { flex-direction: column; gap: 16px; text-align: center; }
     .footer-links { flex-wrap: wrap; justify-content: center; }
   }
@@ -682,10 +895,13 @@
       <div class="dash-nav-label">Overview</div>
       <div class="dash-nav-item active" data-tab="dashboard"><div class="dash-nav-icon"></div> Dashboard</div>
       <div class="dash-nav-item" data-tab="portfolio"><div class="dash-nav-icon"></div> Portfolio</div>
-      <div class="dash-nav-item" data-tab="research"><div class="dash-nav-icon"></div> Research</div>
+      <div class="dash-nav-item" data-tab="watchlist"><div class="dash-nav-icon"></div> Watchlist</div>
+      <div class="dash-nav-item" data-tab="research"><div class="dash-nav-icon"></div> Markets</div>
+      <div class="dash-nav-item" data-tab="news"><div class="dash-nav-icon"></div> News</div>
+      <div class="dash-nav-item" data-tab="transactions"><div class="dash-nav-icon"></div> Activity</div>
       <div class="dash-nav-label">Learn</div>
+      <div class="dash-nav-item" data-tab="learn"><div class="dash-nav-icon"></div> Investing</div>
       <div class="dash-nav-item" data-tab="foundation"><div class="dash-nav-icon"></div> Foundation</div>
-      <div class="dash-nav-item" data-tab="guides"><div class="dash-nav-icon"></div> Guides</div>
     </div>
     <div class="dash-content" id="dashContent">
 
@@ -734,16 +950,12 @@
 
       <!-- TAB: Portfolio -->
       <div class="tab-panel" id="tab-portfolio">
-        <div class="dash-greeting">
-          <h2>Portfolio</h2>
-          <p>Allocation overview and holdings breakdown</p>
-        </div>
         <div class="portfolio-top-row">
           <div class="portfolio-chart-wrap">
             <canvas id="portfolioChart" width="220" height="220"></canvas>
           </div>
           <div class="briefing" style="flex:1">
-            <div class="briefing-tag">Portfolio Allocation Overview</div>
+            <div class="briefing-tag">AI Portfolio Analysis</div>
             <div class="briefing-text">
               Your portfolio is well-diversified across domestic equities, international exposure, and bonds. SPY anchors your growth, while BND provides stability. No immediate action needed.
               <br><br>
@@ -753,6 +965,62 @@
             </div>
           </div>
         </div>
+
+        <!-- AI Ask Section for Portfolio -->
+        <div class="portfolio-ai-ask">
+          <div class="ai-ask-header">
+            <div style="font-size:18px; font-weight:500; margin-bottom:4px;">Ask about your portfolio</div>
+            <div style="font-size:12px; color:var(--text-muted);">Get instant insights about your holdings, allocation, and performance</div>
+          </div>
+          <div class="ai-ask-input-wrap">
+            <input class="ai-ask-input" type="text" placeholder="e.g., Should I rebalance? Is my allocation too risky?" onkeydown="if(event.key==='Enter') askPortfolioQuestion(this)" />
+            <button class="ai-ask-btn" onclick="askPortfolioQuestion(this.previousElementSibling)">Ask AI</button>
+          </div>
+          <div class="ai-quick-questions">
+            <button class="ai-quick-q" onclick="handleQuickPortfolioQ(this)">Should I rebalance?</button>
+            <button class="ai-quick-q" onclick="handleQuickPortfolioQ(this)">Is this too risky for me?</button>
+            <button class="ai-quick-q" onclick="handleQuickPortfolioQ(this)">How am I performing vs. the market?</button>
+          </div>
+        </div>
+
+        <!-- Enhanced Portfolio Stats -->
+        <div class="dash-nav-label" style="margin-top:24px;margin-bottom:12px;padding:0">PERFORMANCE METRICS</div>
+        <div class="enhanced-metrics">
+          <div class="enhanced-metric-card">
+            <div class="metric-icon" style="background: linear-gradient(135deg, #1D9E75 0%, #0F6E56 100%);">📈</div>
+            <div class="metric-content">
+              <div class="metric-label">Total Value</div>
+              <div class="metric-big-val">$4,820</div>
+              <div class="metric-sub up">+$67 today (+1.4%)</div>
+            </div>
+          </div>
+          <div class="enhanced-metric-card">
+            <div class="metric-icon" style="background: linear-gradient(135deg, #D4A853 0%, #B8903A 100%);">⚡</div>
+            <div class="metric-content">
+              <div class="metric-label">Total Return</div>
+              <div class="metric-big-val">+12.3%</div>
+              <div class="metric-sub neu">Since Jan 2024 • $532 gained</div>
+            </div>
+          </div>
+          <div class="enhanced-metric-card">
+            <div class="metric-icon" style="background: linear-gradient(135deg, #1D9E75 0%, #0F6E56 100%);">🎯</div>
+            <div class="metric-content">
+              <div class="metric-label">vs. S&P 500</div>
+              <div class="metric-big-val">+0.8%</div>
+              <div class="metric-sub up">Outperforming market average</div>
+            </div>
+          </div>
+          <div class="enhanced-metric-card">
+            <div class="metric-icon" style="background: linear-gradient(135deg, #5B9BD5 0%, #4682B4 100%);">💼</div>
+            <div class="metric-content">
+              <div class="metric-label">Diversification</div>
+              <div class="metric-big-val">Good</div>
+              <div class="metric-sub neu">3 holdings • Balanced allocation</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-nav-label" style="margin-top:24px;margin-bottom:12px;padding:0">HOLDINGS BREAKDOWN</div>
         <div class="holdings-table">
           <div class="ht-header">
             <span>Ticker</span><span>Name</span><span>Value</span><span>Allocation %</span><span>Today's Return</span>
@@ -771,10 +1039,6 @@
 
       <!-- TAB: Research -->
       <div class="tab-panel" id="tab-research">
-        <div class="dash-greeting">
-          <h2>Research</h2>
-          <p>Market data and stock lookups</p>
-        </div>
         <div class="research-search-wrap">
           <input class="research-search" type="text" placeholder="Search a stock, ETF, or fund..." disabled />
           <div class="research-search-note">API integration coming soon.</div>
@@ -826,60 +1090,193 @@
         </div>
       </div>
 
-      <!-- TAB: Foundation -->
-      <div class="tab-panel" id="tab-foundation">
-        <div class="dash-greeting">
-          <h2>Foundation Library</h2>
-          <p>Start here. Short lessons that build real understanding.</p>
+      <!-- TAB: Watchlist -->
+      <div class="tab-panel" id="tab-watchlist">
+        <div class="dash-nav-label" style="margin-bottom:12px;padding:0">YOUR WATCHLIST</div>
+        <div class="trending-row">
+          <div class="trending-card">
+            <div class="h-ticker">AAPL</div>
+            <div class="h-name">Apple Inc.</div>
+            <div style="font-size:13px;font-weight:500;margin-top:6px">$213.45</div>
+            <span class="badge-up">+1.2%</span>
+          </div>
+          <div class="trending-card">
+            <div class="h-ticker">MSFT</div>
+            <div class="h-name">Microsoft Corp.</div>
+            <div style="font-size:13px;font-weight:500;margin-top:6px">$425.68</div>
+            <span class="badge-up">+0.9%</span>
+          </div>
+          <div class="trending-card">
+            <div class="h-ticker">GOOGL</div>
+            <div class="h-name">Alphabet Inc.</div>
+            <div style="font-size:13px;font-weight:500;margin-top:6px">$142.30</div>
+            <span class="badge-up">+1.5%</span>
+          </div>
+          <div class="trending-card">
+            <div class="h-ticker">VTI</div>
+            <div class="h-name">Total Market ETF</div>
+            <div style="font-size:13px;font-weight:500;margin-top:6px">$245.80</div>
+            <span class="badge-up">+0.7%</span>
+          </div>
         </div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:12px;">Add stocks to track their performance. API integration coming soon.</p>
+      </div>
+
+      <!-- TAB: News -->
+      <div class="tab-panel" id="tab-news">
+        <div class="dash-nav-label" style="margin-bottom:12px;padding:0">MARKET NEWS & INSIGHTS</div>
+        <div class="news-feed">
+          <div class="news-item">
+            <div class="news-time">2h ago</div>
+            <div class="news-title">Fed signals potential rate cut in Q2 amid cooling inflation</div>
+            <div class="news-source">Reuters</div>
+          </div>
+          <div class="news-item">
+            <div class="news-time">4h ago</div>
+            <div class="news-title">Tech stocks lead market rally as earnings season begins</div>
+            <div class="news-source">Bloomberg</div>
+          </div>
+          <div class="news-item">
+            <div class="news-time">6h ago</div>
+            <div class="news-title">S&P 500 reaches new all-time high on strong economic data</div>
+            <div class="news-source">CNBC</div>
+          </div>
+          <div class="news-item">
+            <div class="news-time">8h ago</div>
+            <div class="news-title">International markets mixed as dollar strengthens</div>
+            <div class="news-source">Financial Times</div>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:16px;">Live news feed coming soon. This is placeholder content.</p>
+      </div>
+
+      <!-- TAB: Transactions/Activity -->
+      <div class="tab-panel" id="tab-transactions">
+        <div class="dash-nav-label" style="margin-bottom:12px;padding:0">RECENT ACTIVITY</div>
+        <div class="activity-feed">
+          <div class="activity-item">
+            <div class="activity-icon" style="background: var(--green-light); color: var(--green);">📥</div>
+            <div class="activity-content">
+              <div class="activity-title">Deposit</div>
+              <div class="activity-desc">Added $500 to investment account</div>
+            </div>
+            <div class="activity-right">
+              <div class="activity-amount" style="color: var(--green);">+$500</div>
+              <div class="activity-date">Mar 24</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon" style="background: var(--green-light); color: var(--green);">💰</div>
+            <div class="activity-content">
+              <div class="activity-title">Dividend</div>
+              <div class="activity-desc">SPY dividend payment</div>
+            </div>
+            <div class="activity-right">
+              <div class="activity-amount" style="color: var(--green);">+$12.45</div>
+              <div class="activity-date">Mar 20</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon" style="background: var(--green-light); color: var(--green);">🛒</div>
+            <div class="activity-content">
+              <div class="activity-title">Buy Order</div>
+              <div class="activity-desc">Purchased 2 shares of BND</div>
+            </div>
+            <div class="activity-right">
+              <div class="activity-amount" style="color: var(--text-muted);">$168.50</div>
+              <div class="activity-date">Mar 18</div>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:16px;">Transaction history will sync with your brokerage account.</p>
+      </div>
+
+      <!-- TAB: Learn (Stock/Market Focused) -->
+      <div class="tab-panel" id="tab-learn">
+        <div class="dash-nav-label" style="margin-bottom:12px;padding:0">INVESTING EDUCATION</div>
+        <p style="font-size:13px;color:var(--text-mid);margin-bottom:20px;line-height:1.6;">Learn about stocks, markets, trading strategies, and investment analysis. Free for everyone, always.</p>
+        <div class="learn-grid">
+          <div class="video-placeholder" onclick="showToast('Video content coming soon — stay tuned!')">
+            <div class="video-play-icon">
+              <svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
+            </div>
+            <div class="video-title">How to Read Stock Charts</div>
+            <div class="video-label">Learn Series · 6 min · Coming Soon</div>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
+            <div class="video-placeholder" style="min-height:140px; padding:24px 16px" onclick="showToast('Video content coming soon — stay tuned!')">
+              <div class="video-play-icon" style="width:40px;height:40px">
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px"><polygon points="8,5 19,12 8,19"/></svg>
+              </div>
+              <div class="video-title" style="font-size:13px">Understanding P/E Ratios</div>
+              <div class="video-label" style="font-size:11px">4 min · Coming Soon</div>
+            </div>
+            <div class="video-placeholder" style="min-height:140px; padding:24px 16px" onclick="showToast('Video content coming soon — stay tuned!')">
+              <div class="video-play-icon" style="width:40px;height:40px">
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px"><polygon points="8,5 19,12 8,19"/></svg>
+              </div>
+              <div class="video-title" style="font-size:13px">Market Sectors Explained</div>
+              <div class="video-label" style="font-size:11px">5 min · Coming Soon</div>
+            </div>
+            <div class="video-placeholder" style="min-height:140px; padding:24px 16px" onclick="showToast('Video content coming soon — stay tuned!')">
+              <div class="video-play-icon" style="width:40px;height:40px">
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px"><polygon points="8,5 19,12 8,19"/></svg>
+              </div>
+              <div class="video-title" style="font-size:13px">ETFs vs Mutual Funds</div>
+              <div class="video-label" style="font-size:11px">5 min · Coming Soon</div>
+            </div>
+            <div class="video-placeholder" style="min-height:140px; padding:24px 16px" onclick="showToast('Video content coming soon — stay tuned!')">
+              <div class="video-play-icon" style="width:40px;height:40px">
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px"><polygon points="8,5 19,12 8,19"/></svg>
+              </div>
+              <div class="video-title" style="font-size:13px">Reading Earnings Reports</div>
+              <div class="video-label" style="font-size:11px">7 min · Coming Soon</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Foundation (Financial Literacy Basics) -->
+      <div class="tab-panel" id="tab-foundation">
+        <div class="dash-nav-label" style="margin-bottom:12px;padding:0">FINANCIAL FOUNDATION</div>
+        <p style="font-size:13px;color:var(--text-mid);margin-bottom:20px;line-height:1.6;">Master the fundamentals of personal finance. From budgeting to retirement accounts, start building your foundation. Free for everyone, always.</p>
         <div class="foundation-videos">
           <div class="video-placeholder" onclick="showToast('Video content coming soon — stay tuned!')">
             <div class="video-play-icon">
               <svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
             </div>
             <div class="video-title">What is an Index Fund?</div>
-            <div class="video-label">Foundation Series · 4 min · Video Coming Soon</div>
+            <div class="video-label">Foundation Series · 4 min · Coming Soon</div>
           </div>
           <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
-            <div class="video-placeholder" style="min-height:120px; padding:24px 16px" onclick="showToast('Video content coming soon — stay tuned!')">
+            <div class="video-placeholder" style="min-height:140px; padding:24px 16px" onclick="showToast('Video content coming soon — stay tuned!')">
               <div class="video-play-icon" style="width:40px;height:40px">
                 <svg viewBox="0 0 24 24" style="width:16px;height:16px"><polygon points="8,5 19,12 8,19"/></svg>
               </div>
               <div class="video-title" style="font-size:13px">Roth IRA Explained</div>
               <div class="video-label" style="font-size:11px">3 min · Coming Soon</div>
             </div>
-            <div class="video-placeholder" style="min-height:120px; padding:24px 16px" onclick="showToast('Video content coming soon — stay tuned!')">
+            <div class="video-placeholder" style="min-height:140px; padding:24px 16px" onclick="showToast('Video content coming soon — stay tuned!')">
               <div class="video-play-icon" style="width:40px;height:40px">
                 <svg viewBox="0 0 24 24" style="width:16px;height:16px"><polygon points="8,5 19,12 8,19"/></svg>
               </div>
               <div class="video-title" style="font-size:13px">Compound Interest</div>
               <div class="video-label" style="font-size:11px">5 min · Coming Soon</div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB: Guides -->
-      <div class="tab-panel" id="tab-guides">
-        <div class="dash-greeting">
-          <h2>Guides</h2>
-          <p>In-depth guides for building financial confidence.</p>
-        </div>
-        <div class="guides-grid">
-          <div class="guide-card locked">
-            <div class="guide-lock">🔒</div>
-            <div class="video-title">How to Read an Earnings Report</div>
-            <div class="guide-coming">Coming Soon</div>
-          </div>
-          <div class="guide-card locked">
-            <div class="guide-lock">🔒</div>
-            <div class="video-title">Understanding Market Cycles</div>
-            <div class="guide-coming">Coming Soon</div>
-          </div>
-          <div class="guide-card locked">
-            <div class="guide-lock">🔒</div>
-            <div class="video-title">Building a Long-Term Portfolio</div>
-            <div class="guide-coming">Coming Soon</div>
+            <div class="video-placeholder" style="min-height:140px; padding:24px 16px" onclick="showToast('Video content coming soon — stay tuned!')">
+              <div class="video-play-icon" style="width:40px;height:40px">
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px"><polygon points="8,5 19,12 8,19"/></svg>
+              </div>
+              <div class="video-title" style="font-size:13px">401(k) Basics</div>
+              <div class="video-label" style="font-size:11px">4 min · Coming Soon</div>
+            </div>
+            <div class="video-placeholder" style="min-height:140px; padding:24px 16px" onclick="showToast('Video content coming soon — stay tuned!')">
+              <div class="video-play-icon" style="width:40px;height:40px">
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px"><polygon points="8,5 19,12 8,19"/></svg>
+              </div>
+              <div class="video-title" style="font-size:13px">Building an Emergency Fund</div>
+              <div class="video-label" style="font-size:11px">4 min · Coming Soon</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1409,6 +1806,20 @@
     el.style.transition = 'opacity 0.5s ease ' + (i % 3) * 0.12 + 's, transform 0.5s ease ' + (i % 3) * 0.12 + 's, border-color 0.2s';
     cardObserver.observe(el);
   });
+
+  /* ─── PORTFOLIO AI QUESTIONS ─── */
+  function askPortfolioQuestion(input) {
+    const question = input.value.trim();
+    if (!question) return;
+
+    showToast('AI portfolio insights coming soon!');
+    input.value = '';
+  }
+
+  function handleQuickPortfolioQ(btn) {
+    const question = btn.textContent;
+    showToast('AI portfolio insights coming soon!');
+  }
 </script>
 </body>
 </html>
