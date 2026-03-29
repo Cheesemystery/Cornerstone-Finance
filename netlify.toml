@@ -3,23 +3,26 @@ headers = []
 redirects = []
 
 [functions]
-
-  [functions."*"]
+[functions."*"]
 
 [build]
 publish = "/opt/build/repo"
 publishOrigin = "default"
+command = "npm run build"
 
-  [build.environment]
+[build.environment]
 
-  [build.processing]
 
-    [build.processing.css]
+[build.processing]
+[build.processing.css]
 
-    [build.processing.html]
 
-    [build.processing.images]
+[build.processing.html]
 
-    [build.processing.js]
 
-  [build.services]
+[build.processing.images]
+
+
+[build.processing.js]
+
+[build.services]
