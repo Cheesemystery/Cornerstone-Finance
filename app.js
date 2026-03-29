@@ -845,7 +845,73 @@
         loadChartJs(function() {});
       }, { once: true });
     }
+
+    // Add click handlers for interactive navigation
+    initNavigationHandlers();
   }, 500);
+
+  /* ─── INTERACTIVE NAVIGATION ─── */
+  function initNavigationHandlers() {
+    // Make metric boxes clickable to navigate to relevant tabs
+    document.querySelectorAll('.metric-box').forEach(function(box) {
+      box.style.cursor = 'pointer';
+      box.addEventListener('click', function() {
+        const label = this.querySelector('.metric-label')?.textContent?.toLowerCase();
+        if (label?.includes('portfolio') || label?.includes('total')) {
+          switchDashboardTab('portfolio');
+        }
+      });
+    });
+
+    // Make all ticker symbols clickable (navigate to research/market radar)
+    document.querySelectorAll('.h-ticker').forEach(function(ticker) {
+      ticker.style.cursor = 'pointer';
+      ticker.addEventListener('click', function(e) {
+        e.stopPropagation();
+        switchDashboardTab('research');
+        showToast('Viewing ' + ticker.textContent + ' details');
+      });
+    });
+
+    // Make trending cards fully clickable
+    document.querySelectorAll('.trending-card').forEach(function(card) {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function(e) {
+        if (!e.target.classList.contains('star-icon')) {
+          const ticker = this.getAttribute('data-ticker');
+          switchDashboardTab('research');
+          showToast('Viewing ' + ticker + ' details');
+        }
+      });
+    });
+
+    // Make watchlist cards clickable
+    document.querySelectorAll('.watchlist-card').forEach(function(card) {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function(e) {
+        if (!e.target.classList.contains('star-icon')) {
+          const ticker = this.getAttribute('data-ticker');
+          switchDashboardTab('research');
+          showToast('Viewing ' + ticker + ' details');
+        }
+      });
+    });
+
+    // Make holdings rows clickable
+    document.querySelectorAll('.h-row').forEach(function(row) {
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', function() {
+        switchDashboardTab('research');
+      });
+    });
+
+    document.querySelectorAll('.ht-row').forEach(function(row) {
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', function() {
+        switchDashboardTab('research');
+      });
+    });
+  }
 
   /* ─── AI CHATBOT FUNCTIONALITY ─── */
   let chatbotOpen = false;
