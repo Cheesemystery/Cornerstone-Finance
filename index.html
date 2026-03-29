@@ -52,8 +52,26 @@
     border-bottom-color: var(--border);
     box-shadow: 0 2px 16px rgba(0,0,0,0.06);
   }
-  .logo { font-family: var(--serif); font-size: 22px; color: var(--text); letter-spacing: -0.3px; }
-  .logo em { color: var(--green); font-style: normal; }
+  .logo {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--text);
+    letter-spacing: -0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .logo:hover {
+    transform: translateY(-1px);
+    color: var(--green-mid);
+  }
+  .logo em {
+    color: var(--green);
+    font-style: normal;
+    transition: color 0.2s ease-in-out;
+  }
+  .logo:hover em { color: var(--green-dark); }
   .nav-links { display: flex; gap: 32px; align-items: center; }
   .nav-links a { font-size: 14px; color: var(--text-mid); text-decoration: none; font-weight: 400; transition: color 0.2s; }
   .nav-links a:hover { color: var(--text); }
@@ -515,12 +533,30 @@
   }
   .dash-logo {
     font-family: var(--serif);
-    font-size: 18px;
+    font-size: 32px;
     margin-bottom: 32px;
     padding: 0 8px;
-    letter-spacing: -0.5px;
+    letter-spacing: -1px;
+    color: var(--text);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 4px 16px rgba(29,158,117,0.3);
+    margin: 0 auto 32px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
   }
-  .dash-logo em { color: var(--green); font-style: normal; }
+  .dash-logo:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(29,158,117,0.4);
+  }
+  .dash-logo em { color: white; font-style: normal; }
   .dash-nav-label {
     font-size: 10px;
     color: var(--text-muted);
@@ -1000,6 +1036,148 @@
   }
   .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
+  /* AI FLOATING ACTION BUTTON */
+  .ai-fab {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+    border-radius: 50%;
+    box-shadow: 0 8px 32px rgba(29,158,117,0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    transition: all 0.3s ease-in-out;
+    border: 3px solid white;
+  }
+  .ai-fab.visible { display: flex; animation: fabEntry 0.4s ease both; }
+  .ai-fab:hover {
+    transform: scale(1.1) translateY(-4px);
+    box-shadow: 0 12px 40px rgba(29,158,117,0.5);
+  }
+  .ai-fab:active { transform: scale(0.95); }
+  .ai-fab-icon {
+    font-size: 28px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes fabEntry {
+    from { opacity: 0; transform: scale(0) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  /* TICKER INFO TOOLTIP */
+  .ticker-with-info {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+  }
+  .ticker-info-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: var(--text);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease-in-out;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    max-width: 280px;
+    white-space: normal;
+    line-height: 1.5;
+  }
+  .ticker-info-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--text);
+  }
+  .ticker-with-info:hover .ticker-info-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-12px);
+  }
+  .ticker-info-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    opacity: 0.7;
+    margin-bottom: 4px;
+  }
+  .ticker-info-role {
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .ticker-info-desc {
+    font-size: 11px;
+    opacity: 0.9;
+    line-height: 1.6;
+  }
+
+  /* LEARNING PROGRESS INDICATOR */
+  .learning-progress {
+    margin: 12px 12px 8px;
+    padding: 12px;
+    background: linear-gradient(135deg, rgba(29,158,117,0.08) 0%, rgba(29,158,117,0.03) 100%);
+    border-radius: 10px;
+    border: 0.5px solid rgba(29,158,117,0.2);
+  }
+  .progress-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .progress-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(29,158,117,0.15);
+    border-radius: 100px;
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green) 0%, var(--green-mid) 100%);
+    border-radius: 100px;
+    transition: width 0.6s ease-in-out;
+    box-shadow: 0 0 10px rgba(29,158,117,0.5);
+  }
+  .progress-percent {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green);
+    min-width: 35px;
+    text-align: right;
+  }
+  .progress-status {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
   /* RESPONSIVE */
   @media (max-width: 700px) {
     nav { padding: 16px 20px; }
@@ -1035,7 +1213,7 @@
 
 <!-- NAV -->
 <nav>
-  <div class="logo">Corner<em>stone</em></div>
+  <a href="javascript:void(0)" class="logo" onclick="resetToHome()">Corner<em>stone</em></a>
   <div class="nav-links" id="navLinks">
     <a href="#features">Features</a>
     <a href="#demo">Try it</a>
@@ -1117,6 +1295,11 @@
   </div>
 </div>
 
+<!-- AI FLOATING ACTION BUTTON -->
+<div class="ai-fab" id="aiFab" onclick="openAIChat()">
+  <div class="ai-fab-icon">💬</div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
@@ -1138,7 +1321,20 @@
 <section class="dashboard-app" id="dashboard-app">
   <div class="dash-inner-app">
     <div class="dash-sidebar">
-      <div class="dash-logo">Corner<em>stone</em></div>
+      <div class="dash-logo" onclick="resetToHome()">C</div>
+
+      <!-- Learning Progress Indicator -->
+      <div class="learning-progress">
+        <div class="progress-label">Your Progress</div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 35%;" id="learningProgressBar"></div>
+          </div>
+          <div class="progress-percent" id="learningProgressPercent">35%</div>
+        </div>
+        <div class="progress-status" id="learningProgressStatus">3 of 8 modules complete</div>
+      </div>
+
       <div class="dash-nav-label">Overview</div>
       <div class="dash-nav-item active" data-tab="dashboard"><div class="dash-nav-icon"></div> Dashboard</div>
       <div class="dash-nav-item" data-tab="portfolio"><div class="dash-nav-icon"></div> Portfolio</div>
@@ -1181,15 +1377,45 @@
         </div>
         <div class="holdings">
           <div class="h-row">
-            <div><div class="h-ticker">SPY</div><div class="h-name">S&P 500 ETF</div></div>
+            <div>
+              <div class="ticker-with-info">
+                <div class="h-ticker">SPY</div>
+                <div class="ticker-info-tooltip">
+                  <div class="ticker-info-label">Your Growth Engine</div>
+                  <div class="ticker-info-role">🚀 The Accelerator</div>
+                  <div class="ticker-info-desc">Tracks the top 500 US companies. When people say "the market is up," they usually mean SPY. Your primary wealth builder.</div>
+                </div>
+              </div>
+              <div class="h-name">S&P 500 ETF</div>
+            </div>
             <div style="text-align:right"><div style="font-size:12px;font-weight:500">$2,400</div><div class="chg up" style="font-size:11px">+2.1%</div></div>
           </div>
           <div class="h-row">
-            <div><div class="h-ticker">VXUS</div><div class="h-name">Intl Stock ETF</div></div>
+            <div>
+              <div class="ticker-with-info">
+                <div class="h-ticker">VXUS</div>
+                <div class="ticker-info-tooltip">
+                  <div class="ticker-info-label">Geographic Balance</div>
+                  <div class="ticker-info-role">🌍 The Diversifier</div>
+                  <div class="ticker-info-desc">Gives you ownership in companies outside the US. Protects you if US markets lag while international markets thrive.</div>
+                </div>
+              </div>
+              <div class="h-name">Intl Stock ETF</div>
+            </div>
             <div style="text-align:right"><div style="font-size:12px;font-weight:500">$1,200</div><div class="chg down" style="font-size:11px">-0.4%</div></div>
           </div>
           <div class="h-row">
-            <div><div class="h-ticker">BND</div><div class="h-name">Bond ETF</div></div>
+            <div>
+              <div class="ticker-with-info">
+                <div class="h-ticker">BND</div>
+                <div class="ticker-info-tooltip">
+                  <div class="ticker-info-label">Your Safety Net</div>
+                  <div class="ticker-info-role">🛡️ The Shield</div>
+                  <div class="ticker-info-desc">A collection of bonds that stabilize your portfolio during stock market turbulence. Moves slower, but protects your gains.</div>
+                </div>
+              </div>
+              <div class="h-name">Bond ETF</div>
+            </div>
             <div style="text-align:right"><div style="font-size:12px;font-weight:500">$1,220</div><div class="chg neu" style="font-size:11px">+0.1%</div></div>
           </div>
         </div>
@@ -1273,13 +1499,37 @@
             <span>Ticker</span><span>Name</span><span>Value</span><span>Allocation %</span><span>Today's Return</span>
           </div>
           <div class="ht-row">
-            <span class="h-ticker">SPY</span><span>S&P 500 ETF</span><span>$2,400</span><span>50%</span><span class="up">+2.1%</span>
+            <span class="ticker-with-info">
+              <span class="h-ticker">SPY</span>
+              <div class="ticker-info-tooltip">
+                <div class="ticker-info-label">Your Growth Engine</div>
+                <div class="ticker-info-role">🚀 The Accelerator</div>
+                <div class="ticker-info-desc">Tracks the top 500 US companies. When people say "the market is up," they usually mean SPY. Your primary wealth builder.</div>
+              </div>
+            </span>
+            <span>S&P 500 ETF</span><span>$2,400</span><span>50%</span><span class="up">+2.1%</span>
           </div>
           <div class="ht-row">
-            <span class="h-ticker">VXUS</span><span>Intl Stock ETF</span><span>$1,200</span><span>25%</span><span class="down">-0.4%</span>
+            <span class="ticker-with-info">
+              <span class="h-ticker">VXUS</span>
+              <div class="ticker-info-tooltip">
+                <div class="ticker-info-label">Geographic Balance</div>
+                <div class="ticker-info-role">🌍 The Diversifier</div>
+                <div class="ticker-info-desc">Gives you ownership in companies outside the US. Protects you if US markets lag while international markets thrive.</div>
+              </div>
+            </span>
+            <span>Intl Stock ETF</span><span>$1,200</span><span>25%</span><span class="down">-0.4%</span>
           </div>
           <div class="ht-row">
-            <span class="h-ticker">BND</span><span>Bond ETF</span><span>$1,220</span><span>25%</span><span class="neu">+0.1%</span>
+            <span class="ticker-with-info">
+              <span class="h-ticker">BND</span>
+              <div class="ticker-info-tooltip">
+                <div class="ticker-info-label">Your Safety Net</div>
+                <div class="ticker-info-role">🛡️ The Shield</div>
+                <div class="ticker-info-desc">A collection of bonds that stabilize your portfolio during stock market turbulence. Moves slower, but protects your gains.</div>
+              </div>
+            </span>
+            <span>Bond ETF</span><span>$1,220</span><span>25%</span><span class="neu">+0.1%</span>
           </div>
         </div>
       </div>
@@ -2237,8 +2487,88 @@
     }
   }
 
+  /* ─── RESET TO HOME ─── */
+  function resetToHome() {
+    // Hide dashboard, show hero and marketing sections
+    toggleDashboardView(false);
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Reset to dashboard tab
+    setTimeout(function() {
+      switchDashboardTab('dashboard');
+    }, 300);
+  }
+
+  /* ─── AI FAB CONTROL ─── */
+  function toggleAIFab(show) {
+    const fab = document.getElementById('aiFab');
+    if (fab) {
+      if (show) {
+        fab.classList.add('visible');
+      } else {
+        fab.classList.remove('visible');
+      }
+    }
+  }
+
+  function openAIChat() {
+    // Scroll to the chat section
+    const chatSection = document.querySelector('.chat-section');
+    if (chatSection) {
+      chatSection.scrollIntoView({ behavior: 'smooth' });
+      // Focus the chat input after scrolling
+      setTimeout(function() {
+        const chatInput = document.getElementById('chatInput');
+        if (chatInput) chatInput.focus();
+      }, 500);
+    }
+  }
+
+  /* ─── UPDATE TAB SWITCHING TO CONTROL AI FAB ─── */
+  document.querySelectorAll('.dash-nav-item[data-tab]').forEach(function(item) {
+    const originalClickHandler = item.onclick;
+    item.addEventListener('click', function() {
+      const tab = this.getAttribute('data-tab');
+
+      // Show AI FAB only on dashboard tab
+      if (tab === 'dashboard') {
+        toggleAIFab(true);
+      } else {
+        toggleAIFab(false);
+      }
+    });
+  });
+
+  /* ─── LEARNING PROGRESS SIMULATION ─── */
+  function updateLearningProgress() {
+    // This would connect to a real backend in production
+    const progressBar = document.getElementById('learningProgressBar');
+    const progressPercent = document.getElementById('learningProgressPercent');
+    const progressStatus = document.getElementById('learningProgressStatus');
+
+    // Simulate progress (in real app, this would come from database)
+    const completedModules = 3;
+    const totalModules = 8;
+    const percent = Math.round((completedModules / totalModules) * 100);
+
+    if (progressBar) progressBar.style.width = percent + '%';
+    if (progressPercent) progressPercent.textContent = percent + '%';
+    if (progressStatus) progressStatus.textContent = completedModules + ' of ' + totalModules + ' modules complete';
+  }
+
   /* ─── INIT ON LOAD ─── */
   checkAuth();
+  updateLearningProgress();
+
+  // Show AI FAB on initial load if on dashboard
+  setTimeout(function() {
+    const dashboardTab = document.querySelector('.dash-nav-item[data-tab="dashboard"]');
+    if (dashboardTab && dashboardTab.classList.contains('active')) {
+      toggleAIFab(true);
+    }
+  }, 500);
 </script>
 </body>
 </html>
