@@ -592,6 +592,31 @@
     if (progressStatus) progressStatus.textContent = completedModules + ' of ' + totalModules + ' modules complete';
   }
 
+  /* ─── TILT EFFECT ON CARDS ─── */
+  function initTiltEffects() {
+    const tiltCards = document.querySelectorAll('.metric-box, .trending-card, .briefing, .holdings');
+
+    tiltCards.forEach(card => {
+      card.addEventListener('mousemove', function(e) {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = (y - centerY) / 20;
+        const rotateY = (centerX - x) / 20;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+      });
+
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+      });
+    });
+  }
+
   /* ─── INIT ON LOAD ─── */
   checkAuth();
   updateLearningProgress();
@@ -602,4 +627,5 @@
     if (dashboardTab && dashboardTab.classList.contains('active')) {
       toggleAIFab(true);
     }
+    initTiltEffects();
   }, 500);
