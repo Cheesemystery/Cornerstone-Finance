@@ -355,29 +355,34 @@
 
         <!-- Hero Portfolio Card -->
         <div class="portfolio-hero-card">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 32px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 40px;">
             <div style="flex: 1;">
-              <div class="portfolio-main-value">$4,820</div>
-              <div class="portfolio-change positive">
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                <div class="portfolio-main-value" id="portfolioMainValue">$4,820</div>
+                <button onclick="togglePrivacyMode()" style="background: none; border: none; cursor: pointer; font-size: 20px; color: var(--text-muted); padding: 4px; transition: color 0.2s;" id="privacyToggle" title="Toggle privacy mode">
+                  👁️
+                </button>
+              </div>
+              <div class="portfolio-change positive" id="portfolioChange">
                 <span class="portfolio-change-arrow">↗</span>
-                <span>+$67 (1.4%)</span>
+                <span id="portfolioChangeValue">+$67 (1.4%)</span>
               </div>
               <div class="portfolio-subtext">
-                Click value 3x for a surprise · Last updated 3s ago
+                Last updated 3s ago
               </div>
             </div>
-            <div style="flex: 1; padding-top: 8px;">
-              <div style="font-size: 13px; font-weight: 500; color: var(--text-mid); margin-bottom: 12px;">Your Performance</div>
-              <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="flex: 1; padding-top: 4px;">
+              <div style="font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 16px; font-family: var(--serif);">Your Performance</div>
+              <div style="display: flex; flex-direction: column; gap: 16px;">
                 <div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">vs S&P 500</div>
-                  <div style="font-size: 18px; font-weight: 600; color: var(--green);">+2.1%</div>
-                  <div style="font-size: 11px; color: var(--text-muted);">You're outperforming the market</div>
+                  <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">vs S&P 500</div>
+                  <div style="font-size: 28px; font-weight: 600; color: var(--green); font-variant-numeric: tabular-nums;" id="perfVsMarket">+2.1%</div>
+                  <div style="font-size: 12px; color: var(--text-mid); margin-top: 2px;">You're outperforming the market</div>
                 </div>
                 <div>
-                  <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">vs Peer Average</div>
-                  <div style="font-size: 18px; font-weight: 600; color: var(--green);">Top 28%</div>
-                  <div style="font-size: 11px; color: var(--text-muted);">Better than 72% of beginners</div>
+                  <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;">vs Peer Average</div>
+                  <div style="font-size: 28px; font-weight: 600; color: var(--green); font-variant-numeric: tabular-nums;" id="perfVsPeers">Top 28%</div>
+                  <div style="font-size: 12px; color: var(--text-mid); margin-top: 2px;">Better than 72% of beginners</div>
                 </div>
               </div>
             </div>
@@ -1536,6 +1541,40 @@
     // Update market status every minute
     setInterval(updateMarketStatusBadge, 60000);
   });
+
+  // Privacy Mode Toggle
+  let privacyMode = false;
+  const originalValues = {
+    portfolio: '$4,820',
+    change: '+$67 (1.4%)',
+    vsMarket: '+2.1%',
+    vsPeers: 'Top 28%'
+  };
+
+  function togglePrivacyMode() {
+    privacyMode = !privacyMode;
+    const toggleBtn = document.getElementById('privacyToggle');
+    const portfolioValue = document.getElementById('portfolioMainValue');
+    const changeValue = document.getElementById('portfolioChangeValue');
+    const vsMarket = document.getElementById('perfVsMarket');
+    const vsPeers = document.getElementById('perfVsPeers');
+
+    if (privacyMode) {
+      toggleBtn.textContent = '👁️‍🗨️';
+      toggleBtn.style.color = 'var(--green)';
+      portfolioValue.textContent = '••••••';
+      changeValue.textContent = '•••••';
+      vsMarket.textContent = '••••';
+      vsPeers.textContent = '••••••';
+    } else {
+      toggleBtn.textContent = '👁️';
+      toggleBtn.style.color = 'var(--text-muted)';
+      portfolioValue.textContent = originalValues.portfolio;
+      changeValue.textContent = originalValues.change;
+      vsMarket.textContent = originalValues.vsMarket;
+      vsPeers.textContent = originalValues.vsPeers;
+    }
+  }
 
   // Theme Toggle
   function toggleTheme() {
