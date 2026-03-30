@@ -9,8 +9,15 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="new-features.css">
+<link rel="stylesheet" href="enhanced-features.css">
 </head>
 <body>
+
+<!-- Theme Toggle -->
+<div class="theme-toggle" onclick="toggleTheme()">
+  <span class="theme-icon">🌙</span>
+  <span class="theme-label" style="font-size:12px;">Dark</span>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -303,6 +310,12 @@
         </div>
         <div class="nav-pulse-preview status-neutral"></div>
       </div>
+      <div class="dash-nav-item" data-tab="campus">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="dash-nav-icon"></div> Campus
+        </div>
+        <div class="nav-pulse-preview status-positive"></div>
+      </div>
       <div class="dash-nav-label">Learn</div>
       <div class="dash-nav-item" data-tab="learn">
         <div style="display:flex;align-items:center;gap:10px;">
@@ -327,7 +340,46 @@
       <div class="tab-panel active" id="tab-dashboard">
         <div class="dash-greeting">
           <h2>Good morning, Jordan.</h2>
-          <p>Thursday, March 26 · Here's what's moving your portfolio</p>
+          <p>Thursday, March 26 · <span id="marketStatusBadge" class="market-status-badge open">Markets Open</span> · <span id="lastMarketUpdate" style="font-size:12px;color:var(--text-muted);">Updated 3s ago</span></p>
+        </div>
+
+        <!-- Performance Comparison -->
+        <div class="performance-comparison">
+          <div class="comparison-header">
+            <div class="comparison-title">Your Performance</div>
+            <a class="comparison-link" onclick="showComparisonCard()">View Full Report →</a>
+          </div>
+          <div class="comparison-grid">
+            <div class="comparison-item">
+              <div class="comparison-label">vs S&P 500</div>
+              <div class="comparison-value">+2.1%</div>
+              <div class="comparison-sub">You're outperforming</div>
+            </div>
+            <div class="comparison-item">
+              <div class="comparison-label">vs Peer Average</div>
+              <div class="comparison-value">Top 28%</div>
+              <div class="comparison-sub">Better than 72% of beginners</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projection Calculator -->
+        <div class="projection-card">
+          <div class="projection-header">
+            <div class="projection-icon">📊</div>
+            <div class="projection-title">If you stay consistent...</div>
+          </div>
+          <div class="projection-values">
+            <div class="projection-item">
+              <div class="projection-timeframe">1 Year</div>
+              <div class="projection-amount">$6,420</div>
+            </div>
+            <div class="projection-item">
+              <div class="projection-timeframe">5 Years</div>
+              <div class="projection-amount">$28,900</div>
+            </div>
+          </div>
+          <div class="projection-note">Based on 12.3% annual return + $100/month contributions</div>
         </div>
 
         <!-- Your Next Move Section -->
@@ -913,6 +965,37 @@
         </div>
       </div>
 
+      <!-- TAB: Campus Mode -->
+      <div class="tab-panel" id="tab-campus">
+        <div class="dash-greeting">
+          <h2>Campus Mode</h2>
+          <p>Compete with 847 student investors nationwide</p>
+        </div>
+
+        <!-- Campus Insights -->
+        <div id="campusInsights"></div>
+
+        <!-- Weekly Challenge -->
+        <div style="background:white;border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:24px;">
+          <div class="dash-nav-label" style="margin:0 0 16px;padding:0">THIS WEEK'S CHALLENGE</div>
+          <div id="weeklyChallenge"></div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div style="background:white;border:1px solid var(--border);border-radius:16px;padding:24px;">
+          <div class="dash-nav-label" style="margin:0 0 16px;padding:0">LEADERBOARD</div>
+          <div id="campusLeaderboard"></div>
+        </div>
+
+        <!-- Upgrade Prompt for Premium Features -->
+        <div class="upgrade-prompt" style="margin-top:24px;">
+          <div class="upgrade-label">Pro Feature</div>
+          <div class="upgrade-title">Join Your University's Private Leaderboard</div>
+          <div class="upgrade-desc">Compete directly with students from your campus. See how your portfolio stacks up against your peers and access exclusive campus challenges.</div>
+          <button class="upgrade-btn" onclick="showToast('Coming soon!')">Upgrade to Pro - $6/mo</button>
+        </div>
+      </div>
+
       <!-- TAB: Learn (Stock/Market Focused) -->
       <div class="tab-panel" id="tab-learn">
         <div class="dash-nav-label" style="margin-bottom:12px;padding:0">START HERE</div>
@@ -1292,5 +1375,55 @@
 
 <script src="app.js"></script>
 <script src="onboarding.js"></script>
+<script src="live-market.js"></script>
+<script src="campus-mode.js"></script>
+<script src="ai-coach.js"></script>
+<script>
+  // Initialize all enhanced features
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize live market updates
+    updateMarketStatusBadge();
+    startLiveMarketUpdates();
+
+    // Initialize Campus Mode
+    initCampusMode();
+
+    // Initialize AI Coach
+    initAICoach();
+
+    // Check for achievements
+    checkAndUnlockAchievements();
+
+    // Update market status every minute
+    setInterval(updateMarketStatusBadge, 60000);
+  });
+
+  // Theme Toggle
+  function toggleTheme() {
+    const root = document.documentElement;
+    const themeIcon = document.querySelector('.theme-icon');
+    const themeLabel = document.querySelector('.theme-label');
+
+    if (root.getAttribute('data-theme') === 'dark') {
+      root.removeAttribute('data-theme');
+      themeIcon.textContent = '🌙';
+      themeLabel.textContent = 'Dark';
+      localStorage.setItem('theme', 'light');
+    } else {
+      root.setAttribute('data-theme', 'dark');
+      themeIcon.textContent = '☀️';
+      themeLabel.textContent = 'Light';
+      localStorage.setItem('theme', 'dark');
+    }
+  }
+
+  // Load saved theme
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.querySelector('.theme-icon').textContent = '☀️';
+    document.querySelector('.theme-label').textContent = 'Light';
+  }
+</script>
 </body>
 </html>
