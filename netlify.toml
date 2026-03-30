@@ -7,7 +7,7 @@ redirects = []
 
 [build]
 publish = "."
-command = ""
+command = "npm run build"
 
 [build.environment]
 
