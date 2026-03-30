@@ -8,6 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="new-features.css">
 </head>
 <body>
 
@@ -95,6 +96,101 @@
   </div>
 </div>
 
+<!-- ONBOARDING FLOW MODAL -->
+<div class="modal-overlay" id="onboardingModal">
+  <div class="modal onboarding-modal">
+    <button class="modal-close" onclick="closeOnboarding()">&times;</button>
+
+    <!-- Step 1: Budget -->
+    <div class="onboarding-step active" id="onboarding-step-1">
+      <div class="onboarding-progress">
+        <div class="onboarding-progress-bar" style="width: 25%"></div>
+      </div>
+      <h3>How much are you starting with?</h3>
+      <p>Don't worry, you can always add more later. We'll build a plan for any amount.</p>
+      <div class="onboarding-budget-options">
+        <button class="budget-option" data-amount="50" onclick="selectBudget(50)">$50</button>
+        <button class="budget-option" data-amount="100" onclick="selectBudget(100)">$100</button>
+        <button class="budget-option" data-amount="250" onclick="selectBudget(250)">$250</button>
+        <button class="budget-option" data-amount="500" onclick="selectBudget(500)">$500</button>
+      </div>
+      <div class="form-group" style="margin-top: 16px;">
+        <label>Or enter custom amount</label>
+        <input type="number" id="customBudget" placeholder="$" min="10" />
+      </div>
+      <button class="form-submit" onclick="nextOnboardingStep(2)" style="margin-top: 20px;">Continue</button>
+    </div>
+
+    <!-- Step 2: Goal -->
+    <div class="onboarding-step" id="onboarding-step-2">
+      <div class="onboarding-progress">
+        <div class="onboarding-progress-bar" style="width: 50%"></div>
+      </div>
+      <h3>What's your goal?</h3>
+      <p>This helps us recommend the right investments for you.</p>
+      <div class="onboarding-goal-options">
+        <div class="goal-option" data-goal="grow_money" onclick="selectGoal('grow_money')">
+          <div class="goal-icon">💰</div>
+          <div class="goal-title">Grow money</div>
+          <div class="goal-desc">Build wealth over time</div>
+        </div>
+        <div class="goal-option" data-goal="learn_investing" onclick="selectGoal('learn_investing')">
+          <div class="goal-icon">🎓</div>
+          <div class="goal-title">Learn investing</div>
+          <div class="goal-desc">Understand how markets work</div>
+        </div>
+        <div class="goal-option" data-goal="make_income" onclick="selectGoal('make_income')">
+          <div class="goal-icon">📈</div>
+          <div class="goal-title">Make side income</div>
+          <div class="goal-desc">Generate extra cash flow</div>
+        </div>
+      </div>
+      <button class="form-submit" onclick="nextOnboardingStep(3)" style="margin-top: 20px;">Continue</button>
+    </div>
+
+    <!-- Step 3: Risk Tolerance -->
+    <div class="onboarding-step" id="onboarding-step-3">
+      <div class="onboarding-progress">
+        <div class="onboarding-progress-bar" style="width: 75%"></div>
+      </div>
+      <h3>How much risk are you comfortable with?</h3>
+      <p>Be honest. There's no wrong answer here.</p>
+      <div class="onboarding-risk-options">
+        <div class="risk-option" data-risk="low" onclick="selectRisk('low')">
+          <div class="risk-icon">🛡️</div>
+          <div class="risk-title">Low Risk</div>
+          <div class="risk-desc">Slow and steady. I want minimal ups and downs.</div>
+        </div>
+        <div class="risk-option" data-risk="medium" onclick="selectRisk('medium')">
+          <div class="risk-icon">⚖️</div>
+          <div class="risk-title">Medium Risk</div>
+          <div class="risk-desc">Balanced. I can handle some volatility for better returns.</div>
+        </div>
+        <div class="risk-option" data-risk="high" onclick="selectRisk('high')">
+          <div class="risk-icon">🚀</div>
+          <div class="risk-title">High Risk</div>
+          <div class="risk-desc">Aggressive. I want maximum growth potential.</div>
+        </div>
+      </div>
+      <button class="form-submit" onclick="nextOnboardingStep(4)" style="margin-top: 20px;">Generate My Portfolio</button>
+    </div>
+
+    <!-- Step 4: Portfolio Results -->
+    <div class="onboarding-step" id="onboarding-step-4">
+      <div class="onboarding-progress">
+        <div class="onboarding-progress-bar" style="width: 100%"></div>
+      </div>
+      <div class="success-icon">🎉</div>
+      <h3>Your Starter Portfolio</h3>
+      <p>Based on your answers, here's what we recommend:</p>
+      <div class="starter-portfolio" id="starterPortfolio">
+        <!-- Portfolio will be generated here -->
+      </div>
+      <button class="form-submit" onclick="completeOnboarding()" style="margin-top: 20px;">Start Investing</button>
+    </div>
+  </div>
+</div>
+
 <!-- AI FLOATING ACTION BUTTON -->
 <div class="ai-fab" id="aiFab" onclick="openAIChat()">
   <div class="ai-fab-icon">💬</div>
@@ -109,11 +205,46 @@
     <div class="hero-eyebrow-dot"></div>
     Built for first-generation investors
   </div>
-  <h1>Your financial <em>foundation</em> starts here</h1>
-  <p class="hero-sub">Cornerstone gives you real market data, personalized portfolio insights, and an AI that explains what's happening — without the panic.</p>
+  <h1>Start investing <em>without feeling lost</em></h1>
+  <p class="hero-sub">We tell you what to do, when to do it, and why. No confusing jargon. Just clear guidance designed for college students starting their investing journey.</p>
   <div class="hero-actions">
-    <a href="javascript:void(0)" class="btn-primary" onclick="openAuthModal()">Sign Up / Sign In</a>
-    <a href="#dashboard-app" class="btn-ghost" onclick="scrollToDashboard()">Take a Tour →</a>
+    <a href="javascript:void(0)" class="btn-primary" onclick="openOnboardingFlow()">Start My Portfolio</a>
+    <a href="#dashboard-app" class="btn-ghost" onclick="scrollToDashboard()">Explore First →</a>
+  </div>
+
+  <!-- 3-Step Explanation -->
+  <div class="hero-steps">
+    <div class="hero-step">
+      <div class="hero-step-number">1</div>
+      <div class="hero-step-title">Tell us your budget</div>
+      <div class="hero-step-desc">Starting with $50 or $500? We'll work with what you have.</div>
+    </div>
+    <div class="hero-step">
+      <div class="hero-step-number">2</div>
+      <div class="hero-step-title">Get a simple plan</div>
+      <div class="hero-step-desc">We'll build a beginner-friendly portfolio tailored to your goals.</div>
+    </div>
+    <div class="hero-step">
+      <div class="hero-step-number">3</div>
+      <div class="hero-step-title">Track and improve</div>
+      <div class="hero-step-desc">Watch your progress, learn as you go, and level up your investing skills.</div>
+    </div>
+  </div>
+
+  <!-- Social Proof -->
+  <div class="social-proof">
+    <div class="social-proof-stat">
+      <div class="social-proof-number">2,400+</div>
+      <div class="social-proof-label">Students Started</div>
+    </div>
+    <div class="social-proof-stat">
+      <div class="social-proof-number">$180K+</div>
+      <div class="social-proof-label">Total Invested</div>
+    </div>
+    <div class="social-proof-stat">
+      <div class="social-proof-number">4.9/5</div>
+      <div class="social-proof-label">Student Rating</div>
+    </div>
   </div>
 </section>
 
@@ -166,6 +297,12 @@
         </div>
         <div class="nav-pulse-preview status-positive"></div>
       </div>
+      <div class="dash-nav-item" data-tab="challenge">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="dash-nav-icon"></div> Challenge
+        </div>
+        <div class="nav-pulse-preview status-neutral"></div>
+      </div>
       <div class="dash-nav-label">Learn</div>
       <div class="dash-nav-item" data-tab="learn">
         <div style="display:flex;align-items:center;gap:10px;">
@@ -192,6 +329,51 @@
           <h2>Good morning, Jordan.</h2>
           <p>Thursday, March 26 · Here's what's moving your portfolio</p>
         </div>
+
+        <!-- Your Next Move Section -->
+        <div class="next-move-card">
+          <div class="next-move-header">
+            <div class="next-move-icon">🎯</div>
+            <div>
+              <div class="next-move-label">Your Next Move</div>
+              <div class="next-move-title">Add $25 to your ETF this week</div>
+            </div>
+          </div>
+          <div class="next-move-desc">Your portfolio is performing well. Keep building momentum by adding small, consistent amounts. Even $25/week compounds into serious wealth over time.</div>
+          <button class="next-move-btn" onclick="showToast('Portfolio actions coming soon!')">Take Action</button>
+        </div>
+
+        <!-- Portfolio Health Score -->
+        <div class="portfolio-health-card">
+          <div class="health-header">
+            <div class="health-label">Portfolio Health Score</div>
+            <div class="health-score">87<span>/100</span></div>
+          </div>
+          <div class="health-bars">
+            <div class="health-bar-item">
+              <div class="health-bar-label">Diversification</div>
+              <div class="health-bar-wrap">
+                <div class="health-bar-fill" style="width: 90%; background: var(--green);"></div>
+              </div>
+              <div class="health-bar-value">90%</div>
+            </div>
+            <div class="health-bar-item">
+              <div class="health-bar-label">Risk Level</div>
+              <div class="health-bar-wrap">
+                <div class="health-bar-fill" style="width: 65%; background: #D4A853;"></div>
+              </div>
+              <div class="health-bar-value">65%</div>
+            </div>
+            <div class="health-bar-item">
+              <div class="health-bar-label">Performance</div>
+              <div class="health-bar-wrap">
+                <div class="health-bar-fill" style="width: 85%; background: var(--green);"></div>
+              </div>
+              <div class="health-bar-value">85%</div>
+            </div>
+          </div>
+        </div>
+
         <div class="briefing">
           <div class="briefing-tag">Today's Briefing</div>
           <div class="briefing-text">Your portfolio is up <strong>1.4%</strong> today, led by SPY amid rate cut optimism. VXUS is seeing mild selling — typical during dollar-strength periods. No action needed.</div>
@@ -520,27 +702,43 @@
             <div class="pulse-value">Daily Noise Level: 15% - High Signal</div>
           </div>
         </div>
-        <div class="dash-nav-label" style="margin-bottom:12px;padding:0">MARKET NEWS & INSIGHTS</div>
+
+        <!-- What Matters Today -->
+        <div class="news-what-matters">
+          <div class="news-what-matters-title">What Matters Today</div>
+          <div class="news-impact-item">
+            <div class="news-impact-headline">Fed signals potential rate cut in Q2 amid cooling inflation</div>
+            <div class="news-impact-label">Why this matters to you</div>
+            <div class="news-impact-why">Rate cuts typically boost stock prices because borrowing becomes cheaper for companies. Your SPY and VTI holdings could benefit. Bond prices (like your BND) may also rise.</div>
+          </div>
+          <div class="news-impact-item">
+            <div class="news-impact-headline">Tech stocks lead market rally as earnings season begins</div>
+            <div class="news-impact-label">Why this matters to you</div>
+            <div class="news-impact-why">Tech makes up about 30% of the S&P 500. Strong tech earnings lift your SPY holdings. This is a positive signal for your growth-focused portfolio.</div>
+          </div>
+          <div class="news-impact-item">
+            <div class="news-impact-headline">S&P 500 reaches new all-time high on strong economic data</div>
+            <div class="news-impact-label">Why this matters to you</div>
+            <div class="news-impact-why">Your portfolio tracks the S&P 500 closely through SPY. All-time highs mean your investments are growing. Stay consistent — this is exactly what long-term investing looks like.</div>
+          </div>
+        </div>
+
+        <div class="dash-nav-label" style="margin-bottom:12px;padding:0">OTHER HEADLINES</div>
         <div class="news-feed">
           <div class="news-item">
-            <div class="news-time">2h ago</div>
-            <div class="news-title">Fed signals potential rate cut in Q2 amid cooling inflation</div>
-            <div class="news-source">Reuters</div>
-          </div>
-          <div class="news-item">
-            <div class="news-time">4h ago</div>
-            <div class="news-title">Tech stocks lead market rally as earnings season begins</div>
-            <div class="news-source">Bloomberg</div>
-          </div>
-          <div class="news-item">
             <div class="news-time">6h ago</div>
-            <div class="news-title">S&P 500 reaches new all-time high on strong economic data</div>
-            <div class="news-source">CNBC</div>
+            <div class="news-title">International markets mixed as dollar strengthens</div>
+            <div class="news-source">Financial Times</div>
           </div>
           <div class="news-item">
             <div class="news-time">8h ago</div>
-            <div class="news-title">International markets mixed as dollar strengthens</div>
-            <div class="news-source">Financial Times</div>
+            <div class="news-title">Oil prices decline on inventory build concerns</div>
+            <div class="news-source">Bloomberg</div>
+          </div>
+          <div class="news-item">
+            <div class="news-time">10h ago</div>
+            <div class="news-title">Retail sales beat expectations in March</div>
+            <div class="news-source">CNBC</div>
           </div>
         </div>
         <p style="font-size:12px;color:var(--text-muted);margin-top:16px;">Live news feed coming soon. This is placeholder content.</p>
@@ -548,13 +746,59 @@
 
       <!-- TAB: Transactions/Activity -->
       <div class="tab-panel" id="tab-transactions">
+        <!-- Progression System -->
+        <div class="progression-card">
+          <div class="progression-header">
+            <div class="progression-level">
+              <div class="progression-badge">🌱</div>
+              <div class="progression-info">
+                <h4>Beginner Investor</h4>
+                <p>Level 1 • Keep going to reach Intermediate</p>
+              </div>
+            </div>
+            <div class="progression-streak">
+              <div class="streak-number">14 🔥</div>
+              <div class="streak-label">Day Streak</div>
+            </div>
+          </div>
+
+          <div class="dash-nav-label" style="margin: 16px 0 12px; padding: 0;">MILESTONES</div>
+          <div class="milestones-grid">
+            <div class="milestone-item unlocked">
+              <div class="milestone-icon">🎉</div>
+              <div class="milestone-title">First Portfolio</div>
+            </div>
+            <div class="milestone-item unlocked">
+              <div class="milestone-icon">💰</div>
+              <div class="milestone-title">First Deposit</div>
+            </div>
+            <div class="milestone-item unlocked">
+              <div class="milestone-icon">🔥</div>
+              <div class="milestone-title">7-Day Streak</div>
+            </div>
+            <div class="milestone-item locked">
+              <div class="milestone-icon">📚</div>
+              <div class="milestone-title">5 Modules Done</div>
+            </div>
+            <div class="milestone-item locked">
+              <div class="milestone-icon">💎</div>
+              <div class="milestone-title">$1000 Invested</div>
+            </div>
+            <div class="milestone-item locked">
+              <div class="milestone-icon">🚀</div>
+              <div class="milestone-title">30-Day Streak</div>
+            </div>
+          </div>
+        </div>
+
         <div class="pulse-point pulse-orange">
           <div class="pulse-icon">🔥</div>
           <div class="pulse-content">
-            <div class="pulse-label">Legacy Streak</div>
-            <div class="pulse-value">4 Month Building Streak</div>
+            <div class="pulse-label">Legacy Building</div>
+            <div class="pulse-value">You've invested 14 days in a row</div>
           </div>
         </div>
+
         <div class="dash-nav-label" style="margin-bottom:12px;padding:0">RECENT ACTIVITY</div>
         <div class="activity-feed">
           <div class="activity-item">
@@ -594,47 +838,156 @@
         <p style="font-size:12px;color:var(--text-muted);margin-top:16px;">Transaction history will sync with your brokerage account.</p>
       </div>
 
+      <!-- TAB: Challenge Mode -->
+      <div class="tab-panel" id="tab-challenge">
+        <div class="challenge-card">
+          <div class="challenge-header">
+            <div class="challenge-title">30-Day Growth Challenge</div>
+            <div class="challenge-time-left">22 days left</div>
+          </div>
+          <div class="challenge-desc">Turn $100 into more in 30 days. Track your progress, learn strategies, and compete with other beginners. Top performers get featured on the leaderboard.</div>
+
+          <div class="challenge-progress">
+            <div class="challenge-progress-label">Your Progress</div>
+            <div class="challenge-progress-bar">
+              <div class="challenge-progress-fill" style="width: 26.7%;"></div>
+            </div>
+          </div>
+
+          <div class="challenge-stats">
+            <div class="challenge-stat">
+              <div class="challenge-stat-value">$108</div>
+              <div class="challenge-stat-label">Current Value</div>
+            </div>
+            <div class="challenge-stat">
+              <div class="challenge-stat-value">+8%</div>
+              <div class="challenge-stat-label">Growth</div>
+            </div>
+            <div class="challenge-stat">
+              <div class="challenge-stat-value">#42</div>
+              <div class="challenge-stat-label">Your Rank</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-nav-label" style="margin-bottom:12px;padding:0">LEADERBOARD (Top 10)</div>
+        <div class="holdings-table">
+          <div class="ht-header">
+            <span>Rank</span><span>Investor</span><span>Start</span><span>Current</span><span>Growth</span>
+          </div>
+          <div class="ht-row">
+            <span style="font-weight:600">🥇 1</span><span>@alex_invest</span><span>$100</span><span>$142</span><span class="up">+42%</span>
+          </div>
+          <div class="ht-row">
+            <span style="font-weight:600">🥈 2</span><span>@sarah_builds</span><span>$100</span><span>$135</span><span class="up">+35%</span>
+          </div>
+          <div class="ht-row">
+            <span style="font-weight:600">🥉 3</span><span>@mike_money</span><span>$100</span><span>$128</span><span class="up">+28%</span>
+          </div>
+          <div class="ht-row">
+            <span>4</span><span>@jen_trades</span><span>$100</span><span>$122</span><span class="up">+22%</span>
+          </div>
+          <div class="ht-row">
+            <span>5</span><span>@tom_growth</span><span>$100</span><span>$119</span><span class="up">+19%</span>
+          </div>
+          <div class="ht-row">
+            <span>6</span><span>@lisa_learns</span><span>$100</span><span>$116</span><span class="up">+16%</span>
+          </div>
+          <div class="ht-row">
+            <span>7</span><span>@david_dilig</span><span>$100</span><span>$113</span><span class="up">+13%</span>
+          </div>
+          <div class="ht-row">
+            <span>8</span><span>@emma_earns</span><span>$100</span><span>$112</span><span class="up">+12%</span>
+          </div>
+          <div class="ht-row">
+            <span>9</span><span>@james_grow</span><span>$100</span><span>$110</span><span class="up">+10%</span>
+          </div>
+          <div class="ht-row">
+            <span>10</span><span>@kate_capital</span><span>$100</span><span>$109</span><span class="up">+9%</span>
+          </div>
+        </div>
+
+        <div class="briefing" style="margin-top: 20px;">
+          <div class="briefing-tag">Challenge Strategy Tip</div>
+          <div class="briefing-text">Consistency beats timing. The top performers aren't trying to predict daily moves — they're investing small amounts regularly and letting compound growth do the work. Focus on learning, not gambling.</div>
+        </div>
+      </div>
+
       <!-- TAB: Learn (Stock/Market Focused) -->
       <div class="tab-panel" id="tab-learn">
-        <div class="dash-nav-label" style="margin-bottom:12px;padding:0">INVESTING EDUCATION</div>
-        <p style="font-size:13px;color:var(--text-mid);margin-bottom:20px;line-height:1.6;">Learn about stocks, markets, trading strategies, and investment analysis. Free for everyone, always.</p>
-        <div class="learn-grid">
-          <div class="video-placeholder" onclick="showToast('Video content coming soon — stay tuned!')">
-            <div class="video-play-icon">
-              <svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
-            </div>
-            <div class="video-title">How to Read Stock Charts</div>
-            <div class="video-label">Learn Series · 6 min · Coming Soon</div>
+        <div class="dash-nav-label" style="margin-bottom:12px;padding:0">START HERE</div>
+        <p style="font-size:13px;color:var(--text-mid);margin-bottom:20px;line-height:1.6;">Essential lessons every beginner investor should know. Free forever.</p>
+        <div class="learn-cards-grid">
+          <div class="learn-card" onclick="showToast('Video coming soon!')">
+            <div class="learn-card-badge">Start Here</div>
+            <div class="learn-card-icon">🎯</div>
+            <div class="learn-card-title">What is an Index Fund?</div>
+            <div class="learn-card-desc">The simplest way to invest in the stock market without picking individual stocks.</div>
+            <div class="learn-card-meta">3 min</div>
           </div>
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
-            <div class="video-placeholder" style="min-height:140px; padding:24px 16px" onclick="showToast('Video content coming soon — stay tuned!')">
-              <div class="video-play-icon" style="width:40px;height:40px">
-                <svg viewBox="0 0 24 24" style="width:16px;height:16px"><polygon points="8,5 19,12 8,19"/></svg>
-              </div>
-              <div class="video-title" style="font-size:13px">Understanding P/E Ratios</div>
-              <div class="video-label" style="font-size:11px">4 min · Coming Soon</div>
-            </div>
-            <div class="video-placeholder" style="min-height:140px; padding:24px 16px" onclick="showToast('Video content coming soon — stay tuned!')">
-              <div class="video-play-icon" style="width:40px;height:40px">
-                <svg viewBox="0 0 24 24" style="width:16px;height:16px"><polygon points="8,5 19,12 8,19"/></svg>
-              </div>
-              <div class="video-title" style="font-size:13px">Market Sectors Explained</div>
-              <div class="video-label" style="font-size:11px">5 min · Coming Soon</div>
-            </div>
-            <div class="video-placeholder" style="min-height:140px; padding:24px 16px" onclick="showToast('Video content coming soon — stay tuned!')">
-              <div class="video-play-icon" style="width:40px;height:40px">
-                <svg viewBox="0 0 24 24" style="width:16px;height:16px"><polygon points="8,5 19,12 8,19"/></svg>
-              </div>
-              <div class="video-title" style="font-size:13px">ETFs vs Mutual Funds</div>
-              <div class="video-label" style="font-size:11px">5 min · Coming Soon</div>
-            </div>
-            <div class="video-placeholder" style="min-height:140px; padding:24px 16px" onclick="showToast('Video content coming soon — stay tuned!')">
-              <div class="video-play-icon" style="width:40px;height:40px">
-                <svg viewBox="0 0 24 24" style="width:16px;height:16px"><polygon points="8,5 19,12 8,19"/></svg>
-              </div>
-              <div class="video-title" style="font-size:13px">Reading Earnings Reports</div>
-              <div class="video-label" style="font-size:11px">7 min · Coming Soon</div>
-            </div>
+          <div class="learn-card" onclick="showToast('Video coming soon!')">
+            <div class="learn-card-badge">Start Here</div>
+            <div class="learn-card-icon">📊</div>
+            <div class="learn-card-title">How to Read Stock Charts</div>
+            <div class="learn-card-desc">Understand price movements, trends, and what those lines actually mean.</div>
+            <div class="learn-card-meta">6 min</div>
+          </div>
+          <div class="learn-card" onclick="showToast('Video coming soon!')">
+            <div class="learn-card-badge">Start Here</div>
+            <div class="learn-card-icon">💰</div>
+            <div class="learn-card-title">Dollar-Cost Averaging</div>
+            <div class="learn-card-desc">Why investing consistently beats trying to time the market.</div>
+            <div class="learn-card-meta">4 min</div>
+          </div>
+        </div>
+
+        <div class="dash-nav-label" style="margin:32px 0 12px;padding:0">AVOID THESE MISTAKES</div>
+        <div class="learn-cards-grid">
+          <div class="learn-card" onclick="showToast('Video coming soon!')">
+            <div class="learn-card-badge warning">Important</div>
+            <div class="learn-card-icon">⚠️</div>
+            <div class="learn-card-title">Panic Selling During Dips</div>
+            <div class="learn-card-desc">Why selling when scared locks in losses and ruins long-term returns.</div>
+            <div class="learn-card-meta">5 min</div>
+          </div>
+          <div class="learn-card" onclick="showToast('Video coming soon!')">
+            <div class="learn-card-badge warning">Important</div>
+            <div class="learn-card-icon">🎲</div>
+            <div class="learn-card-title">Chasing Meme Stocks</div>
+            <div class="learn-card-desc">The real cost of FOMO and why hype rarely builds wealth.</div>
+            <div class="learn-card-meta">6 min</div>
+          </div>
+          <div class="learn-card" onclick="showToast('Video coming soon!')">
+            <div class="learn-card-badge warning">Important</div>
+            <div class="learn-card-icon">🔍</div>
+            <div class="learn-card-title">Ignoring Fees</div>
+            <div class="learn-card-desc">How expense ratios silently eat your returns over time.</div>
+            <div class="learn-card-meta">4 min</div>
+          </div>
+        </div>
+
+        <div class="dash-nav-label" style="margin:32px 0 12px;padding:0">QUICK WINS</div>
+        <div class="learn-cards-grid">
+          <div class="learn-card" onclick="showToast('Video coming soon!')">
+            <div class="learn-card-badge success">Quick Win</div>
+            <div class="learn-card-icon">🚀</div>
+            <div class="learn-card-title">Set Up Auto-Invest</div>
+            <div class="learn-card-desc">Automate your investing so you never miss a contribution.</div>
+            <div class="learn-card-meta">3 min</div>
+          </div>
+          <div class="learn-card" onclick="showToast('Video coming soon!')">
+            <div class="learn-card-badge success">Quick Win</div>
+            <div class="learn-card-icon">📈</div>
+            <div class="learn-card-title">Check Your Asset Allocation</div>
+            <div class="learn-card-desc">Make sure your portfolio matches your risk tolerance.</div>
+            <div class="learn-card-meta">4 min</div>
+          </div>
+          <div class="learn-card" onclick="showToast('Video coming soon!')">
+            <div class="learn-card-badge success">Quick Win</div>
+            <div class="learn-card-icon">💎</div>
+            <div class="learn-card-title">Enable Dividend Reinvestment</div>
+            <div class="learn-card-desc">Let your dividends buy more shares automatically for compound growth.</div>
+            <div class="learn-card-meta">3 min</div>
           </div>
         </div>
       </div>
@@ -809,8 +1162,8 @@
 <section class="pricing-section scroll-reveal hidden-section" id="pricing">
   <div style="text-align:center; max-width:560px; margin:0 auto;">
     <div class="section-tag" style="justify-content:center"><div class="section-tag-dot"></div> Pricing</div>
-    <h2 class="section-h2">Accessible by design</h2>
-    <p class="section-sub">Financial literacy should never be behind a paywall. The tools that help you go deeper — those can wait.</p>
+    <h2 class="section-h2">Pay for confidence, not data</h2>
+    <p class="section-sub">Everything you need to start investing is free. Upgrade when you're ready for advanced insights that give you an edge.</p>
   </div>
   <div class="pricing-grid">
     <div class="pricing-card">
@@ -818,26 +1171,34 @@
       <div class="pricing-price">$0</div>
       <div class="pricing-note">No credit card needed</div>
       <div class="pricing-features">
-        <div class="pricing-feature">Portfolio tracking</div>
-        <div class="pricing-feature">Daily briefings</div>
-        <div class="pricing-feature">AI assistant</div>
-        <div class="pricing-feature">Full Foundation library</div>
+        <div class="pricing-feature">Basic dashboard and portfolio tracking</div>
+        <div class="pricing-feature">Daily market briefings</div>
+        <div class="pricing-feature">AI chat assistant</div>
+        <div class="pricing-feature">Full learning content library</div>
+        <div class="pricing-feature">Challenge mode access</div>
       </div>
-      <a href="javascript:void(0)" class="pricing-btn pricing-btn-ghost" onclick="openSignup('free')">Start free</a>
+      <a href="javascript:void(0)" class="pricing-btn pricing-btn-ghost" onclick="openOnboardingFlow()">Start free</a>
     </div>
     <div class="pricing-card featured">
       <div class="pricing-plan">Pro</div>
       <div class="pricing-price" style="color:white">$6<span style="font-size:18px;font-family:var(--sans);font-weight:300">/mo</span></div>
-      <div class="pricing-note">Less than a coffee a month</div>
+      <div class="pricing-note">Less than one coffee per month</div>
       <div class="pricing-features">
-        <div class="pricing-feature">Everything in free</div>
-        <div class="pricing-feature">Analyst consensus tracker</div>
-        <div class="pricing-feature">Smart money flow data</div>
-        <div class="pricing-feature">News sentiment score</div>
-        <div class="pricing-feature">Monthly portfolio health report</div>
+        <div class="pricing-feature">Everything in Free</div>
+        <div class="pricing-feature">AI "Next Move" suggestions</div>
+        <div class="pricing-feature">Portfolio health score (0-100)</div>
+        <div class="pricing-feature">Advanced insights and analysis</div>
+        <div class="pricing-feature">News sentiment tracking</div>
+        <div class="pricing-feature">Priority support</div>
       </div>
-      <a href="javascript:void(0)" class="pricing-btn pricing-btn-solid" onclick="openSignup('pro')">Get Pro</a>
+      <a href="javascript:void(0)" class="pricing-btn pricing-btn-solid" onclick="openSignup('pro')">Coming Soon</a>
     </div>
+  </div>
+  <div style="text-align:center;max-width:480px;margin:48px auto 0;">
+    <p style="font-size:13px;color:var(--text-mid);line-height:1.7;">
+      Most people never need Pro. The free version is designed to be fully functional for beginners.
+      Pro is for those who want deeper market intelligence and algorithmic guidance.
+    </p>
   </div>
 </section>
 
@@ -930,5 +1291,6 @@
 </div>
 
 <script src="app.js"></script>
+<script src="onboarding.js"></script>
 </body>
 </html>
