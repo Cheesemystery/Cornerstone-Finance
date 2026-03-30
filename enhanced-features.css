@@ -21,28 +21,34 @@
 /* Dark Mode Toggle */
 .theme-toggle {
   position: fixed;
-  top: 24px;
-  right: 24px;
+  bottom: 32px;
+  left: 32px;
   z-index: 1000;
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: 100px;
-  padding: 8px 16px;
+  padding: 10px 18px;
   display: flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
   transition: all 0.3s var(--spring-ease);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
 }
 
 .theme-toggle:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
 
 .theme-icon {
-  font-size: 18px;
+  font-size: 20px;
+}
+
+.theme-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
 }
 
 /* Live Market Status Badge */
@@ -744,6 +750,21 @@
 
 /* Responsive Adjustments */
 @media (max-width: 700px) {
+  .theme-toggle {
+    bottom: 16px;
+    left: 16px;
+    padding: 8px 14px;
+    gap: 6px;
+  }
+
+  .theme-icon {
+    font-size: 18px;
+  }
+
+  .theme-label {
+    font-size: 12px;
+  }
+
   .campus-insight-grid {
     grid-template-columns: 1fr;
   }
