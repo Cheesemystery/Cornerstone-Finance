@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="new-features.css">
 <link rel="stylesheet" href="enhanced-features.css">
+<link rel="stylesheet" href="dashboard-redesign.css">
 </head>
 <body>
 
@@ -341,6 +342,139 @@
         <div class="dash-greeting">
           <h2>Good morning, Jordan.</h2>
           <p>Thursday, March 26 · <span id="marketStatusBadge" class="market-status-badge open">Markets Open</span> · <span id="lastMarketUpdate" style="font-size:12px;color:var(--text-muted);">Updated 3s ago</span></p>
+        </div>
+
+        <!-- Beginner Tip -->
+        <div id="beginnerTipContainer" style="margin-bottom:20px;"></div>
+
+        <!-- Hero Portfolio Card -->
+        <div class="portfolio-hero-card">
+          <div class="portfolio-main-value">$4,820</div>
+          <div class="portfolio-change positive">
+            <span class="portfolio-change-arrow">↗</span>
+            <span>+$67 (1.4%)</span>
+          </div>
+          <div class="portfolio-subtext">
+            Click value 3x for a surprise · Last updated 3s ago
+          </div>
+        </div>
+
+        <!-- Smart Alerts -->
+        <div class="smart-alerts-container" id="smartAlertsContainer"></div>
+
+        <!-- Market Pulse -->
+        <div class="market-pulse-container">
+          <div class="market-pulse-header">
+            <div class="pulse-title">
+              <span class="pulse-heart">💗</span>
+              Market Pulse
+            </div>
+            <span style="font-size:11px;color:var(--text-muted);">Live</span>
+          </div>
+          <div class="pulse-grid">
+            <div class="pulse-item">
+              <div class="pulse-item-label">S&P 500</div>
+              <div class="pulse-item-value">5,124</div>
+              <div class="pulse-item-trend up">+0.8%</div>
+            </div>
+            <div class="pulse-item">
+              <div class="pulse-item-label">Your Portfolio</div>
+              <div class="pulse-item-value">$4,820</div>
+              <div class="pulse-item-trend up">+1.4%</div>
+            </div>
+            <div class="pulse-item">
+              <div class="pulse-item-label">Day's Change</div>
+              <div class="pulse-item-value">$67</div>
+              <div class="pulse-item-trend up">+1.4%</div>
+            </div>
+            <div class="pulse-item">
+              <div class="pulse-item-label">Total Return</div>
+              <div class="pulse-item-value">12.3%</div>
+              <div class="pulse-item-trend up">Since Jan</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Holdings Visual Grid -->
+        <div class="holdings-visual-grid">
+          <div class="holding-card" data-symbol="SPY">
+            <div class="holding-symbol">
+              SPY
+              <span class="holding-badge">Core</span>
+            </div>
+            <div class="holding-name">S&P 500 ETF</div>
+            <div class="holding-value">$2,400</div>
+            <div class="holding-change up">
+              ↗ +2.1%
+            </div>
+          </div>
+          <div class="holding-card" data-symbol="VXUS">
+            <div class="holding-symbol">
+              VXUS
+              <span class="holding-badge" style="background:#E8F3FF;color:#5B9BD5;">Int'l</span>
+            </div>
+            <div class="holding-name">International Stock ETF</div>
+            <div class="holding-value">$1,200</div>
+            <div class="holding-change down">
+              ↘ -0.4%
+            </div>
+          </div>
+          <div class="holding-card" data-symbol="BND">
+            <div class="holding-symbol">
+              BND
+              <span class="holding-badge" style="background:#FFF9E6;color:#D4A853;">Bond</span>
+            </div>
+            <div class="holding-name">Total Bond Market</div>
+            <div class="holding-value">$1,220</div>
+            <div class="holding-change up">
+              ↗ +0.1%
+            </div>
+          </div>
+        </div>
+
+        <!-- Sector Heat Map -->
+        <div class="sector-heatmap">
+          <div class="heatmap-title">
+            Sector Performance Today
+            <span class="tooltip-trigger">
+              <span class="tooltip-icon">?</span>
+              <div class="custom-tooltip">Heat map shows which market sectors are gaining (hot/green) or losing (cold/red) today. Click any sector for details.</div>
+            </span>
+          </div>
+          <div class="heatmap-grid" id="sectorHeatmap"></div>
+        </div>
+
+        <!-- What-If Simulator -->
+        <div class="what-if-simulator">
+          <div class="simulator-title">What-If Simulator</div>
+          <div class="simulator-subtitle">
+            Play with numbers to see your potential growth
+            <span class="tooltip-trigger">
+              <span class="tooltip-icon">?</span>
+              <div class="custom-tooltip">Adjust the sliders to see how different contribution amounts and time horizons affect your portfolio growth.</div>
+            </span>
+          </div>
+          <div class="simulator-controls">
+            <div class="simulator-input-group">
+              <label class="simulator-label">Monthly Contribution</label>
+              <input type="range" class="simulator-slider" id="simMonthly" min="25" max="500" value="100" step="25">
+              <div class="simulator-value" id="simMonthlyValue">$100</div>
+            </div>
+            <div class="simulator-input-group">
+              <label class="simulator-label">Time Horizon</label>
+              <input type="range" class="simulator-slider" id="simYears" min="1" max="30" value="5" step="1">
+              <div class="simulator-value" id="simYearsValue">5 years</div>
+            </div>
+            <div class="simulator-input-group">
+              <label class="simulator-label">Expected Return</label>
+              <input type="range" class="simulator-slider" id="simReturn" min="5" max="15" value="10" step="0.5">
+              <div class="simulator-value" id="simReturnValue">10%</div>
+            </div>
+          </div>
+          <div class="simulator-result">
+            <div class="simulator-result-label">Projected Portfolio Value</div>
+            <div class="simulator-result-value" id="simResultValue">$28,900</div>
+          </div>
         </div>
 
         <!-- Performance Comparison -->
@@ -1378,6 +1512,7 @@
 <script src="live-market.js"></script>
 <script src="campus-mode.js"></script>
 <script src="ai-coach.js"></script>
+<script src="dashboard-features.js"></script>
 <script>
   // Initialize all enhanced features
   document.addEventListener('DOMContentLoaded', function() {
@@ -1390,6 +1525,9 @@
 
     // Initialize AI Coach
     initAICoach();
+
+    // Initialize Dashboard Features (NEW)
+    initDashboardFeatures();
 
     // Check for achievements
     checkAndUnlockAchievements();
