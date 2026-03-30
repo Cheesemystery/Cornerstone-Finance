@@ -355,13 +355,32 @@
 
         <!-- Hero Portfolio Card -->
         <div class="portfolio-hero-card">
-          <div class="portfolio-main-value">$4,820</div>
-          <div class="portfolio-change positive">
-            <span class="portfolio-change-arrow">↗</span>
-            <span>+$67 (1.4%)</span>
-          </div>
-          <div class="portfolio-subtext">
-            Click value 3x for a surprise · Last updated 3s ago
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 32px;">
+            <div style="flex: 1;">
+              <div class="portfolio-main-value">$4,820</div>
+              <div class="portfolio-change positive">
+                <span class="portfolio-change-arrow">↗</span>
+                <span>+$67 (1.4%)</span>
+              </div>
+              <div class="portfolio-subtext">
+                Click value 3x for a surprise · Last updated 3s ago
+              </div>
+            </div>
+            <div style="flex: 1; padding-top: 8px;">
+              <div style="font-size: 13px; font-weight: 500; color: var(--text-mid); margin-bottom: 12px;">Your Performance</div>
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">vs S&P 500</div>
+                  <div style="font-size: 18px; font-weight: 600; color: var(--green);">+2.1%</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">You're outperforming the market</div>
+                </div>
+                <div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">vs Peer Average</div>
+                  <div style="font-size: 18px; font-weight: 600; color: var(--green);">Top 28%</div>
+                  <div style="font-size: 11px; color: var(--text-muted);">Better than 72% of beginners</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -480,26 +499,6 @@
           <div class="simulator-result">
             <div class="simulator-result-label">Projected Portfolio Value</div>
             <div class="simulator-result-value" id="simResultValue">$28,900</div>
-          </div>
-        </div>
-
-        <!-- Performance Comparison -->
-        <div class="performance-comparison">
-          <div class="comparison-header">
-            <div class="comparison-title">Your Performance</div>
-            <a class="comparison-link" onclick="showComparisonCard()">View Full Report →</a>
-          </div>
-          <div class="comparison-grid">
-            <div class="comparison-item">
-              <div class="comparison-label">vs S&P 500</div>
-              <div class="comparison-value">+2.1%</div>
-              <div class="comparison-sub">You're outperforming</div>
-            </div>
-            <div class="comparison-item">
-              <div class="comparison-label">vs Peer Average</div>
-              <div class="comparison-value">Top 28%</div>
-              <div class="comparison-sub">Better than 72% of beginners</div>
-            </div>
           </div>
         </div>
 
