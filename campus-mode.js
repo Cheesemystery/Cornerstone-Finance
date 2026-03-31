@@ -7,14 +7,14 @@ const campusData = {
     prize: 'Featured on Leaderboard + Pro Free Month'
   },
   leaderboard: [
-    { rank: 1, name: 'Alex Chen', school: 'Stanford', return: 18.4, streak: 21, avatar: '👨‍🎓' },
-    { rank: 2, name: 'Sarah Kim', school: 'MIT', return: 16.2, streak: 18, avatar: '👩‍🎓' },
-    { rank: 3, name: 'Mike Johnson', school: 'Berkeley', return: 14.8, streak: 15, avatar: '👨‍💼' },
-    { rank: 4, name: 'You', school: 'Your University', return: 12.3, streak: 14, avatar: '🎯', isUser: true },
-    { rank: 5, name: 'Emma Davis', school: 'UCLA', return: 11.9, streak: 12, avatar: '👩‍🔬' },
-    { rank: 6, name: 'James Wilson', school: 'USC', return: 10.5, streak: 10, avatar: '👨‍💻' },
-    { rank: 7, name: 'Lisa Martinez', school: 'UCSD', return: 9.8, streak: 9, avatar: '👩‍🎨' },
-    { rank: 8, name: 'David Brown', school: 'Harvard', return: 9.2, streak: 8, avatar: '👨‍🔬' }
+    { rank: 1, name: 'Alex Chen', school: 'Stanford', return: 18.4, streak: 21, avatar: '👨‍🎓', movement: 0 },
+    { rank: 2, name: 'Sarah Kim', school: 'MIT', return: 16.2, streak: 18, avatar: '👩‍🎓', movement: 1 },
+    { rank: 3, name: 'Mike Johnson', school: 'Berkeley', return: 14.8, streak: 15, avatar: '👨‍💼', movement: -1 },
+    { rank: 4, name: 'You', school: 'Your University', return: 12.3, streak: 14, avatar: '🎯', isUser: true, movement: 2 },
+    { rank: 5, name: 'Emma Davis', school: 'UCLA', return: 11.9, streak: 12, avatar: '👩‍🔬', movement: 0 },
+    { rank: 6, name: 'James Wilson', school: 'USC', return: 10.5, streak: 10, avatar: '👨‍💻', movement: -2 },
+    { rank: 7, name: 'Lisa Martinez', school: 'UCSD', return: 9.8, streak: 9, avatar: '👩‍🎨', movement: 1 },
+    { rank: 8, name: 'David Brown', school: 'Harvard', return: 9.2, streak: 8, avatar: '👨‍🔬', movement: 0 }
   ],
   insights: {
     topStrategy: 'Dollar-cost averaging into VTI',
@@ -28,24 +28,35 @@ function renderCampusLeaderboard() {
   const container = document.getElementById('campusLeaderboard');
   if (!container) return;
 
-  const html = campusData.leaderboard.map(user => `
-    <div class="leaderboard-row ${user.isUser ? 'user-row' : ''}">
-      <div class="leaderboard-rank">
-        ${user.rank <= 3 ? ['🥇', '🥈', '🥉'][user.rank - 1] : `#${user.rank}`}
-      </div>
-      <div class="leaderboard-avatar">${user.avatar}</div>
-      <div class="leaderboard-info">
-        <div class="leaderboard-name">${user.name}${user.isUser ? ' (You)' : ''}</div>
-        <div class="leaderboard-school">${user.school}</div>
-      </div>
-      <div class="leaderboard-stats">
-        <div class="leaderboard-return ${user.return >= 0 ? 'positive' : 'negative'}">
-          +${user.return}%
+  const html = campusData.leaderboard.map(user => {
+    let movementBadge = '';
+    if (user.movement > 0) {
+      movementBadge = `<span class="rank-movement up"><span class="rank-arrow">↑</span>${user.movement}</span>`;
+    } else if (user.movement < 0) {
+      movementBadge = `<span class="rank-movement down"><span class="rank-arrow">↓</span>${Math.abs(user.movement)}</span>`;
+    }
+
+    return `
+      <div class="leaderboard-row ${user.isUser ? 'user-row' : ''}">
+        <div class="leaderboard-rank">
+          ${user.rank <= 3 ? ['🥇', '🥈', '🥉'][user.rank - 1] : `#${user.rank}`}
         </div>
-        <div class="leaderboard-streak">${user.streak} 🔥</div>
+        <div class="leaderboard-avatar">${user.avatar}</div>
+        <div class="leaderboard-info">
+          <div class="leaderboard-name">
+            ${user.name}${user.isUser ? ' (You)' : ''} ${movementBadge}
+          </div>
+          <div class="leaderboard-school">${user.school}</div>
+        </div>
+        <div class="leaderboard-stats">
+          <div class="leaderboard-return ${user.return >= 0 ? 'positive' : 'negative'}">
+            +${user.return}%
+          </div>
+          <div class="leaderboard-streak">${user.streak} 🔥</div>
+        </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 
   container.innerHTML = html;
 }

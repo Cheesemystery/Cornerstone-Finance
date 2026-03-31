@@ -11,8 +11,24 @@
 <link rel="stylesheet" href="new-features.css">
 <link rel="stylesheet" href="enhanced-features.css">
 <link rel="stylesheet" href="dashboard-redesign.css">
+<link rel="stylesheet" href="new-ui-features.css">
 </head>
 <body>
+
+<!-- DEMO MODE OVERLAY -->
+<div id="demoOverlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:99; pointer-events:none;"></div>
+
+<!-- DEMO MODE BANNER -->
+<div id="demoBanner" style="display:none; position:fixed; top:80px; left:50%; transform:translateX(-50%); z-index:999; background:linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%); color:white; padding:16px 32px; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,0.15); animation:slideDown 0.4s ease;">
+  <div style="display:flex; align-items:center; gap:16px;">
+    <div style="font-size:24px;">👁️</div>
+    <div style="flex:1;">
+      <div style="font-weight:600; font-size:15px; margin-bottom:4px;">Demo Mode</div>
+      <div style="font-size:12px; opacity:0.9;">Sign up to interact with your portfolio</div>
+    </div>
+    <button class="demo-cta-btn" onclick="openOnboardingFlow()" style="background:white; color:var(--green); border:none; padding:10px 20px; border-radius:100px; font-size:13px; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:var(--sans);">Get Started Free</button>
+  </div>
+</div>
 
 <!-- Theme Toggle -->
 <div class="theme-toggle" onclick="toggleTheme()">
@@ -211,13 +227,13 @@
 <section class="hero">
   <div class="hero-eyebrow">
     <div class="hero-eyebrow-dot"></div>
-    Built for first-generation investors
+    Compete • Learn • Grow
   </div>
-  <h1>Start investing <em>without feeling lost</em></h1>
-  <p class="hero-sub">We tell you what to do, when to do it, and why. No confusing jargon. Just clear guidance designed for college students starting their investing journey.</p>
+  <h1>The competitive investing platform <em>for students</em></h1>
+  <p class="hero-sub">Track performance, compete with peers, and improve with AI guidance. Join 2,400+ students building wealth while learning to invest.</p>
   <div class="hero-actions">
     <a href="javascript:void(0)" class="btn-primary" onclick="openOnboardingFlow()">Start My Portfolio</a>
-    <a href="#dashboard-app" class="btn-ghost" onclick="scrollToDashboard()">Explore First →</a>
+    <a href="javascript:void(0)" class="btn-ghost" onclick="enterDemoMode()">Preview Dashboard →</a>
   </div>
 
   <!-- 3-Step Explanation -->
@@ -327,6 +343,19 @@
       <div class="dash-nav-item" data-tab="foundation">
         <div style="display:flex;align-items:center;gap:10px;">
           <div class="dash-nav-icon"></div> Foundation
+        </div>
+        <div class="nav-pulse-preview status-neutral"></div>
+      </div>
+      <div class="dash-nav-label">Tools</div>
+      <div class="dash-nav-item" data-tab="ai-insights">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="dash-nav-icon"></div> AI Insights
+        </div>
+        <div class="nav-pulse-preview status-positive"></div>
+      </div>
+      <div class="dash-nav-item" data-tab="settings">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="dash-nav-icon"></div> Settings
         </div>
         <div class="nav-pulse-preview status-neutral"></div>
       </div>
@@ -1260,6 +1289,126 @@
         </div>
       </div>
 
+      <!-- TAB: AI Insights Hub -->
+      <div class="tab-panel" id="tab-ai-insights">
+        <div class="dash-greeting">
+          <h2>AI Insights Hub</h2>
+          <p>Your personal financial intelligence center</p>
+        </div>
+
+        <div class="ai-hub-grid">
+          <div class="ai-hub-card">
+            <div class="ai-hub-icon">💬</div>
+            <div class="ai-hub-title">Chat History</div>
+            <div class="ai-hub-desc">Review past conversations and advice</div>
+            <button class="ai-hub-btn" onclick="showToast('Chat history coming soon!')">View History</button>
+          </div>
+
+          <div class="ai-hub-card">
+            <div class="ai-hub-icon">🎯</div>
+            <div class="ai-hub-title">Suggested Strategies</div>
+            <div class="ai-hub-desc">Personalized investment recommendations</div>
+            <button class="ai-hub-btn" onclick="showToast('Strategies coming soon!')">See Suggestions</button>
+          </div>
+
+          <div class="ai-hub-card">
+            <div class="ai-hub-icon">📊</div>
+            <div class="ai-hub-title">Portfolio Feedback</div>
+            <div class="ai-hub-desc">Deep analysis of your holdings</div>
+            <button class="ai-hub-btn" onclick="showToast('Analysis coming soon!')">Get Analysis</button>
+          </div>
+
+          <div class="ai-hub-card">
+            <div class="ai-hub-icon">📈</div>
+            <div class="ai-hub-title">Performance Insights</div>
+            <div class="ai-hub-desc">Why you're up or down this week</div>
+            <button class="ai-hub-btn" onclick="showToast('Insights coming soon!')">View Insights</button>
+          </div>
+        </div>
+
+        <div class="briefing" style="margin-top:24px;">
+          <div class="briefing-tag">Quick Ask</div>
+          <div class="briefing-text">Have a specific question? Use the chatbot in the bottom right to get instant answers.</div>
+        </div>
+      </div>
+
+      <!-- TAB: Settings -->
+      <div class="tab-panel" id="tab-settings">
+        <div class="dash-greeting">
+          <h2>Settings</h2>
+          <p>Manage your account and preferences</p>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-label">APPEARANCE</div>
+          <div class="settings-item">
+            <div class="settings-item-info">
+              <div class="settings-item-title">Dark Mode</div>
+              <div class="settings-item-desc">Switch between light and dark themes</div>
+            </div>
+            <div class="settings-toggle" onclick="toggleTheme()">
+              <div class="toggle-switch"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-label">ACCOUNT</div>
+          <div class="settings-item">
+            <div class="settings-item-info">
+              <div class="settings-item-title">Email</div>
+              <div class="settings-item-desc" id="settingsEmail">jordan@university.edu</div>
+            </div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-item-info">
+              <div class="settings-item-title">Account Level</div>
+              <div class="settings-item-desc">Free Plan</div>
+            </div>
+            <button class="settings-btn-secondary" onclick="showToast('Upgrade coming soon!')">Upgrade to Pro</button>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-label">NOTIFICATIONS</div>
+          <div class="settings-item">
+            <div class="settings-item-info">
+              <div class="settings-item-title">Achievement Notifications</div>
+              <div class="settings-item-desc">Get notified when you unlock achievements</div>
+            </div>
+            <div class="settings-toggle active" onclick="toggleSetting(this)">
+              <div class="toggle-switch"></div>
+            </div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-item-info">
+              <div class="settings-item-title">Leaderboard Updates</div>
+              <div class="settings-item-desc">Weekly rank change notifications</div>
+            </div>
+            <div class="settings-toggle active" onclick="toggleSetting(this)">
+              <div class="toggle-switch"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-label">GAMIFICATION</div>
+          <div class="settings-item">
+            <div class="settings-item-info">
+              <div class="settings-item-title">Competition Intensity</div>
+              <div class="settings-item-desc">How often you see competitive features</div>
+            </div>
+            <select class="settings-select" onchange="showToast('Preference saved!')">
+              <option value="high" selected>High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="settings-btn-danger" onclick="confirmLogout()" style="margin-top:32px;">Sign Out</button>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1513,12 +1662,16 @@
   </div>
 </div>
 
+<script src="state-manager.js"></script>
+<script src="achievement-queue.js"></script>
 <script src="app.js"></script>
 <script src="onboarding.js"></script>
 <script src="live-market.js"></script>
 <script src="campus-mode.js"></script>
 <script src="ai-coach.js"></script>
 <script src="dashboard-features.js"></script>
+<script src="settings-utils.js"></script>
+<script src="loading-states.js"></script>
 <script>
   // Initialize all enhanced features
   document.addEventListener('DOMContentLoaded', function() {

@@ -524,41 +524,28 @@
     }
   }
 
-  /* ─── DASHBOARD VISIBILITY ─── */
+  /* ─── DASHBOARD VISIBILITY (Using State Manager) ─── */
   function scrollToDashboard() {
-    toggleDashboardView(true);
-    document.getElementById('dashboard-app').scrollIntoView({ behavior: 'smooth' });
+    if (window.stateManager) {
+      window.stateManager.enterLoggedInMode();
+    }
+  }
+
+  function enterDemoMode() {
+    if (window.stateManager) {
+      window.stateManager.enterDemoMode();
+    }
   }
 
   function toggleDashboardView(showOnlyDashboard) {
-    isInDashboard = showOnlyDashboard;
-    const hero = document.querySelector('.hero');
-    const chatSection = document.querySelector('.chat-section');
-    const featuresSection = document.querySelector('.features-section');
-    const missionSection = document.querySelector('.mission-section');
-    const aiAnchorSection = document.querySelector('.ai-anchor-section');
-    const dashboardApp = document.querySelector('.dashboard-app');
-
     if (showOnlyDashboard) {
-      if (hero) hero.style.display = 'none';
-      if (chatSection) chatSection.style.display = 'none';
-      if (featuresSection) featuresSection.style.display = 'none';
-      if (missionSection) missionSection.style.display = 'none';
-      if (aiAnchorSection) aiAnchorSection.style.display = 'none';
-      if (dashboardApp) {
-        dashboardApp.style.minHeight = '100vh';
-        dashboardApp.style.marginTop = '60px';
+      if (currentUser) {
+        window.stateManager.enterLoggedInMode();
+      } else {
+        window.stateManager.enterDemoMode();
       }
     } else {
-      if (hero) hero.style.display = 'flex';
-      if (chatSection) chatSection.style.display = 'block';
-      if (featuresSection) featuresSection.classList.add('hidden-section');
-      if (missionSection) missionSection.style.display = 'block';
-      if (aiAnchorSection) aiAnchorSection.style.display = 'block';
-      if (dashboardApp) {
-        dashboardApp.style.minHeight = '100vh';
-        dashboardApp.style.marginTop = '0';
-      }
+      window.stateManager.returnToLanding();
     }
   }
 
@@ -579,16 +566,18 @@
 
   /* ─── RESET TO HOME ─── */
   function resetToHome() {
-    // Hide dashboard, show hero and marketing sections
-    toggleDashboardView(false);
+    if (window.stateManager) {
+      window.stateManager.returnToLanding();
+    }
 
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // Reset to dashboard tab
     setTimeout(function() {
       switchDashboardTab('dashboard');
     }, 300);
+  }
+
+  if (typeof window !== 'undefined') {
+    window.enterDemoMode = enterDemoMode;
+    window.resetToHome = resetToHome;
   }
 
   /* ─── AI FAB CONTROL ─── */
