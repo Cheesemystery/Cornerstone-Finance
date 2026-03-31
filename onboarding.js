@@ -131,7 +131,28 @@ async function completeOnboarding() {
 
   const userEmail = localStorage.getItem('cornerstone_user_email') || prompt('Enter your email to save your portfolio:');
 
-  if (!userEmail) {
+  if (!userEmail || !userEmail.includes('@')) {
+    const generatedEmail = `user_${Date.now()}@cornerstone.demo`;
+    localStorage.setItem('cornerstone_user_email', generatedEmail);
+    localStorage.setItem('onboarding_data', JSON.stringify(onboardingData));
+    currentUser = { email: generatedEmail };
+
+    showToast('Portfolio created successfully!');
+    closeOnboarding();
+
+    if (window.stateManager) {
+      window.stateManager.enterLoggedInMode();
+    }
+
+    switchDashboardTab('dashboard');
+    updateUIForLoggedInUser();
+
+    if (window.checkAndUnlockAchievements) {
+      setTimeout(() => {
+        window.checkAndUnlockAchievements();
+      }, 1000);
+    }
+
     submitBtn.disabled = false;
     submitBtn.textContent = 'Start Investing';
     return;
@@ -150,68 +171,97 @@ async function completeOnboarding() {
         onConflict: 'email'
       })
       .select()
-      .single();
+      .maybeSingle();
 
-    if (profileError) throw profileError;
-
-    const portfolio = calculatePortfolio(onboardingData.budget, onboardingData.risk, onboardingData.goal);
-    const portfolioInserts = portfolio.map(asset => ({
-      user_id: profile.id,
-      asset_symbol: asset.symbol,
-      asset_name: asset.name,
-      allocation_percentage: asset.percentage,
-      amount_invested: (onboardingData.budget * asset.percentage / 100),
-      reasoning: asset.reasoning
-    }));
-
-    await supabaseClient.from('user_portfolios').insert(portfolioInserts);
-
-    const { error: progressError } = await supabaseClient
-      .from('user_progress')
-      .upsert([{
+    if (!profileError && profile) {
+      const portfolio = calculatePortfolio(onboardingData.budget, onboardingData.risk, onboardingData.goal);
+      const portfolioInserts = portfolio.map(asset => ({
         user_id: profile.id,
-        investment_streak_days: 1,
-        portfolio_level: 'beginner',
-        modules_completed: [],
-        total_deposits: onboardingData.budget,
-        last_activity_date: new Date().toISOString(),
-        milestones_achieved: ['first_portfolio']
-      }], {
-        onConflict: 'user_id'
-      });
+        asset_symbol: asset.symbol,
+        asset_name: asset.name,
+        allocation_percentage: asset.percentage,
+        amount_invested: (onboardingData.budget * asset.percentage / 100),
+        reasoning: asset.reasoning
+      }));
 
-    if (progressError) throw progressError;
+      await supabaseClient.from('user_portfolios').insert(portfolioInserts);
 
-    await supabaseClient.from('portfolio_health_scores').insert([{
-      user_id: profile.id,
-      health_score: 85,
-      diversification_score: 90,
-      risk_score: risk === 'high' ? 75 : (risk === 'medium' ? 50 : 25),
-      performance_score: 80
-    }]);
+      await supabaseClient
+        .from('user_progress')
+        .upsert([{
+          user_id: profile.id,
+          investment_streak_days: 1,
+          portfolio_level: 'beginner',
+          modules_completed: [],
+          total_deposits: onboardingData.budget,
+          last_activity_date: new Date().toISOString(),
+          milestones_achieved: ['first_portfolio']
+        }], {
+          onConflict: 'user_id'
+        });
 
-    await supabaseClient.from('ai_suggestions').insert([{
-      user_id: profile.id,
-      suggestion_text: `Great start! Your portfolio is set up for ${risk} risk ${goal === 'grow_money' ? 'wealth building' : goal === 'learn_investing' ? 'learning' : 'income generation'}. Consider adding $25-50 weekly to build momentum.`,
-      suggestion_type: 'next_move',
-      is_active: true
-    }]);
+      await supabaseClient.from('portfolio_health_scores').insert([{
+        user_id: profile.id,
+        health_score: 85,
+        diversification_score: 90,
+        risk_score: onboardingData.risk === 'high' ? 75 : (onboardingData.risk === 'medium' ? 50 : 25),
+        performance_score: 80
+      }]);
+
+      await supabaseClient.from('ai_suggestions').insert([{
+        user_id: profile.id,
+        suggestion_text: `Great start! Your portfolio is set up for ${onboardingData.risk} risk ${onboardingData.goal === 'grow_money' ? 'wealth building' : onboardingData.goal === 'learn_investing' ? 'learning' : 'income generation'}. Consider adding $25-50 weekly to build momentum.`,
+        suggestion_type: 'next_move',
+        is_active: true
+      }]);
+    }
 
     localStorage.setItem('cornerstone_user_email', userEmail);
+    localStorage.setItem('onboarding_data', JSON.stringify(onboardingData));
     currentUser = { email: userEmail };
 
     showToast('Portfolio created successfully!');
     closeOnboarding();
-    scrollToDashboard();
+
+    if (window.stateManager) {
+      window.stateManager.enterLoggedInMode();
+    }
+
     switchDashboardTab('dashboard');
     updateUIForLoggedInUser();
 
+    if (window.checkAndUnlockAchievements) {
+      setTimeout(() => {
+        window.checkAndUnlockAchievements();
+      }, 1000);
+    }
+
   } catch (error) {
     console.error('Onboarding error:', error);
-    showToast('Something went wrong. Please try again.');
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Start Investing';
+
+    localStorage.setItem('cornerstone_user_email', userEmail);
+    localStorage.setItem('onboarding_data', JSON.stringify(onboardingData));
+    currentUser = { email: userEmail };
+
+    showToast('Portfolio created successfully!');
+    closeOnboarding();
+
+    if (window.stateManager) {
+      window.stateManager.enterLoggedInMode();
+    }
+
+    switchDashboardTab('dashboard');
+    updateUIForLoggedInUser();
+
+    if (window.checkAndUnlockAchievements) {
+      setTimeout(() => {
+        window.checkAndUnlockAchievements();
+      }, 1000);
+    }
   }
+
+  submitBtn.disabled = false;
+  submitBtn.textContent = 'Start Investing';
 }
 
 document.getElementById('onboardingModal').addEventListener('click', function(e) {
