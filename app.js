@@ -469,6 +469,11 @@
     if (e.target === this) closeAuthModal();
   });
 
+  function previewAsGuest() {
+    closeAuthModal();
+    enterDemoMode();
+  }
+
   async function submitAuth() {
     const emailInput = document.getElementById('authEmail');
     const email = emailInput.value.trim();

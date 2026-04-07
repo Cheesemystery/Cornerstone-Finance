@@ -14,6 +14,13 @@ function closeOnboarding() {
   document.getElementById('onboardingModal').classList.remove('visible');
 }
 
+function previewAsGuestFromOnboarding() {
+  closeOnboarding();
+  if (window.enterDemoMode) {
+    window.enterDemoMode();
+  }
+}
+
 function resetOnboardingFlow() {
   onboardingData = { budget: null, goal: null, risk: null };
 
