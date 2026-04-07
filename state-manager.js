@@ -109,7 +109,7 @@ class StateManager {
 
   disableDashboardInteractions() {
     const clickableElements = document.querySelectorAll(
-      '.dash-nav-item, .metric-box, .h-row, .ht-row, .trending-card, .watchlist-card, .holding-card, button:not(.demo-cta-btn), input, select'
+      '.metric-box, .h-row, .ht-row, .trending-card, .watchlist-card, .holding-card, button:not(.demo-cta-btn), input, select'
     );
 
     clickableElements.forEach(el => {
