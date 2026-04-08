@@ -1156,7 +1156,13 @@
 
         <!-- Leaderboard -->
         <div style="background:white;border:1px solid var(--border);border-radius:16px;padding:24px;">
-          <div class="dash-nav-label" style="margin:0 0 16px;padding:0">LEADERBOARD</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+            <div class="dash-nav-label" style="margin:0;padding:0">LEADERBOARD</div>
+            <div class="leaderboard-view-toggle">
+              <button class="leaderboard-view-btn active" data-view="individual" onclick="switchLeaderboardView('individual')">Individual</button>
+              <button class="leaderboard-view-btn" data-view="college" onclick="switchLeaderboardView('college')">College</button>
+            </div>
+          </div>
           <div id="campusLeaderboard"></div>
         </div>
 

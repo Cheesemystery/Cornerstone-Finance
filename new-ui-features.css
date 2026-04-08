@@ -257,3 +257,316 @@
     width: 100%;
   }
 }
+
+/* ─── CAMPUS LEADERBOARD UPGRADES ─────────────────────────────── */
+
+/* View Toggle */
+.leaderboard-view-toggle {
+  display: flex;
+  gap: 4px;
+  background: var(--cream, #FAFAF7);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 16px;
+  width: fit-content;
+}
+
+.leaderboard-view-btn {
+  padding: 7px 20px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.leaderboard-view-btn.active {
+  background: white;
+  color: var(--text);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+/* Row Layout */
+.leaderboard-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-left: 3px solid transparent;
+}
+
+.leaderboard-row:hover {
+  background: var(--cream, #FAFAF7);
+  transform: translateX(2px);
+}
+
+.leaderboard-row.user-row {
+  background: linear-gradient(135deg, #E8F5F0 0%, #F0FAF6 100%);
+}
+
+/* Avatar wrapper & overlays */
+.leaderboard-avatar-wrap {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.leaderboard-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--cream, #FAFAF7);
+  border: 1px solid rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.avatar-overlay {
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.rank-silver-badge {
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(135deg, #C0C0C0, #E8E8E8);
+  color: #666;
+  border: 1px solid #B0B0B0;
+  font-size: 8px;
+}
+
+.rank-gold-badge {
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(135deg, #D4A017, #F5C842);
+  color: #7A5800;
+  border: 1px solid #C49010;
+  font-size: 8px;
+}
+
+.rank-crown-overlay {
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, #F5C842, #FFE080);
+  color: #7A5800;
+  border: 1px solid #D4A017;
+  border-radius: 50%;
+  bottom: -4px;
+  right: -4px;
+}
+
+.rank-crown-small {
+  font-size: 9px;
+}
+
+.rank-1-overlay {
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, #FFD700, #FFF4A0);
+  color: #7A5800;
+  border: 1.5px solid #D4A017;
+  border-radius: 50%;
+  bottom: -4px;
+  right: -4px;
+  box-shadow: 0 0 6px rgba(212, 160, 23, 0.5), 0 0 12px rgba(212, 160, 23, 0.2);
+  animation: crownGlow 2s ease-in-out infinite alternate;
+}
+
+.rank-crown {
+  font-size: 10px;
+}
+
+/* Rank 1 glow ring */
+.leaderboard-row:has(.rank-1-overlay) .leaderboard-avatar {
+  border: 2px solid #F5C842;
+  box-shadow: 0 0 0 2px rgba(245, 200, 66, 0.3), 0 0 12px rgba(245, 200, 66, 0.2);
+}
+
+@keyframes crownGlow {
+  from { box-shadow: 0 0 4px rgba(212, 160, 23, 0.4), 0 0 8px rgba(212, 160, 23, 0.15); }
+  to   { box-shadow: 0 0 10px rgba(212, 160, 23, 0.7), 0 0 20px rgba(212, 160, 23, 0.35); }
+}
+
+/* Rank medals */
+.medal-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFD700, #F5A623);
+  color: #7A5800;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--sans);
+}
+
+.medal-silver {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #C0C0C0, #E8E8E8);
+  color: #555;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--sans);
+}
+
+.medal-bronze {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #CD7F32, #E8A050);
+  color: #5C3010;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--sans);
+}
+
+/* Info column */
+.leaderboard-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.leaderboard-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.leaderboard-school-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  flex-wrap: wrap;
+}
+
+.leaderboard-school {
+  font-size: 11px;
+  color: var(--text-mid);
+}
+
+/* Strategy badge */
+.strategy-badge {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-family: var(--sans);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* Stats column */
+.leaderboard-stats {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.leaderboard-return-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.leaderboard-return {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--sans);
+}
+
+.leaderboard-return.positive { color: #2D9A7E; }
+.leaderboard-return.negative { color: #C87B5B; }
+
+.sparkline-svg {
+  display: block;
+  opacity: 0.85;
+}
+
+.leaderboard-streak {
+  font-size: 11px;
+  color: var(--text-mid);
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  justify-content: flex-end;
+}
+
+.streak-count {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--sans);
+  font-size: 10px;
+}
+
+.leaderboard-streak-label {
+  font-size: 10px;
+  color: var(--text-mid);
+  margin-top: 2px;
+  text-align: right;
+}
+
+.leaderboard-rank {
+  min-width: 28px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-mid);
+  font-family: var(--sans);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* College view logo badge */
+.college-logo-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--cream, #FAFAF7), white);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: var(--sans);
+  flex-shrink: 0;
+}
+
+.college-row {
+  border-left: 3px solid var(--border) !important;
+}
