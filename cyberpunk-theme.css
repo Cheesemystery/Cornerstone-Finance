@@ -1,0 +1,917 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   CYBERPUNK THEME OVERRIDE — Global visual upgrade
+   Layers on top of all existing stylesheets. No functionality changes.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── 1. DESIGN TOKENS ──────────────────────────────────────────────── */
+:root {
+  --cb-bg:          #0a0a0f;
+  --cb-bg2:         #0e0e16;
+  --cb-surface:     rgba(255,255,255,0.04);
+  --cb-surface2:    rgba(255,255,255,0.07);
+  --cb-border:      rgba(255,255,255,0.07);
+  --cb-border-glow: rgba(0,255,135,0.2);
+
+  --cb-green:       #00ff87;
+  --cb-cyan:        #00d4ff;
+  --cb-purple:      #7b2ff7;
+  --cb-pink:        #ff2cf7;
+
+  --cb-grad-primary:  linear-gradient(135deg, #00ff87 0%, #00d4ff 100%);
+  --cb-grad-secondary: linear-gradient(135deg, #7b2ff7 0%, #ff2cf7 100%);
+  --cb-grad-text:     linear-gradient(90deg, #00ff87, #00d4ff);
+
+  --cb-text:        #f0f0f5;
+  --cb-text-mid:    rgba(240,240,245,0.55);
+  --cb-text-muted:  rgba(240,240,245,0.3);
+
+  --cb-positive:    #00ff87;
+  --cb-negative:    #ff5f6b;
+
+  --cb-blur:   blur(16px) saturate(140%);
+  --cb-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* Override existing theme vars */
+  --green:           #00ff87;
+  --green-light:     rgba(0,255,135,0.08);
+  --green-dark:      #00d4a0;
+  --green-mid:       #00e87a;
+  --terracotta:      #ff5f6b;
+  --terracotta-light: rgba(255,95,107,0.1);
+  --cream:           #0e0e16;
+  --white:           rgba(255,255,255,0.04);
+  --text:            #f0f0f5;
+  --text-mid:        rgba(240,240,245,0.55);
+  --text-muted:      rgba(240,240,245,0.3);
+  --border:          rgba(255,255,255,0.07);
+  --border-strong:   rgba(255,255,255,0.1);
+  --midnight:        #0a0a0f;
+}
+
+/* ─── 2. BASE + BODY ────────────────────────────────────────────────── */
+html, body {
+  background: var(--cb-bg) !important;
+  color: var(--cb-text) !important;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(0,255,135,0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(123,47,247,0.05) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(0,212,255,0.025) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Dot-grid texture overlay on entire page */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── 3. LANDING PAGE ───────────────────────────────────────────────── */
+.hero-section,
+.hero,
+.landing-hero,
+.landing-section,
+section:not(.dashboard-app) {
+  background: var(--cb-bg) !important;
+  color: var(--cb-text) !important;
+}
+
+.hero-inner,
+.hero-text,
+.landing-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── 4. DASHBOARD APP WRAPPER ─────────────────────────────────────── */
+.dashboard-app {
+  background: var(--cb-bg) !important;
+  position: relative;
+  z-index: 1;
+}
+
+.dash-inner-app {
+  background: transparent !important;
+}
+
+/* ─── 5. SIDEBAR ────────────────────────────────────────────────────── */
+.dash-sidebar {
+  background: rgba(255,255,255,0.03) !important;
+  border-right: 1px solid var(--cb-border) !important;
+  backdrop-filter: var(--cb-blur) !important;
+  position: relative;
+  z-index: 2;
+}
+
+.dash-sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle at 50% 10%, rgba(0,255,135,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.dash-logo {
+  background: var(--cb-grad-primary) !important;
+  color: #0a0a0f !important;
+  box-shadow: 0 0 20px rgba(0,255,135,0.3), 0 0 40px rgba(0,255,135,0.1) !important;
+  font-weight: 800 !important;
+}
+
+.dash-nav-label {
+  color: var(--cb-text-muted) !important;
+  letter-spacing: 0.12em !important;
+  font-weight: 600 !important;
+}
+
+.dash-nav-item {
+  color: var(--cb-text-mid) !important;
+  border-radius: 10px;
+  transition: all 0.2s var(--cb-spring);
+  position: relative;
+}
+
+.dash-nav-item:hover {
+  background: rgba(0,255,135,0.06) !important;
+  color: var(--cb-text) !important;
+  transform: translateX(3px) !important;
+  border-left: 2px solid rgba(0,255,135,0.4) !important;
+}
+
+.dash-nav-item.active {
+  background: linear-gradient(135deg, rgba(0,255,135,0.12) 0%, rgba(0,212,255,0.08) 100%) !important;
+  color: var(--cb-green) !important;
+  border-left: 2px solid var(--cb-green) !important;
+  box-shadow: inset 0 0 20px rgba(0,255,135,0.04) !important;
+}
+
+.dash-nav-item.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 2px;
+  background: var(--cb-grad-primary);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--cb-green);
+}
+
+.nav-pulse-preview.status-positive {
+  background: var(--cb-green) !important;
+  box-shadow: 0 0 6px var(--cb-green) !important;
+}
+
+.nav-pulse-preview.status-neutral {
+  background: var(--cb-cyan) !important;
+  box-shadow: 0 0 6px var(--cb-cyan) !important;
+}
+
+.nav-pulse-preview.status-warning {
+  background: #ffc23a !important;
+  box-shadow: 0 0 6px #ffc23a !important;
+}
+
+.sidebar-mission {
+  border-top: 1px solid var(--cb-border) !important;
+  background: rgba(0,255,135,0.03) !important;
+  border-radius: 10px;
+  margin: 8px;
+}
+
+.sidebar-mission-quote {
+  color: var(--cb-text-muted) !important;
+  font-style: italic;
+}
+
+/* Learning progress bar */
+.learning-progress {
+  background: var(--cb-surface) !important;
+  border: 1px solid var(--cb-border) !important;
+  border-radius: 10px;
+}
+
+.progress-fill {
+  background: var(--cb-grad-primary) !important;
+  box-shadow: 0 0 8px rgba(0,255,135,0.4) !important;
+}
+
+/* ─── 6. CONTENT AREA ───────────────────────────────────────────────── */
+.dash-content {
+  background: transparent !important;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── 7. TAB PANELS ─────────────────────────────────────────────────── */
+.tab-panel {
+  background: transparent !important;
+}
+
+/* ─── 8. ALL CARDS & CONTAINERS — GLASSMORPHISM ─────────────────────── */
+.metric-box,
+.briefing,
+.pulse-point,
+.holdings,
+.trending-card,
+.watchlist-card,
+.campus-insight-card,
+.portfolio-section,
+.portfolio-section-clean,
+.news-card,
+.learn-card,
+.foundation-card,
+.ai-hub-card,
+.settings-section,
+.weekly-challenge-header,
+.comparison-content,
+.challenge-card,
+.ch-portfolio-snap,
+.ch-lb-list,
+.ch-hero,
+.top-strategy-card {
+  background: var(--cb-surface) !important;
+  backdrop-filter: var(--cb-blur) !important;
+  border: 1px solid var(--cb-border) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+  color: var(--cb-text) !important;
+}
+
+.metric-box:hover,
+.trending-card:hover,
+.ai-hub-card:hover,
+.learn-card:hover {
+  border-color: rgba(0,255,135,0.2) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(0,255,135,0.06) !important;
+  transform: translateY(-4px) !important;
+}
+
+/* White inline sections / containers */
+.dash-section,
+.dash-card,
+.activity-feed,
+.holdings-table,
+div[style*="background:white"],
+div[style*="background: white"] {
+  background: var(--cb-surface) !important;
+  border-color: var(--cb-border) !important;
+}
+
+/* Portfolio hero card */
+.portfolio-hero-card {
+  background: linear-gradient(155deg, rgba(0,255,135,0.06) 0%, rgba(0,212,255,0.04) 50%, rgba(123,47,247,0.04) 100%) !important;
+  border: 1px solid rgba(0,255,135,0.15) !important;
+  backdrop-filter: var(--cb-blur) !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 60px rgba(0,255,135,0.04) !important;
+}
+
+/* Leaderboard rows */
+.leaderboard-row,
+.h-row,
+.ht-row,
+.ch-lb-row,
+.activity-row {
+  background: transparent !important;
+  border-bottom: 1px solid var(--cb-border) !important;
+  transition: all 0.2s var(--cb-spring) !important;
+}
+
+.leaderboard-row:hover,
+.h-row:hover,
+.ht-row:hover,
+.ch-lb-row:hover {
+  background: rgba(0,255,135,0.04) !important;
+  border-left: 2px solid rgba(0,255,135,0.4) !important;
+}
+
+.leaderboard-row.user-row,
+.ch-lb-row.ch-lb-you {
+  background: linear-gradient(90deg, rgba(0,255,135,0.07) 0%, transparent 100%) !important;
+  border-left: 2px solid rgba(0,255,135,0.5) !important;
+}
+
+/* Holdings table */
+.ht-header {
+  background: rgba(255,255,255,0.03) !important;
+  border-bottom: 1px solid var(--cb-border) !important;
+  color: var(--cb-text-muted) !important;
+}
+
+/* ─── 9. NEON DIVIDERS ──────────────────────────────────────────────── */
+hr,
+.section-divider {
+  border: none !important;
+  height: 1px !important;
+  background: linear-gradient(90deg, transparent 0%, rgba(0,255,135,0.2) 30%, rgba(0,212,255,0.2) 70%, transparent 100%) !important;
+  margin: 20px 0 !important;
+}
+
+/* Between tab sections */
+.dash-nav-label::before {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0,255,135,0.15) 50%, transparent 100%);
+  margin-bottom: 10px;
+}
+
+/* ─── 10. TYPOGRAPHY ────────────────────────────────────────────────── */
+.dash-greeting h2,
+.section-h2,
+.hero-headline,
+h1, h2 {
+  color: var(--cb-text) !important;
+  font-weight: 800 !important;
+}
+
+.dash-greeting p,
+p {
+  color: var(--cb-text-mid) !important;
+}
+
+.metric-box .label,
+.pulse-label,
+.briefing-tag,
+.dash-nav-label,
+.ch-section-header,
+.campus-insight-card .insight-label {
+  color: var(--cb-text-muted) !important;
+  letter-spacing: 0.1em !important;
+  font-weight: 600 !important;
+}
+
+/* ─── 11. KEY NUMBERS — GRADIENT TEXT ──────────────────────────────── */
+.portfolio-main-value,
+.metric-box .value,
+.pulse-value,
+.challenge-stat-value,
+.ch-rank-jersey,
+.ch-portfolio-val,
+.insight-value {
+  background: var(--cb-grad-text) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  font-weight: 800 !important;
+}
+
+/* Positive/negative values stay their color */
+.positive,
+.up,
+.leaderboard-return.positive,
+.ch-holding-chg.positive,
+.ch-lb-chg.positive,
+.ch-growth-val {
+  color: var(--cb-positive) !important;
+  -webkit-text-fill-color: var(--cb-positive) !important;
+}
+
+.negative,
+.down,
+.leaderboard-return.negative,
+.ch-holding-chg.negative,
+.ch-lb-chg.negative {
+  color: var(--cb-negative) !important;
+  -webkit-text-fill-color: var(--cb-negative) !important;
+}
+
+/* Portfolio change badge */
+.portfolio-change.positive {
+  background: rgba(0,255,135,0.12) !important;
+  color: var(--cb-positive) !important;
+  border: 1px solid rgba(0,255,135,0.25) !important;
+}
+
+.portfolio-change.negative {
+  background: rgba(255,95,107,0.12) !important;
+  color: var(--cb-negative) !important;
+  border: 1px solid rgba(255,95,107,0.25) !important;
+}
+
+/* Section headers with gradient */
+.challenge-title,
+.weekly-challenge-header .challenge-title,
+.campus-insight-card .insight-value {
+  font-weight: 800 !important;
+}
+
+/* ─── 12. BUTTONS ───────────────────────────────────────────────────── */
+.btn-primary,
+.form-submit,
+.ai-ask-btn,
+.challenge-join-btn,
+.comparison-share-btn,
+.ch-view-more-btn,
+button.btn-primary,
+.pricing-btn:not(.pricing-btn-ghost),
+.upgrade-btn {
+  background: var(--cb-grad-primary) !important;
+  color: #0a0a0f !important;
+  font-weight: 700 !important;
+  border: none !important;
+  box-shadow: 0 0 20px rgba(0,255,135,0.25), 0 4px 16px rgba(0,0,0,0.3) !important;
+  transition: all 0.2s var(--cb-spring) !important;
+}
+
+.btn-primary:hover,
+.form-submit:hover,
+.challenge-join-btn:hover,
+.ch-view-more-btn:hover {
+  box-shadow: 0 0 32px rgba(0,255,135,0.4), 0 8px 24px rgba(0,0,0,0.4) !important;
+  transform: translateY(-2px) !important;
+  filter: brightness(1.08) !important;
+}
+
+.btn-ghost,
+.pricing-btn-ghost {
+  background: transparent !important;
+  border: 1px solid rgba(0,255,135,0.3) !important;
+  color: var(--cb-green) !important;
+}
+
+.btn-ghost:hover,
+.pricing-btn-ghost:hover {
+  background: rgba(0,255,135,0.06) !important;
+  border-color: rgba(0,255,135,0.5) !important;
+  box-shadow: 0 0 16px rgba(0,255,135,0.1) !important;
+}
+
+/* Upgrade button secondary style */
+.upgrade-prompt {
+  background: linear-gradient(135deg, rgba(123,47,247,0.08) 0%, rgba(255,44,247,0.06) 100%) !important;
+  border: 1px solid rgba(123,47,247,0.2) !important;
+  border-radius: 16px !important;
+}
+
+/* ─── 13. AVATARS — NEON GLOW ───────────────────────────────────────── */
+.leaderboard-avatar,
+.ch-avatar-ring,
+.ch-lb-avatar {
+  border: 1px solid rgba(0,255,135,0.25) !important;
+  box-shadow: 0 0 8px rgba(0,255,135,0.2), 0 0 20px rgba(0,255,135,0.06) !important;
+  background: rgba(0,255,135,0.05) !important;
+}
+
+/* Rank 1 extra glow */
+.rank-1-overlay,
+.leaderboard-row:has(.rank-1-overlay) .leaderboard-avatar {
+  box-shadow: 0 0 12px rgba(255,215,0,0.6), 0 0 24px rgba(255,215,0,0.25) !important;
+}
+
+/* ─── 14. STREAK FIRE GLOW ──────────────────────────────────────────── */
+.leaderboard-streak,
+.ch-lb-row .leaderboard-streak {
+  text-shadow: 0 0 8px rgba(255,140,0,0.6) !important;
+  filter: drop-shadow(0 0 4px rgba(255,120,0,0.4));
+}
+
+/* ─── 15. CHALLENGE HERO CARD ───────────────────────────────────────── */
+.ch-hero {
+  background: linear-gradient(155deg, #0d1a10 0%, #0f1f18 40%, #0a1215 100%) !important;
+  border: 1px solid rgba(0,255,135,0.15) !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 60px rgba(0,255,135,0.05) !important;
+}
+
+.ch-rank-jersey {
+  background: var(--cb-grad-primary) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  filter: drop-shadow(0 0 12px rgba(0,255,135,0.4));
+}
+
+.ch-growth-val {
+  -webkit-text-fill-color: var(--cb-positive) !important;
+  filter: drop-shadow(0 0 8px rgba(0,255,135,0.5));
+}
+
+.ch-top10-fill {
+  background: var(--cb-grad-primary) !important;
+  box-shadow: 0 0 8px rgba(0,255,135,0.5) !important;
+}
+
+/* ─── 16. CAMPUS LEADERBOARD ────────────────────────────────────────── */
+.leaderboard-view-toggle {
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid var(--cb-border) !important;
+}
+
+.leaderboard-view-btn.active {
+  background: linear-gradient(135deg, rgba(0,255,135,0.12), rgba(0,212,255,0.08)) !important;
+  color: var(--cb-green) !important;
+  box-shadow: 0 0 12px rgba(0,255,135,0.15) !important;
+}
+
+/* Strategy badges */
+.strategy-badge {
+  border: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+/* ─── 17. MARKET STATUS BADGE ───────────────────────────────────────── */
+.market-status-badge {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid var(--cb-border) !important;
+  color: var(--cb-text-muted) !important;
+  backdrop-filter: var(--cb-blur) !important;
+}
+
+.market-open .market-status-badge {
+  border-color: rgba(0,255,135,0.2) !important;
+  color: var(--cb-green) !important;
+}
+
+/* ─── 18. BRIEFING / INSIGHT CARDS ─────────────────────────────────── */
+.briefing {
+  border-left: 2px solid var(--cb-green) !important;
+  box-shadow: -2px 0 16px rgba(0,255,135,0.1), 0 8px 32px rgba(0,0,0,0.4) !important;
+}
+
+.briefing-tag {
+  background: var(--cb-grad-primary) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+}
+
+.briefing-text {
+  color: var(--cb-text-mid) !important;
+}
+
+/* ─── 19. TRENDING / WATCHLIST CARDS ────────────────────────────────── */
+.trending-card::before {
+  background: var(--cb-grad-primary) !important;
+}
+
+.watchlist-card {
+  background: linear-gradient(135deg, rgba(123,47,247,0.08) 0%, rgba(255,44,247,0.06) 100%) !important;
+  border: 1px solid rgba(123,47,247,0.2) !important;
+  transform: none !important;
+}
+
+.watchlist-stamp {
+  color: rgba(123,47,247,0.3) !important;
+  border-color: rgba(123,47,247,0.2) !important;
+}
+
+/* ─── 20. FORMS + INPUTS ────────────────────────────────────────────── */
+input, textarea, select {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid var(--cb-border) !important;
+  color: var(--cb-text) !important;
+  border-radius: 10px !important;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: rgba(0,255,135,0.4) !important;
+  box-shadow: 0 0 0 3px rgba(0,255,135,0.08) !important;
+  outline: none !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--cb-text-muted) !important;
+}
+
+/* ─── 21. SCROLLBAR ─────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0,255,135,0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,255,135,0.35);
+}
+
+/* ─── 22. MODAL / OVERLAY CARDS ─────────────────────────────────────── */
+.comparison-modal {
+  background: rgba(0,0,0,0.7) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+.comparison-content {
+  background: rgba(14,14,22,0.95) !important;
+  border: 1px solid var(--cb-border) !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(0,255,135,0.05) !important;
+}
+
+/* ─── 23. AI INSIGHTS HUB ───────────────────────────────────────────── */
+.ai-hub-card:hover {
+  border-color: rgba(0,255,135,0.25) !important;
+}
+
+/* ─── 24. PRICING SECTION ───────────────────────────────────────────── */
+.pricing-card {
+  background: var(--cb-surface) !important;
+  border: 1px solid var(--cb-border) !important;
+  backdrop-filter: var(--cb-blur) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+}
+
+.pricing-card.featured,
+.pricing-card[class*="popular"] {
+  border-color: rgba(0,255,135,0.25) !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 30px rgba(0,255,135,0.08) !important;
+}
+
+.pricing-price {
+  background: var(--cb-grad-primary) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  font-weight: 800 !important;
+}
+
+/* ─── 25. TOAST NOTIFICATIONS ───────────────────────────────────────── */
+.toast,
+.toast-message {
+  background: rgba(14,14,22,0.95) !important;
+  border: 1px solid var(--cb-border) !important;
+  backdrop-filter: var(--cb-blur) !important;
+  color: var(--cb-text) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+}
+
+/* ─── 26. ACHIEVEMENT NOTIFICATION ─────────────────────────────────── */
+.achievement-notification {
+  background: rgba(14,14,22,0.95) !important;
+  border: 1px solid rgba(0,255,135,0.2) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(0,255,135,0.08) !important;
+}
+
+/* ─── 27. TICKER / FINANCIAL VALUES ─────────────────────────────────── */
+.ticker-symbol,
+.ch-ticker {
+  background: rgba(0,255,135,0.07) !important;
+  border: 1px solid rgba(0,255,135,0.15) !important;
+  color: var(--cb-green) !important;
+}
+
+/* ─── 28. LIVE DOT ──────────────────────────────────────────────────── */
+.ch-live-dot {
+  background: var(--cb-green) !important;
+  box-shadow: 0 0 6px var(--cb-green) !important;
+}
+
+/* ─── 29. MEDAL BADGES ──────────────────────────────────────────────── */
+.medal-gold, .ch-medal.gold {
+  box-shadow: 0 0 10px rgba(255,215,0,0.4) !important;
+}
+
+.medal-silver, .ch-medal.silver {
+  box-shadow: 0 0 8px rgba(192,192,192,0.3) !important;
+}
+
+.medal-bronze, .ch-medal.bronze {
+  box-shadow: 0 0 8px rgba(205,127,50,0.3) !important;
+}
+
+/* ─── 30. ONBOARDING STEPS ──────────────────────────────────────────── */
+.hero-step,
+.onboarding-card,
+.onboarding-step {
+  background: var(--cb-surface) !important;
+  border: 1px solid var(--cb-border) !important;
+  backdrop-filter: var(--cb-blur) !important;
+}
+
+/* ─── 31. LANDING PAGE SPECIFIC ─────────────────────────────────────── */
+.hero-card,
+.feature-card,
+.stats-bar,
+.social-proof,
+.cta-section {
+  background: var(--cb-surface) !important;
+  border: 1px solid var(--cb-border) !important;
+}
+
+.stats-bar {
+  border-top: 1px solid var(--cb-border) !important;
+  border-bottom: 1px solid var(--cb-border) !important;
+}
+
+/* ─── 32. FLASH ANIMATIONS — update for dark bg ─────────────────────── */
+@keyframes flashGreen {
+  0%, 100% { background: transparent; }
+  50% { background: rgba(0,255,135,0.12); }
+}
+
+@keyframes flashRed {
+  0%, 100% { background: transparent; }
+  50% { background: rgba(255,95,107,0.12); }
+}
+
+/* ─── 33. PORTFOLIO SPARKLINE ───────────────────────────────────────── */
+.sparkline-svg {
+  opacity: 1 !important;
+}
+
+/* ─── 34. LEARN CARDS ───────────────────────────────────────────────── */
+.learn-card-badge {
+  background: rgba(0,255,135,0.1) !important;
+  color: var(--cb-green) !important;
+  border: 1px solid rgba(0,255,135,0.2) !important;
+}
+
+.learn-card-meta {
+  color: var(--cb-text-muted) !important;
+}
+
+/* ─── 35. FOUNDATION SECTION ────────────────────────────────────────── */
+.foundation-nav-item:hover,
+.foundation-nav-item.active {
+  background: rgba(0,255,135,0.06) !important;
+  border-color: rgba(0,255,135,0.2) !important;
+}
+
+/* ─── 36. SETTINGS PAGE ─────────────────────────────────────────────── */
+.settings-section {
+  color: var(--cb-text) !important;
+}
+
+.settings-label {
+  color: var(--cb-text-muted) !important;
+}
+
+.settings-value {
+  color: var(--cb-text) !important;
+}
+
+/* ─── 37. CHALLENGE GOLD ROWS ───────────────────────────────────────── */
+.ch-lb-row.gold {
+  background: linear-gradient(90deg, rgba(255,215,0,0.07) 0%, transparent 100%) !important;
+  border-left: 2px solid #FFD700 !important;
+}
+
+.ch-lb-row.silver {
+  background: linear-gradient(90deg, rgba(192,192,192,0.07) 0%, transparent 100%) !important;
+  border-left: 2px solid #C0C0C0 !important;
+}
+
+.ch-lb-row.bronze {
+  background: linear-gradient(90deg, rgba(205,127,50,0.07) 0%, transparent 100%) !important;
+  border-left: 2px solid #CD7F32 !important;
+}
+
+/* ─── 38. MOBILE HAMBURGER ──────────────────────────────────────────── */
+.hamburger-btn {
+  background: var(--cb-surface) !important;
+  border: 1px solid var(--cb-border) !important;
+  color: var(--cb-text) !important;
+}
+
+.mobile-nav {
+  background: rgba(10,10,15,0.97) !important;
+  backdrop-filter: var(--cb-blur) !important;
+  border-right: 1px solid var(--cb-border) !important;
+}
+
+/* ─── 39. GRADIENT ACCENT ON HEADERS (section labels) ───────────────── */
+.portfolio-section-title,
+.campus-insight-grid .insight-value,
+.challenge-stat-value {
+  font-weight: 800 !important;
+}
+
+/* ─── 40. DONUT CHART BACKGROUND ────────────────────────────────────── */
+.ch-donut-wrap {
+  background: transparent !important;
+}
+
+/* ─── 41. COLLEGE LOGO BADGE ────────────────────────────────────────── */
+.college-logo-badge {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid var(--cb-border) !important;
+  color: var(--cb-text) !important;
+}
+
+/* ─── 42. UPGRADE PROMPT ────────────────────────────────────────────── */
+.upgrade-label {
+  background: var(--cb-grad-secondary) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  font-weight: 700 !important;
+}
+
+.upgrade-title {
+  color: var(--cb-text) !important;
+  font-weight: 800 !important;
+}
+
+.upgrade-desc {
+  color: var(--cb-text-mid) !important;
+}
+
+/* ─── 43. HOLDING TABLE ROWS ────────────────────────────────────────── */
+.h-row:last-child,
+.ht-row:last-child {
+  border-bottom: none !important;
+}
+
+/* ─── 44. RADIAL GLOW BEHIND HERO SECTIONS ──────────────────────────── */
+#tab-dashboard .dash-greeting {
+  position: relative;
+}
+
+#tab-dashboard .dash-greeting::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: -40px;
+  width: 300px;
+  height: 200px;
+  background: radial-gradient(ellipse, rgba(0,255,135,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.portfolio-hero-card::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+/* ─── 45. ACTIVITY ICON BACKGROUNDS ─────────────────────────────────── */
+.activity-icon {
+  background: rgba(0,255,135,0.08) !important;
+  color: var(--cb-green) !important;
+  border: 1px solid rgba(0,255,135,0.15) !important;
+}
+
+/* ─── 46. TOP MOVER / STAT BLOCKS ───────────────────────────────────── */
+.stat-block,
+.top-mover-card,
+.sidebar-stat {
+  background: var(--cb-surface) !important;
+  border: 1px solid var(--cb-border) !important;
+  border-radius: 10px;
+}
+
+/* ─── 47. CHALLENGE MODE COUNTDOWN ──────────────────────────────────── */
+.ch-cd-num {
+  color: var(--cb-text) !important;
+  text-shadow: 0 0 10px rgba(0,255,135,0.3) !important;
+}
+
+.ch-cd-sep {
+  color: rgba(0,255,135,0.6) !important;
+}
+
+/* ─── 48. AI COACH CHAT ─────────────────────────────────────────────── */
+.ai-chat-panel,
+.ai-coach-panel,
+.chatbot-window {
+  background: rgba(10,10,15,0.97) !important;
+  border: 1px solid var(--cb-border) !important;
+  backdrop-filter: var(--cb-blur) !important;
+}
+
+.ai-message,
+.chat-message {
+  background: var(--cb-surface) !important;
+  border: 1px solid var(--cb-border) !important;
+}
+
+.ai-message.user,
+.chat-message.user {
+  background: linear-gradient(135deg, rgba(0,255,135,0.08), rgba(0,212,255,0.06)) !important;
+  border-color: rgba(0,255,135,0.15) !important;
+}
+
+/* ─── 49. RESPONSIVE ADJUSTMENTS ────────────────────────────────────── */
+@media (max-width: 700px) {
+  body::after {
+    background-size: 20px 20px;
+  }
+}
