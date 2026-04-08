@@ -1399,3 +1399,47 @@ select option {
   background: #0e0e16;
   color: var(--cb-text);
 }
+
+/* ─── R23. WHAT-IF SIMULATOR ─────────────────────────────────────────── */
+.what-if-simulator {
+  background: linear-gradient(135deg, rgba(0,255,135,0.04) 0%, rgba(0,212,255,0.03) 100%) !important;
+  border: 1px solid var(--cb-border) !important;
+}
+
+.simulator-title {
+  color: var(--cb-text) !important;
+}
+
+.simulator-subtitle {
+  color: var(--cb-text-mid) !important;
+}
+
+.simulator-label {
+  color: var(--cb-text-mid) !important;
+}
+
+.simulator-slider {
+  background: rgba(0,255,135,0.12) !important;
+}
+
+.simulator-slider::-webkit-slider-thumb {
+  background: linear-gradient(135deg, var(--cb-green) 0%, var(--cb-cyan) 100%) !important;
+  box-shadow: 0 2px 12px rgba(0,255,135,0.35) !important;
+}
+
+.simulator-value {
+  color: var(--cb-cyan) !important;
+}
+
+.simulator-result {
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid var(--cb-border) !important;
+}
+
+.simulator-result-label {
+  color: var(--cb-text-muted) !important;
+}
+
+.simulator-result-value {
+  color: var(--cb-green) !important;
+}
