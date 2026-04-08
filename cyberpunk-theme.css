@@ -915,3 +915,487 @@ input::placeholder, textarea::placeholder {
     background-size: 20px 20px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   READABILITY FIXES — Ensure all text is legible on dark backgrounds
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── R1. REMOVE TRANSPARENT TEXT FILL FROM BROAD SELECTORS ─────────── */
+/* Gradient text only on specific hero elements, not generic ones */
+.metric-box .value,
+.pulse-value,
+.challenge-stat-value,
+.insight-value {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: var(--cb-text) !important;
+  background-clip: unset !important;
+  color: var(--cb-text) !important;
+}
+
+/* Portfolio main value — keep gradient but ensure it actually renders */
+.portfolio-main-value {
+  background: var(--cb-grad-text) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: var(--cb-green) !important; /* fallback */
+}
+
+/* Challenge portfolio value — readable white */
+.ch-portfolio-val {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: white !important;
+  background-clip: unset !important;
+  color: white !important;
+}
+
+/* Briefing tag — readable green text, no transparent fill */
+.briefing-tag {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: var(--cb-green) !important;
+  background-clip: unset !important;
+  color: var(--cb-green) !important;
+  font-weight: 700 !important;
+}
+
+/* Pricing price — readable gradient */
+.pricing-price {
+  background: var(--cb-grad-text) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: var(--cb-green) !important;
+}
+
+/* Upgrade label */
+.upgrade-label {
+  background: var(--cb-grad-secondary) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: var(--cb-purple) !important;
+}
+
+/* ─── R2. UNIVERSAL TEXT COLOR — ALL ELEMENTS IN APP ────────────────── */
+.dash-inner-app *,
+.dashboard-app * {
+  color: inherit;
+}
+
+/* Ensure base text color propagates */
+.tab-panel,
+.dash-content,
+.dash-sidebar {
+  color: var(--cb-text) !important;
+}
+
+/* ─── R3. SMART ALERT CARDS ─────────────────────────────────────────── */
+.alert-card {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid var(--cb-border) !important;
+  color: var(--cb-text) !important;
+}
+
+.alert-card.alert-info {
+  border-left: 4px solid var(--cb-cyan) !important;
+}
+
+.alert-card.alert-warning {
+  border-left: 4px solid #ffc23a !important;
+}
+
+.alert-title {
+  color: var(--cb-text) !important;
+  font-weight: 700 !important;
+}
+
+.alert-message {
+  color: var(--cb-text-mid) !important;
+}
+
+.alert-action {
+  color: var(--cb-green) !important;
+}
+
+/* ─── R4. AI CHATBOT WINDOW ──────────────────────────────────────────── */
+.ai-chatbot-window {
+  background: #0e0e16 !important;
+  border: 1px solid var(--cb-border) !important;
+  color: var(--cb-text) !important;
+}
+
+.ai-chatbot-header {
+  background: linear-gradient(135deg, rgba(0,255,135,0.15) 0%, rgba(0,212,255,0.1) 100%) !important;
+  border-bottom: 1px solid rgba(0,255,135,0.15) !important;
+}
+
+.ai-chatbot-info h4 {
+  color: white !important;
+}
+
+.ai-chatbot-status {
+  color: rgba(255,255,255,0.75) !important;
+}
+
+.ai-chatbot-messages {
+  background: rgba(255,255,255,0.02) !important;
+}
+
+.ai-message-content {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+.ai-message-text {
+  color: var(--cb-text) !important;
+}
+
+.ai-message-time {
+  color: var(--cb-text-muted) !important;
+}
+
+.ai-message.user .ai-message-content {
+  background: linear-gradient(135deg, rgba(0,255,135,0.15), rgba(0,212,255,0.1)) !important;
+  border: 1px solid rgba(0,255,135,0.2) !important;
+}
+
+.ai-message.user .ai-message-text {
+  color: white !important;
+}
+
+.ai-chatbot-typing-bubble {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid var(--cb-border) !important;
+}
+
+.ai-typing-dot {
+  background: var(--cb-text-muted) !important;
+}
+
+.ai-chatbot-input-wrap {
+  background: rgba(255,255,255,0.03) !important;
+  border-top: 1px solid var(--cb-border) !important;
+}
+
+.ai-chatbot-input {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  color: var(--cb-text) !important;
+}
+
+.ai-chatbot-input:focus {
+  background: rgba(255,255,255,0.08) !important;
+  border-color: rgba(0,255,135,0.4) !important;
+}
+
+.ai-chatbot-input::placeholder {
+  color: var(--cb-text-muted) !important;
+}
+
+.ai-chatbot-trigger {
+  background: rgba(14,14,22,0.95) !important;
+  border: 1px solid var(--cb-border) !important;
+  color: var(--cb-text-mid) !important;
+}
+
+.ai-chatbot-suggestions {
+  background: transparent !important;
+}
+
+/* ─── R5. LANDING PAGE CHAT DEMO ─────────────────────────────────────── */
+.chat-demo {
+  background: rgba(255,255,255,0.03) !important;
+  border: 1px solid var(--cb-border) !important;
+}
+
+.chat-header {
+  background: rgba(255,255,255,0.04) !important;
+  border-bottom: 1px solid var(--cb-border) !important;
+}
+
+.chat-header-name {
+  color: var(--cb-text) !important;
+}
+
+.chat-messages {
+  background: rgba(255,255,255,0.02) !important;
+}
+
+.msg.bot .msg-bubble {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid var(--cb-border) !important;
+  color: var(--cb-text) !important;
+}
+
+.msg.user .msg-bubble {
+  background: linear-gradient(135deg, rgba(0,255,135,0.2), rgba(0,212,255,0.15)) !important;
+  color: white !important;
+}
+
+.msg-time {
+  color: var(--cb-text-muted) !important;
+}
+
+.typing-indicator {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid var(--cb-border) !important;
+}
+
+.chat-footer {
+  background: rgba(255,255,255,0.03) !important;
+  border-top: 1px solid var(--cb-border) !important;
+}
+
+.chat-input {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  color: var(--cb-text) !important;
+}
+
+.quick-btn {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid var(--cb-border) !important;
+  color: var(--cb-text-mid) !important;
+}
+
+.quick-btn:hover {
+  background: rgba(0,255,135,0.08) !important;
+  border-color: rgba(0,255,135,0.3) !important;
+  color: var(--cb-green) !important;
+}
+
+/* ─── R6. CARD/CONTAINER TEXT PROPAGATION ────────────────────────────── */
+.metric-box,
+.briefing,
+.pulse-point,
+.holdings,
+.trending-card,
+.news-card,
+.learn-card,
+.foundation-card,
+.ai-hub-card,
+.settings-section,
+.ch-portfolio-snap,
+.ch-lb-list {
+  color: var(--cb-text) !important;
+}
+
+/* Labels inside cards */
+.metric-box .label,
+.pulse-label {
+  color: rgba(240,240,245,0.5) !important;
+}
+
+/* Values inside cards */
+.metric-box .value {
+  color: var(--cb-text) !important;
+  font-weight: 700 !important;
+}
+
+.pulse-value {
+  color: var(--cb-text) !important;
+  font-weight: 600 !important;
+}
+
+/* ─── R7. TABLE / ROW TEXT ───────────────────────────────────────────── */
+.leaderboard-row,
+.h-row,
+.ht-row,
+.ch-lb-row,
+.activity-row {
+  color: var(--cb-text) !important;
+}
+
+.ht-header span,
+.ht-header {
+  color: rgba(240,240,245,0.45) !important;
+}
+
+.h-row span,
+.ht-row span {
+  color: var(--cb-text) !important;
+}
+
+/* ─── R8. CHALLENGE HERO TEXT ────────────────────────────────────────── */
+.ch-hero {
+  color: var(--cb-text) !important;
+}
+
+.ch-challenge-label {
+  color: rgba(255,255,255,0.9) !important;
+}
+
+.ch-countdown-label {
+  color: rgba(255,255,255,0.5) !important;
+}
+
+.ch-rank-label {
+  color: rgba(255,255,255,0.45) !important;
+}
+
+.ch-val-label {
+  color: rgba(255,255,255,0.45) !important;
+}
+
+.ch-top10-bar-label {
+  color: rgba(255,255,255,0.5) !important;
+}
+
+.ch-lb-name {
+  color: var(--cb-text) !important;
+}
+
+.ch-lb-rank {
+  color: var(--cb-text-mid) !important;
+}
+
+.ch-holding-name {
+  color: var(--cb-text-mid) !important;
+}
+
+.ch-section-header {
+  color: rgba(240,240,245,0.5) !important;
+}
+
+/* ─── R9. NAV LABEL READABILITY ──────────────────────────────────────── */
+.dash-nav-label {
+  color: rgba(240,240,245,0.4) !important;
+}
+
+/* ─── R10. COMPARISON MODAL & ACHIEVEMENT NOTIF ──────────────────────── */
+.comparison-content {
+  color: var(--cb-text) !important;
+}
+
+.achievement-notification {
+  color: var(--cb-text) !important;
+}
+
+/* ─── R11. FEATURE / PRICING CARDS ──────────────────────────────────── */
+.feature-title {
+  color: var(--cb-text) !important;
+}
+
+.feature-desc {
+  color: var(--cb-text-mid) !important;
+}
+
+.pricing-plan {
+  color: var(--cb-text-muted) !important;
+}
+
+.pricing-note {
+  color: var(--cb-text-muted) !important;
+}
+
+.pricing-feature {
+  color: var(--cb-text-mid) !important;
+}
+
+.pricing-card.featured .pricing-plan,
+.pricing-card.featured .pricing-note,
+.pricing-card.featured .pricing-feature,
+.pricing-card.featured .pricing-price {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+/* ─── R12. ONBOARDING / HERO LANDING TEXT ────────────────────────────── */
+.hero-headline,
+.hero-sub,
+.hero-tag,
+.section-sub,
+.section-h2 {
+  color: var(--cb-text) !important;
+}
+
+.section-sub {
+  color: var(--cb-text-mid) !important;
+}
+
+/* ─── R13. BRIEFING TEXT ─────────────────────────────────────────────── */
+.briefing-text {
+  color: rgba(240,240,245,0.7) !important;
+}
+
+/* ─── R14. WATCHLIST STAMP READABILITY ───────────────────────────────── */
+.watchlist-stamp {
+  color: rgba(123,47,247,0.6) !important;
+  border-color: rgba(123,47,247,0.3) !important;
+}
+
+/* ─── R15. DASH GREETING ─────────────────────────────────────────────── */
+.dash-greeting h2 {
+  color: var(--cb-text) !important;
+  -webkit-text-fill-color: var(--cb-text) !important;
+}
+
+.dash-greeting p {
+  color: var(--cb-text-mid) !important;
+}
+
+/* ─── R16. PROGRESS TRACKER TEXT ────────────────────────────────────── */
+.learning-progress span,
+.learning-progress p,
+.learning-progress div {
+  color: var(--cb-text-mid) !important;
+}
+
+/* ─── R17. HOLDINGS NAME/TICKER ─────────────────────────────────────── */
+.h-ticker,
+.h-name,
+.h-price,
+.h-shares {
+  color: var(--cb-text) !important;
+}
+
+/* ─── R18. MISSION QUOTE ─────────────────────────────────────────────── */
+.sidebar-mission-quote {
+  color: rgba(240,240,245,0.45) !important;
+}
+
+/* ─── R19. AI CHATBOT SUGGESTIONS ───────────────────────────────────── */
+.ai-suggestion-chip,
+.suggestion-chip {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid var(--cb-border) !important;
+  color: var(--cb-text-mid) !important;
+}
+
+.ai-suggestion-chip:hover,
+.suggestion-chip:hover {
+  background: rgba(0,255,135,0.07) !important;
+  color: var(--cb-green) !important;
+  border-color: rgba(0,255,135,0.25) !important;
+}
+
+/* ─── R20. CAMPUS TAB TEXT ───────────────────────────────────────────── */
+.campus-insight-card {
+  color: var(--cb-text) !important;
+}
+
+.campus-insight-card .insight-label {
+  color: rgba(240,240,245,0.45) !important;
+}
+
+.campus-insight-card .insight-value {
+  color: var(--cb-text) !important;
+  -webkit-text-fill-color: var(--cb-text) !important;
+  background: none !important;
+}
+
+/* ─── R21. SETTINGS & FORM LABELS ────────────────────────────────────── */
+label,
+.settings-label,
+.form-label {
+  color: var(--cb-text-mid) !important;
+}
+
+/* ─── R22. SELECT DROPDOWNS ──────────────────────────────────────────── */
+select option {
+  background: #0e0e16;
+  color: var(--cb-text);
+}
