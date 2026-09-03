@@ -1,0 +1,2 @@
+import { AppShell } from "@/components/app-shell";import { AssistantClient } from "@/components/assistant-client";import { PageHeader } from "@/components/page-header";
+export default function AssistantPage(){return <AppShell><PageHeader eyebrow="Explain and research" title="Assistant" description="Understand portfolio changes and financial concepts with clear source boundaries."/><AssistantClient/></AppShell>}

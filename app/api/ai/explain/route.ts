@@ -1,0 +1,5 @@
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+const requestSchema=z.object({question:z.string().trim().min(3).max(500)});
+const prohibited=/\b(buy|sell|guarantee|sure thing|double my money|which stock should)\b/i;
+export async function POST(request:NextRequest){const parsed=requestSchema.safeParse(await request.json().catch(()=>null));if(!parsed.success)return NextResponse.json({error:"Enter a question between 3 and 500 characters."},{status:400});if(prohibited.test(parsed.data.question))return NextResponse.json({answer:"I can explain relevant facts, risks, and sources, but I cannot provide individualized buy or sell instructions.",sources:[],uncertainty:"Your goals, finances, and risk tolerance are not known.",disclosure:"Educational information only; not investment advice."});return NextResponse.json({answer:"AI is in safe fallback mode. Review the deterministic portfolio briefing and cited research while the server-side model integration is configured.",sources:[],uncertainty:"No external model or current source was used.",disclosure:"Educational information only; not investment advice."});}

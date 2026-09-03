@@ -77,6 +77,71 @@ body::after {
   z-index: 0;
 }
 
+/* Keep the light navigation CTA readable after the dark theme remaps --white. */
+.nav-links .nav-cta {
+  color: var(--cb-bg);
+}
+
+/* Dark-theme coverage for components that still declare light surfaces. */
+.news-what-matters {
+  background: linear-gradient(135deg, rgba(255, 194, 58, 0.08), rgba(255, 255, 255, 0.035)) !important;
+  border-color: rgba(255, 194, 58, 0.22) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35) !important;
+}
+
+.news-impact-item,
+.news-item,
+.market-pulse-container,
+.holding-card,
+.sector-heatmap,
+.projection-item,
+.portfolio-health-card,
+.milestone-item,
+.activity-item {
+  background: var(--cb-surface) !important;
+  border-color: var(--cb-border) !important;
+  color: var(--cb-text) !important;
+  box-shadow: none !important;
+}
+
+.news-impact-item:hover,
+.news-item:hover,
+.holding-card:hover,
+.milestone-item:hover,
+.activity-item:hover {
+  background: var(--cb-surface2) !important;
+  border-color: var(--cb-border-glow) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+}
+
+.ticker-info-tooltip {
+  background: #14141d !important;
+  border: 1px solid var(--cb-border-glow) !important;
+  color: var(--cb-text) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55) !important;
+}
+
+.ticker-info-tooltip::after {
+  border-top-color: #14141d !important;
+}
+
+.pulse-icon {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid var(--cb-border) !important;
+}
+
+.portfolio-chart-wrap {
+  background: var(--cb-surface) !important;
+  border-color: var(--cb-border) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35) !important;
+}
+
+.portfolio-ai-ask {
+  background: linear-gradient(135deg, rgba(0, 255, 135, 0.09), rgba(0, 212, 255, 0.045)) !important;
+  border-color: rgba(0, 255, 135, 0.2) !important;
+  color: var(--cb-text) !important;
+}
+
 /* ─── 3. LANDING PAGE ───────────────────────────────────────────────── */
 .hero-section,
 .hero,

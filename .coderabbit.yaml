@@ -1,0 +1,12 @@
+language: en-US
+reviews:
+  profile: assertive
+  high_level_summary: true
+  poem: false
+  path_instructions:
+    - path: "app/api/**"
+      instructions: "Prioritize authentication, authorization, input validation, secret exposure, rate limits, and safe error handling."
+    - path: "supabase/migrations/**"
+      instructions: "Verify ownership constraints, RLS coverage, least privilege, indexes, and irreversible data changes."
+    - path: "lib/portfolio.ts"
+      instructions: "Check financial arithmetic, zero-value behavior, determinism, rounding, and misleading claims."
