@@ -1,0 +1,4 @@
+import { NextResponse } from "next/server";
+import { getAuthenticatedUser } from "@/lib/supabase/server";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+export async function GET(){const user=await getAuthenticatedUser(),admin=createSupabaseAdminClient();if(!user)return NextResponse.json({reason:"Sign in to view connections."},{status:401});if(!admin)return NextResponse.json({reason:"Connection storage is not configured."},{status:503});const {data,error}=await admin.from("portfolio_connections").select("id,institution_name,status,last_synced_at,error_code").eq("user_id",user.id).order("created_at",{ascending:false});if(error)return NextResponse.json({reason:"Connections are unavailable."},{status:500});return NextResponse.json({connections:data},{headers:{"Cache-Control":"private, no-store"}})}

@@ -2,6 +2,7 @@
 
 import { ArrowDownRight, ArrowRight, ArrowUpRight, BookOpen, ChevronDown, Clock3, ExternalLink, Info, LockKeyhole, RefreshCw, ShieldCheck } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
 import type { Briefing, PortfolioSnapshot } from "@/lib/domain";
 import { marketValue, summarizePortfolio } from "@/lib/portfolio";
 
@@ -24,7 +25,7 @@ export function BriefingDashboard({ briefing, portfolio }: { briefing: Briefing;
           <div className="section-label"><span>Today’s briefing</span><span className="source-pill"><ShieldCheck size={13} /> Sourced</span></div>
           <h2>Your portfolio finished <span className={positive ? "positive" : "negative"}>{positive ? "higher" : "lower"}</span> today.</h2>
           <p>{briefing.facts.topContributor} led the move. Your allocation remains broadly balanced, with one position worth reviewing for concentration.</p>
-          <div className="hero-actions"><a href="#attention" className="button primary">Review what matters <ArrowDownRight size={17} /></a><a href="/discover" className="button secondary">Research a holding</a></div>
+          <div className="hero-actions"><Link href="#attention" className="button primary">Review what matters <ArrowDownRight size={17} /></Link><Link href="/discover" className="button secondary">Research a holding</Link></div>
         </div>
         <div className="portfolio-total">
           <p>Portfolio value</p><strong>{money.format(briefing.facts.totalValue)}</strong>
@@ -53,19 +54,19 @@ export function BriefingDashboard({ briefing, portfolio }: { briefing: Briefing;
                   <span className="event-copy"><small>{event.kind} · {event.symbols.join(", ") || "Market"}</small><strong>{event.headline}</strong></span>
                   <ChevronDown className={isOpen ? "rotate" : ""} size={18} />
                 </button>
-                {isOpen && <div className="event-detail"><p>{event.summary}</p><div className="event-footer"><span><Clock3 size={14} /> {event.sources[0]?.label} · 4:00 PM ET</span>{event.researchPrompt && <a href={`/discover?q=${encodeURIComponent(event.symbols[0] ?? "market")}`}>Investigate <ArrowRight size={15}/></a>}</div></div>}
+                {isOpen && <div className="event-detail"><p>{event.summary}</p><div className="event-footer"><span><Clock3 size={14} /> {event.sources[0]?.label} · 4:00 PM ET</span>{event.researchPrompt && <Link href={`/discover?q=${encodeURIComponent(event.symbols[0] ?? "market")}`}>Investigate <ArrowRight size={15}/></Link>}</div></div>}
               </article>;
             })}
           </div>
         </div>
         <aside className="side-stack">
-          <div className="panel holdings-panel"><div className="panel-title"><div><p className="eyebrow">Allocation</p><h3>Your holdings</h3></div><a href="/portfolio">View details</a></div>
+          <div className="panel holdings-panel"><div className="panel-title"><div><p className="eyebrow">Allocation</p><h3>Your holdings</h3></div><Link href="/portfolio">View details</Link></div>
             {portfolio.holdings.map((holding) => {
               const value = marketValue(holding); const allocation = (value / summary.totalValue) * 100; const daily = ((holding.price - holding.previousClose) / holding.previousClose) * 100;
               return <div className="holding-row" key={holding.symbol}><div className="ticker">{holding.symbol.slice(0,2)}</div><div><strong>{holding.symbol}</strong><span>{holding.name}</span></div><div className="holding-value"><strong>{money.format(value)}</strong><span className={daily >= 0 ? "positive" : "negative"}>{daily >= 0 ? "+" : ""}{daily.toFixed(2)}%</span></div><div className="allocation-bar"><span style={{width:`${allocation}%`}} /></div></div>;
             })}
           </div>
-          <div className="panel principle-card"><BookOpen size={20}/><p className="eyebrow">One useful principle</p><h3>Price movement is not a decision.</h3><p>A daily move tells you what happened—not what you should do. Start with the cause, then compare it with your time horizon.</p><a href="/learn">Learn about market volatility <ExternalLink size={14}/></a></div>
+          <div className="panel principle-card"><BookOpen size={20}/><p className="eyebrow">One useful principle</p><h3>Price movement is not a decision.</h3><p>A daily move tells you what happened—not what you should do. Start with the cause, then compare it with your time horizon.</p><Link href="/learn">Learn about market volatility <ExternalLink size={14}/></Link></div>
           <div className="security-strip"><LockKeyhole size={17}/><span><strong>Read-only portfolio.</strong> No trading permissions.</span><button aria-label="Learn about security"><Info size={16}/></button></div>
         </aside>
       </section>

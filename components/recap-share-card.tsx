@@ -1,0 +1,8 @@
+"use client";
+import { Download, Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+import type { RecapSummary } from "@/lib/recap";
+import { formatMonth, progressMessage } from "@/lib/recap";
+import { captureSafeEvent } from "@/lib/analytics";
+const money=(value:number)=>value.toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0});
+export function RecapShareCard({summary,compact=false,source="sample"}:{summary:RecapSummary;compact?:boolean;source?:"sample"|"server"}){const [showAmount,setShowAmount]=useState(false);const state=showAmount?"shown":"hidden";return <div className={`recap-share-wrap ${compact?"is-compact":""}`}><div className="recap-share-card" aria-label={`Share card. Dollar amount ${state}.`}><span className="recap-share-brand">Cornerstone<span>.</span></span><p>{formatMonth(summary.period)}</p><strong>{showAmount?money(summary.contributed):"••••"}</strong><h3>{summary.contributed>0?"I added to my future.":"I checked in with my future."}</h3><small>{progressMessage(summary)}</small><div><span>{summary.streak} month streak</span><span>Personal progress</span></div></div><div className="recap-share-actions"><button className="button secondary" aria-pressed={showAmount} onClick={()=>setShowAmount(value=>!value)}>{showAmount?<EyeOff size={17}/>:<Eye size={17}/>} {showAmount?"Hide amount":"Show amount"}</button><a className="button primary" href={`/api/recaps/${source==="server"?"current":"sample"}/card?period=${summary.period}&amounts=${state}`} download={`cornerstone-${summary.period}.png`} onClick={()=>captureSafeEvent("share_downloaded")}><Download size={17}/> Download</a></div><p className="demo-muted">Amounts start hidden each time. Your download matches this card.</p></div>}

@@ -1,0 +1,5 @@
+symbol,name,quantity,price,previous_close,cost_basis,sector,asset_class
+VTI,Vanguard Total Stock Market ETF,9,321.44,318.61,2480,Broad market,fund
+VXUS,Vanguard Total International Stock ETF,22,74.16,74.51,1460,International,fund
+BND,Vanguard Total Bond Market ETF,19,75.03,74.92,1395,Fixed income,fixed-income
+AAPL,Apple Inc.,4,229.18,227.77,710,Technology,equity

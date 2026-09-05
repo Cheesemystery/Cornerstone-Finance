@@ -1,0 +1,3 @@
+import "server-only";
+import { env,integrations } from "@/lib/env";
+export async function sendRecapEmail(input:{to:string;subject:string;html:string;idempotencyKey:string}){if(!integrations.resend)throw new Error("Recap email is not configured.");const response=await fetch("https://api.resend.com/emails",{method:"POST",headers:{authorization:`Bearer ${env.RESEND_API_KEY}`,"content-type":"application/json","Idempotency-Key":input.idempotencyKey},body:JSON.stringify({from:env.RECAP_EMAIL_FROM,to:[input.to],subject:input.subject,html:input.html}),cache:"no-store"});const body=await response.json();if(!response.ok)throw new Error(body?.message||"Email provider rejected the request.");return body as {id:string}}

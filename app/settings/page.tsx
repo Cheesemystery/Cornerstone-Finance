@@ -1,3 +1,4 @@
-import { AppShell } from "@/components/app-shell";import { PageHeader } from "@/components/page-header";
-const settings=[["Portfolio access","Sample mode · No institution connected","Read-only"],["Briefing notifications","Off until you opt in","Off"],["Market data","Delayed data with visible timestamps","Delayed"],["Plan","Private beta access","Free"]];
-export default function SettingsPage(){return <AppShell><PageHeader eyebrow="Control and transparency" title="Settings" description="Manage data access, notifications, and account preferences."/><div className="workspace settings-list">{settings.map(([title,copy,badge])=><section className="setting-row" key={title}><div><h2>{title}</h2><p>{copy}</p></div><span className="badge">{badge}</span></section>)}<section className="setting-row"><div><h2>Delete account and portfolio data</h2><p>Production deletion will remove connections, tokens, holdings, activity, and generated briefings.</p></div><button className="button secondary">Review deletion</button></section></div></AppShell>}
+import { AppShell } from "@/components/app-shell";
+import { PageHeader } from "@/components/page-header";
+import { DemoSettings } from "@/components/demo-settings";
+export default function SettingsPage(){return <AppShell><PageHeader eyebrow="Your space, your way" title="Settings" description="Make the demo yours. Keep control of your data."/><DemoSettings/></AppShell>}

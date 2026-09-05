@@ -1,6 +1,6 @@
 # Cornerstone Finance — project context
 
-Last inspected: 2026-09-03. This is the permanent project briefing, not a chat transcript.
+Last inspected: 2026-09-04. This is the permanent project briefing, not a chat transcript.
 
 ## Start here
 
@@ -45,8 +45,8 @@ Run from the repository root:
 - `npm run dev`: local Next.js development server.
 - `npm run lint`: ESLint; current configuration excludes root legacy JavaScript.
 - `npm run typecheck`: TypeScript checks.
-- `npm test`: portfolio-calculation and CSV-parser unit tests.
-- `npm run build`: production Next.js build; Google font fetching may require network access.
+- `npm test`: portfolio, CSV import, educational calculator, demo-guide, recap, share-privacy, webhook-signature and entitlement unit tests.
+- `npm run build`: production Next.js build; interface fonts are bundled locally.
 - `npm run check`: lint, typecheck, tests, and build.
 - `npm ci`: reproduce dependencies when installation is necessary; do not reinstall for documentation-only work.
 
@@ -54,7 +54,7 @@ Read the relevant installed Next.js guide under `node_modules/next/dist/docs/` b
 
 ## Design baseline — preserve unless the task changes it
 
-The current app uses a calm green-and-paper palette, a dark fixed desktop sidebar, a collapsible mobile navigation, Inter for interface text, and Newsreader for headings. The implementation source is `app/globals.css`, `app/layout.tsx`, and `components/app-shell.tsx`.
+The current student demo uses a green-and-paper palette with bright lime, purple and gold accents, large plain-language headings, a dark fixed desktop sidebar and collapsible mobile navigation. Inter and Newsreader are bundled in `app/fonts/` with their licenses. The implementation source is `app/globals.css`, `app/layout.tsx`, and `components/app-shell.tsx`.
 
 Keep clear sample/delayed-data labels, accessible labels and focus states, responsive layouts, legible financial figures, and educational language. Do not describe simulated figures or fixture headlines as verified live information.
 
@@ -75,13 +75,13 @@ Security documents describe required controls; their existence is not evidence t
 
 ## Architecture and API boundaries
 
-`app/page.tsx` and `app/portfolio/page.tsx` currently consume `lib/sample-data.ts`. That fixture uses `lib/portfolio.ts` to construct briefings using types in `lib/domain.ts`.
+`components/demo-provider.tsx` shares a sample or in-memory CSV portfolio across Home, Portfolio and Assistant. It also exposes sample contribution history, then swaps to authenticated contribution records when the production API is available. Arithmetic remains in `lib/portfolio.ts` using types in `lib/domain.ts`. Browser-local preferences store the demo profile, lesson completion, follows, saved research and compact layout. Financial CSV contents are never stored in localStorage and clear on reload.
 
 Client UI components handle navigation, expansion, search, onboarding, sign-in, and assistant interaction. Provider adapters and auth helpers live in `lib/providers/` and `lib/supabase/`; API handlers live in `app/api/`.
 
-Supabase migrations include both legacy tables and a newer portfolio model. No migration application or live database state was verified. The new UI is not wired to persisted holdings.
+Supabase migrations include both legacy tables and a newer portfolio model. No migration application or live database state was verified. The UI is not wired to server-persisted holdings. Learn contains six complete lessons, quizzes and a hypothetical growth calculator; the Assistant uses curated educational responses, not an external model.
 
-Optional integrations: Supabase, Plaid Investments, Finnhub, Sentry, and PostHog. `OPENAI_API_KEY` is declared but no external AI model call is implemented. Read [area map](docs/project/AREAS.md) before connecting anything.
+Optional integrations: Supabase, Plaid Investments, Stripe, Resend, Finnhub, Sentry, and PostHog. `OPENAI_API_KEY` is declared but no external AI model call is implemented. Read [area map](docs/project/AREAS.md) before connecting anything.
 
 Environment variable names are in `.env.example`. Do not put credentials, user financial data, imported CSV contents, or sensitive logs in context documents. Optional blank values are not always equivalent to absence: the encryption-key schema requires at least 32 characters when set.
 
@@ -92,3 +92,17 @@ Choose one area per task. Shared files such as `app/globals.css`, `components/ap
 Separate chats do not provide file isolation. Do not run overlapping write sessions against the same checkout. For separate worktrees, first ensure the intended code and these context files are present in the starting state; the modernization was largely uncommitted at inspection. A worktree from committed main alone would omit it.
 
 Keep this file compact. Update area details in AREAS, dated findings in STATUS, and task-specific results in one uniquely named handoff. Do not turn this file into a log.
+
+## Campus product direction — 2026-09-03
+
+The user explicitly wants the student social experience retained in the current app: profiles with names, colleges and investment strategies in leaderboard form. The new Social route restores this concept as a fictional-data preview; real community publishing and ranking infrastructure is not yet implemented. Discover also includes a placeholder for future portfolio-aware educational research suggestions.
+
+## Cornerstone Recap direction — 2026-09-04
+
+Cornerstone Recap makes confirmed external contributions the motivating number. Home says **Your month so far** and the monthly recap celebrates consistency, milestones and plain-language learning without rewarding portfolio size, returns or trading. Purchases, sales, dividends, reinvestments, fees, rollovers and internal transfers do not count. Plaid activity is suggested first and affects totals only after user confirmation; manual activity is editable and removable.
+
+Monthly recaps, three months of history, standard milestones, eligible campus consistency percentiles and private share cards are free. Cornerstone Pro is $4.99 monthly or $39.99 yearly with a 14-day trial and adds weekly recaps, full available history, contribution trends, user-selected ranges, custom milestones and user-controlled future scenarios. The monthly headline must remain free.
+
+Campus comparison is opt-in and compares contributing months only. It requires a verified school domain, six complete months of eligible history and at least 30 eligible verified users. Return only the user percentile and a cohort-size band; never expose names, balances, amounts or recap rankings. Share cards hide dollar amounts on every fresh render and downloads must match the visible state.
+
+The repository contains a complete sample flow plus guarded Supabase, Plaid, Stripe and Resend interfaces. This is not evidence that the migration is applied, credentials are configured, webhook endpoints are registered or live integration checks passed. Follow the staged gates in [BETA.md](BETA.md) before external use.
