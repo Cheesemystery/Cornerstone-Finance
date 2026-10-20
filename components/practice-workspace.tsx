@@ -22,7 +22,7 @@ import {
   type OrderInput,
   type PracticeState,
 } from "@/lib/practice";
-import { assetColor, money, signedMoney, displayDate } from "@/lib/presentation";
+import { assetColor, money, signedMoney, displayDate, pluralize } from "@/lib/presentation";
 import { ChoiceQuestion } from "./lesson-interaction";
 
 export function PracticeWorkspace() {
@@ -261,7 +261,7 @@ export function PracticeWorkspace() {
                       asset.name +
                       ": " +
                       (practice.positions[asset.symbol]?.quantity ?? 0) +
-                      " shares",
+                      " " + pluralize(practice.positions[asset.symbol]?.quantity ?? 0, "share"),
                   )
                   .join(". ")
               }
@@ -414,7 +414,7 @@ export function PracticeWorkspace() {
                   <h3>Confirm your fictional order</h3>
                   <p>
                     {preview.side === "buy" ? "Add" : "Remove"} {preview.quantity}{" "}
-                    shares of{" "}
+                    {pluralize(preview.quantity, "share")} of{" "}
                     {
                       practiceAssets.find(
                         (asset) => asset.symbol === preview.symbol,

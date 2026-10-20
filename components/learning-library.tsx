@@ -5,6 +5,7 @@ import { lessons } from "@/lib/lessons";
 import { learningStats, nextLesson } from "@/lib/learning-progress";
 import { useMvp } from "./mvp-provider";
 import { ProgressSummary, NextLessonLink } from "./mvp-ui";
+import { LearningBuildingCard } from "./learning-building";
 export function LearningLibrary() {
   const { learning, now } = useMvp();
   const next = nextLesson(learning);
@@ -13,7 +14,7 @@ export function LearningLibrary() {
     now ?? new Date("2026-01-01T12:00:00Z"),
   );
   return (
-    <div className="learning-path">
+    <div className="learning-path tabular-nums">
       <section className="path-intro">
         <div>
           <p className="eyebrow">Small ideas. Real understanding.</p>
@@ -30,6 +31,7 @@ export function LearningLibrary() {
         </div>
         <ProgressSummary />
       </section>
+      <LearningBuildingCard />
       <ol className="path-list">
         {lessons.map((lesson, index) => {
           const done = learning.completed.includes(lesson.id),

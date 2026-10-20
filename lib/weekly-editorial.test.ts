@@ -1,10 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { editionRange, weeklyEditorial, weeklySubline } from "./weekly-editorial";
+import { editionRange, isEditionStale, weeklyEditorial, weeklySubline } from "./weekly-editorial";
 import { calculateWeek } from "./weekly-portfolio";
 import { getSampleHistoricalCloses } from "./sample-history";
 import { sampleSavedHoldings } from "./saved-holdings";
 
 describe("weekly editorial", () => {
+  it("marks only data older than ten calendar days, including across years", () => {
+    expect(isEditionStale("2026-09-02", new Date("2026-09-12T23:59:59Z"))).toBe(false);
+    expect(isEditionStale("2026-09-02", new Date("2026-09-13T00:00:00Z"))).toBe(true);
+    expect(isEditionStale("2026-12-31", new Date("2027-01-11T00:00:00Z"))).toBe(true);
+    expect(isEditionStale("2026-09-14", new Date("2026-09-13T00:00:00Z"))).toBe(false);
+  });
   it.each([
     [0, "A quiet week: up 0.00%", "partly-cloudy"],
     [-0.16, "A quiet week: down 0.16%", "partly-cloudy"],

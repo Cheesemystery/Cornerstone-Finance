@@ -268,7 +268,7 @@ export function PortfolioRecap({ embedded = false, initialMode = "snapshot" }: {
           }
         >
           <i aria-hidden="true" />
-          <span>{updatedLabel}</span>
+          {!embedded && <span>{updatedLabel}</span>}
           <small>
             {example
               ? "Authored preview"
@@ -303,7 +303,7 @@ export function PortfolioRecap({ embedded = false, initialMode = "snapshot" }: {
                     : "Latest available value"}
               </span>
               <strong>{money(value)}</strong>
-              <small>
+              {(!embedded || example || simulated) && <small>
                 {example
                   ? "Fictional starting value: $1,000 · as of Aug 31, 2026"
                   : simulated
@@ -313,7 +313,7 @@ export function PortfolioRecap({ embedded = false, initialMode = "snapshot" }: {
                         displayDate(portfolio.asOf) +
                         " · file prices"
                       : "As of " + displayDate(portfolio.asOf)}
-              </small>
+              </small>}
             </div>
             <div className="monthly-change">
               <span>
@@ -355,7 +355,7 @@ export function PortfolioRecap({ embedded = false, initialMode = "snapshot" }: {
           </div>
           <RecapGraphic values={values} example={example} />
         </div>
-        <p className="recap-as-of">{updatedLabel}</p>
+        {!embedded && <p className="recap-as-of">{updatedLabel}</p>}
         <RecapMovers movers={movers} example={example} simulated={simulated} period={comparisonLabel(portfolio)} />
         <footer className="monthly-card-footer">
           <div>

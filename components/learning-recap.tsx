@@ -6,7 +6,7 @@ import { BookOpen, CheckCircle2, Download, Sparkles } from "lucide-react";
 import { useMvp } from "./mvp-provider";
 import { learningStats } from "@/lib/learning-progress";
 import { lessons } from "@/lib/lessons";
-import { displayDate } from "@/lib/presentation";
+import { displayDate, pluralize } from "@/lib/presentation";
 import { learningShareSvg } from "@/lib/learning-share";
 import { PageHeader } from "./page-header";
 export function LearningRecap({ embedded = false }: { embedded?: boolean }) {
@@ -45,10 +45,7 @@ export function LearningRecap({ embedded = false }: { embedded?: boolean }) {
           <p className="eyebrow">Understanding adds up</p>
           <h2>
             {learning.completed.length
-              ? learning.completed.length +
-                (learning.completed.length === 1
-                  ? " lesson complete."
-                  : " lessons complete.")
+              ? `${learning.completed.length} ${pluralize(learning.completed.length, "lesson")} complete.`
               : "Start with one lesson."}
           </h2>
           <p>
@@ -67,7 +64,7 @@ export function LearningRecap({ embedded = false }: { embedded?: boolean }) {
           </div>
           <div>
             <strong>{reflections.length}</strong>
-            <span>practice reflections</span>
+            <span>practice {pluralize(reflections.length, "reflection")}</span>
           </div>
           <Link className="demo-link" href="/portfolio">
             Open my practice portfolio →

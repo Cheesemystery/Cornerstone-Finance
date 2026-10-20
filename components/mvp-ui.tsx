@@ -6,7 +6,7 @@ import { useDemo } from "./demo-provider";
 import { lessons } from "@/lib/lessons";
 import { learningStats, nextLesson } from "@/lib/learning-progress";
 import { moneyStory } from "@/lib/money-story";
-import { money, signedMoney, sourceLabel, displayDate } from "@/lib/presentation";
+import { money, signedMoney, sourceLabel, pluralize } from "@/lib/presentation";
 import { practiceValue, scenarioFor } from "@/lib/practice";
 
 export function NextLessonLink() {
@@ -34,7 +34,6 @@ export function ProgressSummary() {
   );
   return (
     <div className="progress-summary" aria-label="Your lesson progress">
-      {now && <small>As of {displayDate(now.toISOString())}</small>}
       <div>
         <Sparkles size={18} />
         <strong>{stats.xp} XP</strong>
@@ -44,7 +43,7 @@ export function ProgressSummary() {
         <strong>
           {learning.completed.length}/{lessons.length}
         </strong>
-        <span>lessons complete</span>
+        <span>{pluralize(lessons.length, "lesson")} complete</span>
       </div>
       <div>
         <strong>
@@ -62,13 +61,13 @@ export function ProgressSummary() {
         </span>
       </div>
       <div>
-        <strong>{now ? stats.weekDays : 0} days</strong>
+        <strong>{now ? stats.weekDays : 0} {pluralize(now ? stats.weekDays : 0, "day")}</strong>
         <span>learning this week</span>
       </div>
       {learning.showStreak && (
         <div>
-          <strong>{now ? stats.streak : 0} day streak</strong>
-          <span>Personal best: {stats.best}</span>
+          <strong>{now ? stats.streak : 0}-day streak</strong>
+          <span>Personal best: {stats.best} {pluralize(stats.best, "day")}</span>
         </div>
       )}
     </div>

@@ -4,6 +4,11 @@ import { weeklyCopy, type PortfolioWeek } from "./weekly-portfolio";
 export const QUIET_WEEK_THRESHOLD = 0.5;
 export const STRONG_WEEK_THRESHOLD = 2;
 export const WEEK_PERCENT_DECIMALS = 2;
+// Compare calendar dates in UTC: exactly ten days old remains within the window.
+export function isEditionStale(priceDate: string, now: Date) {
+  const today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  return today - Date.parse(`${priceDate}T00:00:00Z`) > 10 * 86_400_000;
+}
 export type WeeklyWeather = "partly-cloudy" | "mostly-sunny" | "sunny" | "overcast" | "light-rain";
 
 export function weeklyEditorial(percent: number) {

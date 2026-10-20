@@ -1,5 +1,17 @@
 # Current state
 
+## About and lesson building — 2026-10-20
+
+Added /about with typed copy in content/about.ts, shared Settings privacy wording, conditional supporters, a placeholder mailto and disabled waitlist. Sidebar footer and Settings link to it; main navigation remains four items. Lesson completion now shows a 24-slot SVG building with three minimal skins. Completed lesson IDs are the only brick-count source; reviews do not add bricks. The one new preference key cornerstone.building.v1 stores only skin/selection, using the existing guarded browser store. Learn has a compact building card; Home's wall remains unchanged.
+
+All 225 tests / 41 files, lint, typecheck and production build (42 routes) pass. At localhost:3000, browser verified About/links, five-brick backfill, first-time picker, real sixth completion with 1.3s drop, polite announcement, Continue focus/navigation, review without increment, choice persistence, 1280px/390px without overflow and no captured console errors. Browser verification completed the remaining sample lesson, leaving six completed lessons and Library selected; the original Reduce motion setting was restored. Both reduced-motion sources, corrupt storage and future counts above 24 were verified by automated tests, not destructive browser storage edits. Work remains uncommitted. See handoffs/2026-10-20-about-lesson-building.md.
+
+## Home states and polish, Step F — 2026-10-20
+
+Empty/insufficient Home now shows Your first edition is waiting, three existing inputs, first lesson and the wall without a chart. Static skeletons cover hydration/history loading; friendly errors retain holdings and expose retry. A gentle note marks prices older than ten UTC calendar days using the actual shared end date. Fixed light Home input button contrast.
+
+Lint, TypeScript, all 212 tests / 39 files and the final production build (41 routes) pass. New coverage exercises missing/short history, pending/error/retry, holdings preservation and the ten-day boundary. Browser checked empty/missing-history/ready views at 375px and empty at 1280px, no horizontal overflow, 44px input buttons, 58px lesson action, keyboard focus/Tab/Escape, saved reduced motion (chart animations none) and no captured application console errors. Original user holdings/learning preserved by using an isolated preview origin. See handoffs/2026-10-20-home-weekly-step-f.md for environment notes and limits. Uncommitted; no push or deployment.
+
 ## Home Pro view, Step E — 2026-10-19
 
 Added the persisted, default-off Pro view switch in Settings using the existing Switch and cornerstone-demo-v1 preference schema. Pro Home has a scoped dark forest presentation, smaller type, system monospaced tabular figures, compact chart rows and a dated read-only holdings contribution table. Row percentages use portfolio starting value, with three-decimal presentation and an unrounded-total note. Standard Home, other pages, math and content remain unchanged.

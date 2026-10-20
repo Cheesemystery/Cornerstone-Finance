@@ -9,13 +9,14 @@ beforeEach(()=>{preference.reduced=false;vi.useFakeTimers();vi.spyOn(document,"v
 afterEach(()=>{cleanup();vi.useRealTimers();vi.restoreAllMocks();vi.unstubAllGlobals()});
 it("rotates dated questions and allows the user to pause",()=>{render(<PortfolioStory portfolio={samplePortfolio}/>);expect(screen.getByRole("heading").textContent).toBe("What drove the move?");act(()=>vi.advanceTimersByTime(12000));expect(screen.getByRole("heading").textContent).toBe("What happened today?");fireEvent.click(screen.getByRole("button",{name:"Pause rotating heading"}));act(()=>vi.advanceTimersByTime(24000));expect(screen.getByRole("heading").textContent).toBe("What happened today?")});
 it("keeps the heading still with the reduced-motion preference",()=>{preference.reduced=true;render(<PortfolioStory portfolio={samplePortfolio}/>);expect(screen.queryByRole("button",{name:"Pause rotating heading"})).toBeNull();act(()=>vi.advanceTimersByTime(36000));expect(screen.getByRole("heading").textContent).toBe("What drove the move?")});
-it("retains holding selection and details through the contributor BarList",()=>{
+it("retains contributor selection and uses the former story summary as the subhead",()=>{
  const select=vi.fn();
  const view=render(<PortfolioMovement portfolio={samplePortfolio} selected={null} onSelect={select}/>);
  fireEvent.click(screen.getByRole("button",{name:/VTI.*Positive contribution/}));
  expect(select).toHaveBeenCalledWith("VTI");
  view.rerender(<PortfolioMovement portfolio={samplePortfolio} selected="VTI" onSelect={select}/>);
  expect(screen.getByRole("button",{name:/VTI.*Positive contribution/}).getAttribute("aria-pressed")).toBe("true");
- expect(screen.getByRole("heading",{name:"Inside VTI"})).toBeTruthy();
- expect(screen.getByRole("link",{name:/Browse VTI news/}).getAttribute("href")).toBe("https://finance.yahoo.com/quote/VTI/news/");
+ expect(screen.queryByRole("heading",{name:"Inside VTI"})).toBeNull();
+ expect(screen.getByText(/VTI made the largest positive contribution/)).toBeTruthy();
+ expect(screen.getByText("Total US stock market")).toBeTruthy();
 });

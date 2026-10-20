@@ -14,6 +14,7 @@ import { getSampleHistoricalCloses } from "@/lib/sample-history";
 import { calculateWeek } from "@/lib/weekly-portfolio";
 import { emptySavedHoldings, sampleSavedHoldings } from "@/lib/saved-holdings";
 import { lessons } from "@/lib/lessons";
+import { ProgressSummary } from "./mvp-ui";
 
 const state = vi.hoisted(() => ({
   portfolio: null as PortfolioSnapshot | null,
@@ -35,11 +36,56 @@ afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 
 it("limits Home to the dated hero, one lesson action, and cumulative wall",()=>{
   const {container}=render(<HomeDashboard/>);
-  expect(screen.getByRole("heading",{name:"A quiet week: down 0.16%"})).toBeTruthy();
+  expect(screen.getByRole("heading",{name:"A quiet week: down 0.16% (−$11.23)"})).toBeTruthy();
+  expect(screen.getAllByText("Sample data · as of Sep 2, 2026")).toHaveLength(1);
+  expect(container.textContent).not.toContain("Data is from");
   expect(screen.getByRole("link",{name:"Start your 2-minute lesson"}).getAttribute("href")).toBe("/learn/why-prices-move?weekly=1");
   expect(container.querySelectorAll(".weekly-home > *")).toHaveLength(4);
   expect(container.querySelector(".home-pie")).toBeNull();
   expect(container.textContent).not.toMatch(/XP|streak|challenges/);
+});
+
+it("uses singular day for one learning day and omits the progress date", () => {
+  state.learning = {...emptyLearning, timezone:"America/Chicago", completed:["what-you-own"], events:[{id:"lesson:what-you-own",kind:"lesson",target:"what-you-own",day:"2026-10-19",at:"2026-10-19T12:00:00Z"}]};
+  const {container} = render(<ProgressSummary />);
+  expect(screen.getByText("1 day")).toBeTruthy();
+  expect(container.textContent).not.toContain("As of");
+});
+
+it("keeps one Portfolio source badge even with its embedded recap, and retains the arithmetic note", () => {
+  const {container} = render(<PortfolioWorkspace />);
+  expect(screen.getAllByText("Sample data · as of Sep 2, 2026")).toHaveLength(1);
+  expect(container.textContent).not.toContain("Sample data - as of");
+  expect(screen.getByText(/Each contribution is shares × price change/)).toBeTruthy();
+  expect(screen.getByRole("table",{name:"Your holdings"})).toBeTruthy();
+});
+
+it("uses a singular holding label and keeps shares in their table column", () => {
+  state.portfolio = {...samplePortfolio, holdings:[{...samplePortfolio.holdings[0],quantity:1}]};
+  render(<PortfolioWorkspace />);
+  expect(screen.getByText("holding", {exact:true})).toBeTruthy();
+  expect(within(screen.getByRole("table",{name:"Your holdings"})).getByRole("cell",{name:"1"})).toBeTruthy();
+});
+
+it("orders the four portfolio sections and keeps net change and holding values with their owners", () => {
+  const {container} = render(<PortfolioWorkspace />);
+  const regions = screen.getAllByRole("region");
+  expect(regions.slice(0,4).map(region => region.getAttribute("aria-label") ?? region.querySelector("h2")?.textContent)).toEqual(["Total portfolio value","Where your money is.","Inside the move","Your holdings"]);
+  expect(container.textContent).not.toContain("Cornerstone perspective");
+  const change = screen.getByRole("region",{name:"Total portfolio value"}).querySelector("p strong")!.textContent!.split(" (")[0];
+  expect(container.textContent?.split(change)).toHaveLength(2);
+  const legend = screen.getByLabelText("Choose a holding");
+  expect(legend.textContent).not.toContain("$");
+  for (const value of ["$2,892.96","$1,631.52","$1,425.57","$916.72"]) expect(container.textContent?.split(value)).toHaveLength(2);
+  expect(within(screen.getByRole("table",{name:"Your holdings"})).getByText("Total US stock market")).toBeTruthy();
+});
+
+it("shows only the ticker for an unknown uploaded holding", () => {
+  state.portfolio = {...samplePortfolio, source:"csv", holdings:[{...samplePortfolio.holdings[0],symbol:"USER",name:"USER"}]};
+  render(<PortfolioWorkspace />);
+  const holding = screen.getByRole("button",{name:"Select USER holding"});
+  expect(holding.textContent).toBe("USER");
+  expect(holding.querySelector(".muted")).toBeNull();
 });
 
 it("answers from imported holdings even when fictional practice exists, and keeps each answer's date", () => {

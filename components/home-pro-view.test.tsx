@@ -26,7 +26,7 @@ afterEach(() => {cleanup();localStorage.clear();vi.unstubAllGlobals();});
 
 it("defaults older preferences to standard Home without a table",async () => {
   const view = render(<Providers><HomeDashboard /></Providers>);
-  await screen.findByRole("heading",{name:"A quiet week: down 0.16%"});
+  await screen.findByRole("heading",{name:"A quiet week: down 0.16% (−$11.23)"});
   expect(view.container.querySelector('[data-pro-view="true"]')).toBeNull();
   expect(screen.queryByRole("table")).toBeNull();
 });
@@ -43,10 +43,11 @@ it("persists Pro view across a remount without changing learning, holdings or ot
   expect(localStorage.getItem("cornerstone-holdings-v1")).toBe(holdings);
   view.unmount();
   const home = render(<Providers><HomeDashboard /></Providers>);
-  const table = await screen.findByRole("table",{name:"Holdings · as of Sep 2, 2026"});
+  await screen.findByRole("heading",{name:"A quiet week: down 0.16% (−$11.23)"});
   expect(home.container.querySelector('[data-pro-view="true"]')).toBeTruthy();
   expect(home.container.querySelector('figure[data-compact="true"]')).toBeTruthy();
-  expect(within(table).getAllByRole("row")).toHaveLength(week.positions.length + 2);
+  expect(screen.queryByRole("table")).toBeNull();
+  expect(home.container.textContent?.match(/−\$11\.23/g)).toHaveLength(1);
   home.rerender(<Providers><MvpSettings /></Providers>);
   fireEvent.click(screen.getByRole("switch",{name:"Pro view"}));
   home.rerender(<Providers><HomeDashboard /></Providers>);

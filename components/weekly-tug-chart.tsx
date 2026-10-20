@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState, type CSSProperties } from "react";
-import { displayDate, money, signedMoney } from "@/lib/presentation";
+import { displayDate, money, signedMoney, pluralize } from "@/lib/presentation";
 import type { PortfolioWeek } from "@/lib/weekly-portfolio";
 import styles from "./weekly-tug-chart.module.css";
 
@@ -20,7 +20,7 @@ export function WeeklyTugChart({ week, compact = false }: { week: PortfolioWeek;
   const positions = [...week.positions].sort((a, b) => Math.abs(b.contribution) - Math.abs(a.contribution) || a.ticker.localeCompare(b.ticker));
   const largest = Math.max(...positions.map(position => Math.abs(position.contribution)), 0);
   return <figure className={styles.chart} data-compact={compact || undefined} aria-labelledby={`${id}-title`}>
-    <figcaption id={`${id}-title`} className="sr-only">Weekly holding contributions, as of {displayDate(week.endDate)}</figcaption>
+    <figcaption id={`${id}-title`} className="sr-only">Weekly holding contributions</figcaption>
     <div className={styles.legend} aria-hidden="true"><span>− Pulled down</span><span>+ Lifted</span></div>
     <div className={styles.rows}>
       {positions.map((position, index) => {
@@ -52,16 +52,14 @@ export function WeeklyTugChart({ week, compact = false }: { week: PortfolioWeek;
               <div><dt>Start · {displayDate(week.startDate)}</dt><dd>{money(position.startClose)}</dd></div>
               <div><dt>End · {displayDate(week.endDate)}</dt><dd>{money(position.endClose)}</dd></div>
             </dl>
-            <small>As of {displayDate(week.endDate)}</small>
           </div>
         </div>;
       })}
     </div>
     <ul className="sr-only" aria-label="Contribution text equivalent">
       {positions.map(position => <li key={position.ticker}>
-        {position.ticker}: {direction(position.contribution)}, {signedContribution(position.contribution)}; {sharesLabel(position.shares)} shares.
+        {position.ticker}: {direction(position.contribution)}, {signedContribution(position.contribution)}; {sharesLabel(position.shares)} {pluralize(position.shares, "share")}.
         Start close {money(position.startClose)} on {displayDate(week.startDate)}; end close {money(position.endClose)} on {displayDate(week.endDate)}.
-        Contribution as of {displayDate(week.endDate)}.
       </li>)}
     </ul>
   </figure>;

@@ -1,5 +1,9 @@
 # Cornerstone Finance — project context
 
+## Home states and polish — 2026-10-20, Step F
+
+Home without holdings or seven days of shared closing history shows Your first edition is waiting, the existing CSV/manual/sample inputs, the cumulative wall and a link to the first catalog lesson. No financial chart is rendered. Loading uses static skeletons; price errors offer retry and inputs without clearing holdings. Data more than ten UTC calendar days old gets a gentle note using the actual shared closing date. Home secondary input buttons have explicit accessible colors. See docs/project/handoffs/2026-10-20-home-weekly-step-f.md.
+
 ## Home Pro view — 2026-10-19, Step E
 
 Settings has a Pro view switch, off by default, persisted as proView in the existing cornerstone-demo-v1 preferences. It changes only the main Home content to compact dark forest panels and monospaced tabular figures; masthead/headline lettering retains Newsreader. Home keeps its chart, lesson action, wall and replay, and adds a dated native holdings table. Contribution % means holding contribution divided by the portfolio's starting value, shown to three decimals; totals use existing unrounded weekly values. This is separate from each holding's own price-return percentage. Other pages, replay/share artwork, lesson content and weekly arithmetic are unchanged. Step F and AI narration remain deferred. See docs/project/handoffs/2026-10-19-home-weekly-step-e.md.

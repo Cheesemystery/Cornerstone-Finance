@@ -50,6 +50,8 @@ Read [PROJECT.md](../../PROJECT.md) first. These boundaries are for scoping work
 
 ## Learn
 
+- 2026-10-20: `components/learning-building.tsx` and its CSS module own the compact Learn building and post-completion picker/drop. `lib/building.ts` derives capped brick counts from existing completed IDs and stores only skin choice in `cornerstone.building.v1` through the existing browser-store helper. No Home wall migration. `/about` is rendered from `content/about.ts`; shared privacy copy also feeds Settings. See [handoff](handoffs/2026-10-20-about-lesson-building.md).
+
 - Routes: `app/learn/page.tsx`, `app/learn/[slug]/page.tsx`. Content: `lib/lessons.ts`; UI: `components/learning-library.tsx`, `components/lesson-reader.tsx`, `components/growth-calculator.tsx`.
 - Shared styles: lesson selectors in `app/globals.css`.
 - Current state: six complete lessons, multiple-choice checks, correct-answer completion, local progress, filters and next-lesson navigation. The hypothetical calculator uses deterministic `lib/learning-tools.ts` and labels its assumptions.
@@ -224,6 +226,8 @@ Use the 2026-10-12 learning-first handoff for test results and release limits; e
 
 
 ## Grant Phase 2 weekly loop — 2026-10-19
+
+Home Step F states: components/home-dashboard.tsx and its CSS module own static loading skeletons, empty/short-history input views with first-lesson access, retained wall and friendly price-error retry. lib/weekly-editorial.ts defines the strict greater-than-ten UTC calendar day freshness check; Home uses week.endDate when available. Regression coverage: components/home-states.test.tsx and lib/weekly-editorial.test.ts. See handoffs/2026-10-20-home-weekly-step-f.md. No financial math, storage schema, lesson content or dependency changes.
 
 Home Pro view Step E: proView defaults false in components/demo-provider.tsx's existing preference schema, stored in cornerstone-demo-v1. components/mvp-settings.tsx exposes the Switch. Home's CSS module scopes the dark compact variant; home-pro-holdings.tsx renders existing contribution dollars and portfolio-start-value contribution percentages. WeeklyTugChart has an optional compact flag without changing its default. Integration coverage: components/home-pro-view.test.tsx. See handoffs/2026-10-19-home-weekly-step-e.md.
 

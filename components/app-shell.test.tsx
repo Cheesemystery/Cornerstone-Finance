@@ -34,6 +34,9 @@ it("provides one named modal with the four destinations and isolates the backgro
   expect([...links].map(link => link.getAttribute("href"))).toEqual([
     "/", "/learn", "/portfolio", "/assistant",
   ]);
+  const about = within(dialog).getByRole("link",{name:"About"});
+  expect(about.getAttribute("href")).toBe("/about");
+  expect(about.closest("nav")).toBeNull();
   expect(document.activeElement).toBe(within(dialog).getByRole("button", { name: "Close navigation" }));
   expect(screen.queryByRole("button", { name: "Page action" })).toBeNull();
   expect(getComputedStyle(document.body).overflow).toBe("hidden");
@@ -44,7 +47,7 @@ it("wraps Tab and Shift+Tab, then restores focus and scrolling after Escape", as
   const trigger = openNavigation();
   const dialog = screen.getByRole("dialog", { name: "Navigation" });
   const first = within(dialog).getByRole("link", { name: "Cornerstone." });
-  const last = within(dialog).getByRole("link", { name: /Saved on this browser/ });
+  const last = within(dialog).getByRole("link", { name: "About" });
   last.focus();
   fireEvent.keyDown(last, { key: "Tab" });
   expect(document.activeElement).toBe(first);

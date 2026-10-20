@@ -38,7 +38,7 @@ it("completes a related existing lesson, persists done for this week on reload, 
   const view=render(<Providers><HomeDashboard/></Providers>);
   fireEvent.click(screen.getByRole("button",{name:"Use sample portfolio"}));
   const lesson=await screen.findByRole("link",{name:"Start your 2-minute lesson"});
-  expect(screen.getByText(/Sample data - as of Sep 2, 2026/)).toBeTruthy();
+  expect(screen.getByText(/Sample data · as of Sep 2, 2026/)).toBeTruthy();
   const [url,options]=vi.mocked(fetch).mock.calls[0];
   expect(url).toBe("/api/prices/history");
   expect(Object.keys(JSON.parse(options!.body as string)).sort()).toEqual(["sample","tickers"]);
@@ -53,7 +53,9 @@ it("completes a related existing lesson, persists done for this week on reload, 
   fireEvent.click(screen.getByLabelText("The price fell; you need more context."));
   fireEvent.click(screen.getByRole("button",{name:"Check answer"}));
   fireEvent.click(screen.getByRole("button",{name:"Keep this idea"}));
-  expect(screen.getByRole("link",{name:/Back to your week/}).getAttribute("href")).toBe("/");
+  const choose = screen.queryByRole("button",{name:"Campus hall"});
+  if (choose) fireEvent.click(choose);
+  expect(screen.getByRole("link",{name:"Continue"}).getAttribute("href")).toBe("/learn");
   view.rerender(<Providers><HomeDashboard/></Providers>);
   expect(screen.getByRole("status").textContent).toBe("This week’s stone is laid. See you Monday.");
   expect(screen.queryByRole("link",{name:"Start your 2-minute lesson"})).toBeNull();

@@ -1,15 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { ArrowUpRight, ArrowDownRight, ChevronRight } from "lucide-react";
+import { useState, type ReactNode } from "react";
+import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 import type { PortfolioSnapshot } from "@/lib/domain";
 import { marketValue, summarizePortfolio } from "@/lib/portfolio";
 import styles from "./portfolio-holdings.module.css";
-import { PortfolioMovement, PortfolioStory } from "./portfolio-movement";
+import { PortfolioMovement } from "./portfolio-movement";
 
-import { assetColor, snapshotAsOf, comparisonLabel } from "@/lib/presentation";
-import { recordedGrowth } from "@/lib/portfolio-insights";
+import { assetColor, comparisonLabel, pluralize, holdingSubtitle } from "@/lib/presentation";
 const money = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
@@ -20,16 +18,16 @@ const signedMoney = (value: number) =>
 
 export function PortfolioHoldings({
   portfolio,
+  controls,
 }: {
   portfolio: PortfolioSnapshot;
+  controls?: ReactNode;
 }) {
   const summary = summarizePortfolio(portfolio);
   const [selected, setSelected] = useState<string | null>(null);
   const [hovered, setHovered] = useState<string | null>(null);
   const [focused, setFocused] = useState<string | null>(null);
   const active = hovered ?? focused ?? selected;
-  const activeHolding = portfolio.holdings.find((h) => h.symbol === active);
-  const activeAllocation = summary.allocations.find((h) => h.symbol === active);
   const positive = summary.dayChange >= 0;
   const largest = summary.allocations[0];
   const toggle = (symbol: string) =>
@@ -39,22 +37,14 @@ export function PortfolioHoldings({
     setHovered(null);
     setFocused(null);
   };
-  const growth = recordedGrowth(
-    activeHolding ? [activeHolding] : portfolio.holdings,
-  );
-  const totalGain =
-    activeHolding?.costBasis !== undefined
-      ? marketValue(activeHolding) - activeHolding.costBasis
-      : undefined;
   function reveal(symbol: string) {
     setSelected(symbol);
     requestAnimationFrame(() => {
-      const panel = document.getElementById("holding-details");
+      const panel = document.getElementById("holding-" + symbol);
       panel?.focus({ preventScroll: true });
       panel?.scrollIntoView({ block: "center", behavior: "instant" });
     });
   }
-  const asOf = snapshotAsOf(portfolio);
 
   return (
     <div
@@ -63,7 +53,39 @@ export function PortfolioHoldings({
         if (event.key === "Escape") reset();
       }}
     >
-      <PortfolioStory portfolio={portfolio} />
+      <section className={styles.overview} aria-label="Total portfolio value">
+        <div>
+          <p className={styles.label}>Total portfolio value</p>
+          <h2>{money.format(summary.totalValue)}</h2>
+          <p className={positive ? styles.up : styles.down}>
+            {positive ? (
+              <ArrowUpRight size={19} aria-hidden="true" />
+            ) : (
+              <ArrowDownRight size={19} aria-hidden="true" />
+            )}
+            <strong>
+              {signedMoney(summary.dayChange)} ({positive ? "+" : ""}
+              {summary.dayChangePercent.toFixed(2)}%)
+            </strong>
+            <span>{comparisonLabel(portfolio)}</span>
+          </p>
+        </div>
+        <div className={styles.quickFacts}>
+          <div>
+            <strong>{portfolio.holdings.length}</strong>
+            <span>{pluralize(portfolio.holdings.length, "holding")}</span>
+          </div>
+          <div>
+            <strong>{largest?.symbol ?? "—"}</strong>
+            <span>
+              {largest
+                ? `${largest.percent.toFixed(1)}% · biggest holding`
+                : "No holdings yet"}
+            </span>
+          </div>
+        </div>
+      </section>
+
       <section
         className={styles.chartCard}
         aria-labelledby="holdings-chart-title"
@@ -71,7 +93,6 @@ export function PortfolioHoldings({
         <div className={styles.sectionTop}>
           <div>
             <h2 id="holdings-chart-title">Where your money is.</h2>
-            <p>{asOf}</p>
           </div>
           <button className={styles.reset} onClick={reset} disabled={!active}>
             Show all
@@ -121,7 +142,7 @@ export function PortfolioHoldings({
                         tabIndex={0}
                         role="button"
                         aria-pressed={selected === allocation.symbol}
-                        aria-label={`${allocation.symbol}, ${allocation.percent.toFixed(1)}% of portfolio, ${money.format(allocation.value)}`}
+                        aria-label={`${allocation.symbol}, ${allocation.percent.toFixed(1)}% of portfolio`}
                         onMouseEnter={() => setHovered(allocation.symbol)}
                         onMouseLeave={() => setHovered(null)}
                         onFocus={() => setFocused(allocation.symbol)}
@@ -140,47 +161,15 @@ export function PortfolioHoldings({
                   })}
               </svg>
               <div className={styles.chartCenter} aria-live="polite">
-                <span>{activeAllocation?.symbol ?? "Your portfolio"}</span>
-                <strong>
-                  {money.format(activeAllocation?.value ?? summary.totalValue)}
-                </strong>
-                <small>
-                  {activeAllocation
-                    ? activeAllocation.percent.toFixed(1) + "% of your mix"
-                    : "Total value"}
-                </small>
+                <span>Your portfolio</span>
+                <strong>{money.format(summary.totalValue)}</strong>
+                <small>Total value</small>
               </div>
             </div>
-            <div className={styles.centerGrowth}>
-              <b
-                className={
-                  growth && growth.value < 0
-                    ? styles.down
-                    : growth && growth.value > 0
-                      ? styles.up
-                      : styles.neutral
-                }
-              >
-                {growth ? signedMoney(growth.value) : "Add recorded cost in your CSV"}
-                {growth?.percent !== null && growth?.percent !== undefined && (
-                  <em>
-                    {" "}
-                    ({growth.percent > 0 ? "+" : ""}
-                    {growth.percent.toFixed(2)}%)
-                  </em>
-                )}
-              </b>
-              <small>
-                {activeHolding ? "Position growth" : "Total growth"} · vs.
-                recorded cost
-              </small>
-            </div>
+
           </div>
           <div className={styles.legend} aria-label="Choose a holding">
             {summary.allocations.map((allocation) => {
-              const holding = portfolio.holdings.find(
-                (h) => h.symbol === allocation.symbol,
-              )!;
               return (
                 <button
                   key={allocation.symbol}
@@ -198,11 +187,9 @@ export function PortfolioHoldings({
                   />
                   <span className={styles.holdingName}>
                     <strong>{allocation.symbol}</strong>
-                    <small>{holding.name}</small>
                   </span>
                   <span className={styles.holdingAmount}>
                     <strong>{allocation.percent.toFixed(1)}%</strong>
-                    <small>{money.format(allocation.value)}</small>
                   </span>
                 </button>
               );
@@ -215,110 +202,13 @@ export function PortfolioHoldings({
             )}
           </div>
         </div>
-        <div className={styles.detail} aria-live="polite">
-          {activeHolding && activeAllocation ? (
-            <>
-              <div>
-                <span className={styles.label}>
-                  Inside {activeHolding.symbol}
-                </span>
-                <h3>{activeHolding.name}</h3>
-              </div>
-              <p>{asOf}</p>
-              <div className={styles.detailStats}>
-                <span>
-                  <small>Shares</small>
-                  <strong>{activeHolding.quantity}</strong>
-                </span>
-                <span>
-                  <small>Price per share</small>
-                  <strong>{money.format(activeHolding.price)}</strong>
-                </span>
-                <span>
-                  <small>Gain / loss vs. cost</small>
-                  <strong
-                    className={
-                      totalGain !== undefined && totalGain < 0
-                        ? styles.down
-                        : styles.up
-                    }
-                  >
-                    {totalGain === undefined
-                      ? "Add recorded cost"
-                      : signedMoney(totalGain)}
-                  </strong>
-                </span>
-              </div>
-              <Link
-                className={styles.research}
-                href={`/discover?q=${encodeURIComponent(activeHolding.symbol)}`}
-              >
-                Research {activeHolding.symbol}
-                <ArrowUpRight size={16} aria-hidden="true" />
-              </Link>
-            </>
-          ) : (
-            <>
-              <div>
-                <span className={styles.label}>The big picture</span>
-                <h3>
-                  {largest
-                    ? `${largest.symbol} is your biggest piece.`
-                    : "Your portfolio starts here."}
-                </h3>
-                <p>
-                  {largest
-                    ? `About $${largest.percent.toFixed(0)} of every $100 is in ${largest.symbol}.`
-                    : "Your holdings will appear here once they’re added."}
-                </p>
-              </div>
-              <span className={styles.detailHint}>
-                Select a holding for the details.
-                <br />
-                Press Escape to clear your selection.
-              </span>
-            </>
-          )}
-        </div>
-      </section>
 
-      <div className={styles.overview}>
-        <div>
-          <p className={styles.label}>Total portfolio value</p>
-          <h2>{money.format(summary.totalValue)}</h2><small>{asOf}</small>
-          <p className={positive ? styles.up : styles.down}>
-            {positive ? (
-              <ArrowUpRight size={19} aria-hidden="true" />
-            ) : (
-              <ArrowDownRight size={19} aria-hidden="true" />
-            )}
-            <strong>
-              {signedMoney(summary.dayChange)} ({positive ? "+" : ""}
-              {summary.dayChangePercent.toFixed(2)}%)
-            </strong>
-            <span>{comparisonLabel(portfolio)}</span>
-          </p>
-        </div>
-        <div className={styles.quickFacts}>
-          <div>
-            <strong>{portfolio.holdings.length}</strong>
-            <span>holdings</span>
-          </div>
-          <div>
-            <strong>{largest?.symbol ?? "—"}</strong>
-            <span>
-              {largest
-                ? `${largest.percent.toFixed(1)}% · biggest holding`
-                : "No holdings yet"}
-            </span>
-          </div>
-        </div>
-      </div>
+      </section>
 
       <PortfolioMovement
         portfolio={portfolio}
         selected={selected}
-        onSelect={toggle}
+        onSelect={reveal}
       />
 
       <section
@@ -328,12 +218,11 @@ export function PortfolioHoldings({
         <div className={styles.tableHeading}>
           <h2 id="all-holdings-title">Your holdings</h2>
           <span>
-            Choose a row to explore <ChevronRight size={15} />
+            Select a row to highlight it
           </span>
         </div>
         <div className={styles.tableWrap}>
-          <table className="table">
-            <caption>{asOf}</caption>
+          <table className="table" aria-labelledby="all-holdings-title">
             <thead>
               <tr>
                 <th scope="col">Investment</th>
@@ -366,7 +255,8 @@ export function PortfolioHoldings({
                     <td>
                       <button
                         className={styles.holdingOpen}
-                        aria-label={"Explore " + holding.symbol + " holding"}
+                        id={"holding-" + holding.symbol}
+                        aria-label={"Select " + holding.symbol + " holding"}
                         aria-pressed={selected === holding.symbol}
                         onClick={(event) => {
                           event.stopPropagation();
@@ -380,10 +270,8 @@ export function PortfolioHoldings({
                           />
                           <strong>{holding.symbol}</strong>
                         </span>
-                        <span className="muted small">{holding.name}</span>
-                        <span className={styles.rowArrow}>
-                          Explore <ChevronRight size={16} />
-                        </span>
+                        {holdingSubtitle(holding.symbol) && <span className="muted small">{holdingSubtitle(holding.symbol)}</span>}
+
                       </button>
                     </td>
                     <td>{holding.quantity}</td>
@@ -406,9 +294,10 @@ export function PortfolioHoldings({
         </div>
       </section>
       <p className={styles.source}>
-        {asOf} · Values and chart use the same
+        Values and chart use the same
         holdings. Rounded percentages may not add up to exactly 100%.
       </p>
+      {controls}
     </div>
   );
 }

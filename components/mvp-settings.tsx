@@ -3,6 +3,7 @@ import { useRef, useState, type FormEvent } from "react";
 import { useDemo } from "./demo-provider";
 import { useMvp } from "./mvp-provider";
 import { Switch } from "./ui/switch";
+import { PRIVACY_COPY } from "@/content/about";
 export function MvpSettings() {
   const { preferences, update, reset: resetDemo } = useDemo();
   const { learning, updateLearning, reset, persistence } = useMvp();
@@ -117,19 +118,8 @@ export function MvpSettings() {
       </div>
       <aside className="demo-stack" aria-label="Privacy and local data">
         <section className="mvp-card" id="privacy">
-          <h2>Your data stays yours.</h2>
-          <p>
-            Holdings, weekly completion, learning progress, your nickname, saved research, and fictional
-            practice are stored in this browser. They do not sync across
-            devices.
-          </p>
-          <p>
-            Holdings imported from CSV or JSON persist in this browser. Files and share counts are not uploaded; tickers and requested dates go to the server for historical closes. Guide conversations clear on reload.
-          </p>
-          <p>
-            Fictional practice. No real money moved.
-            Account access, email, and billing are deferred.
-          </p>
+          <h2>{PRIVACY_COPY.title}</h2>
+          {PRIVACY_COPY.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
           <p role="status">
             {persistence === "saved"
               ? "Browser storage is available."

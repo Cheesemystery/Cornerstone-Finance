@@ -53,7 +53,7 @@ export function HoldingsInput({ manage = false }: { manage?: boolean }) {
     {manage && <>
       <p className="muted small">CSV columns: ticker, shares, optional cost_basis. Older symbol/quantity columns also work; file prices are ignored.</p>
       {!!savedHoldings.holdings.length && <ul className="saved-holdings-list" aria-label="Saved holdings">
-        {savedHoldings.holdings.map(h => <li key={h.ticker}><strong>{h.ticker}</strong><span>{h.shares} shares</span><button type="button" className="demo-link" aria-label={"Remove " + h.ticker + " holding"} onClick={() => replaceHoldings(savedHoldings.holdings.filter(item => item.ticker !== h.ticker), savedHoldings.source)}>Remove</button></li>)}
+        {savedHoldings.holdings.map(h => <li key={h.ticker}><strong>{h.ticker}</strong><button type="button" className="demo-link" aria-label={"Remove " + h.ticker + " holding"} onClick={() => replaceHoldings(savedHoldings.holdings.filter(item => item.ticker !== h.ticker), savedHoldings.source)}>Remove</button></li>)}
       </ul>}
       <div className="holdings-data-controls">
         <button type="button" className="button secondary" onClick={download}>Export holdings JSON</button>

@@ -8,6 +8,7 @@ import { useMvp } from "./mvp-provider";
 import { useDemo } from "./demo-provider";
 import { LessonVisual } from "./lesson-visual";
 import { ChoiceQuestion, LessonInteraction } from "./lesson-interaction";
+import { LessonBuildingCompletion } from "./learning-building";
 
 const subscribeHash = (notify: () => void) => {
   window.addEventListener("hashchange", notify);
@@ -20,6 +21,7 @@ export function LessonReader({ id, weekly = false }: { id: string; weekly?: bool
   const { learning, updateLearning, complete, now } = useMvp();
   const [step, setStep] = useState<number | null>(null);
   const [ready, setReady] = useState(false);
+  const [newCompletion, setNewCompletion] = useState(false);
   const heading = useRef<HTMLHeadingElement>(null);
   const hash = useSyncExternalStore(
     subscribeHash,
@@ -33,9 +35,8 @@ export function LessonReader({ id, weekly = false }: { id: string; weekly?: bool
       : learning.completed.includes(id)
         ? 0
         : Math.min(learning.steps[id] ?? 0, 4));
-  const next = lessons[lessons.findIndex((item) => item.id === id) + 1];
   useEffect(() => {
-    if (step !== null) {
+    if (step !== null && step !== 4) {
       heading.current?.focus({ preventScroll: true });
       heading.current?.scrollIntoView({ block: "start" });
     }
@@ -47,7 +48,7 @@ export function LessonReader({ id, weekly = false }: { id: string; weekly?: bool
       ...state,
       steps: { ...state.steps, [id]: Math.max(state.steps[id] ?? 0, value) },
     }));
-    if (value === 4) { complete("lesson", id); if (weekly) finishWeek(id); }
+    if (value === 4) { setNewCompletion(!learning.completed.includes(id)); complete("lesson", id); if (weekly) finishWeek(id); }
   }
   function miss() {
     updateLearning((state) => ({
@@ -145,44 +146,7 @@ export function LessonReader({ id, weekly = false }: { id: string; weekly?: bool
             )}
           </>
         )}
-        {current === 4 && (
-          <>
-            <div className="completion-mark">
-              <CheckCircle2 size={46} />
-            </div>
-            <p className="eyebrow">
-              Lesson complete · 20 XP for first completion
-            </p>
-            <h2>{lesson.takeaway}</h2>
-            <p>
-              This idea is recorded in your learning path. Mistakes along the
-              way are part of learning.
-            </p>
-            <div className="step-actions">
-              <Link className="button primary" href={weekly ? "/" : "/learn"}>
-                {weekly ? "Back to your week" : "Back to my path"} <ArrowRight size={18} />
-              </Link>
-              <Link className="demo-link" href="/portfolio">
-                Try fictional-money practice
-              </Link>
-            </div>
-            <div className="tomorrow-note">
-              <strong>
-                {next ? "Next idea: " + next.title : "Your foundation is here."}
-              </strong>
-              <p>
-                {next
-                  ? "Come back tomorrow for a short review, or keep learning whenever you’re curious."
-                  : "Come back for a quick review of the ideas you have learned."}
-              </p>
-              {next && (
-                <Link className="demo-link" href={"/learn/" + next.id}>
-                  Explore now →
-                </Link>
-              )}
-            </div>
-          </>
-        )}
+        {current === 4 && <LessonBuildingCompletion completed={learning.completed} newCompletion={newCompletion} reducedMotion={learning.reducedMotion} />}
       </section>
       <footer className="player-source">
         <a href={lesson.source} target="_blank" rel="noreferrer">

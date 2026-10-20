@@ -74,14 +74,14 @@ it("scans a lesson challenge before and after mistake/correct feedback", async (
   await accessible();
 });
 
-it("scans Portfolio before and after Explore transfers focus to holding details", async () => {
+it("scans Portfolio before and after selection focuses the holding's table row", async () => {
   page(<><h1>Portfolio</h1><PortfolioHoldings portfolio={samplePortfolio} /></>);
   await accessible();
-  fireEvent.click(screen.getByRole("button", { name: "Explore VXUS holding" }));
-  await waitFor(() => expect(document.activeElement?.id).toBe("holding-details"));
+  fireEvent.click(screen.getByRole("button", { name: "Select VXUS holding" }));
+  await waitFor(() => expect(document.activeElement?.id).toBe("holding-VXUS"));
   await accessible();
   fireEvent.keyDown(document.activeElement!, { key: "Escape" });
-  expect(screen.getByRole("button", { name: "Explore VXUS holding" }).getAttribute("aria-pressed")).toBe("false");
+  expect(screen.getByRole("button", { name: "Select VXUS holding" }).getAttribute("aria-pressed")).toBe("false");
 });
 
 it("scans Recap with learning/history disclosures closed and open", async () => {

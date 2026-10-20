@@ -10,9 +10,14 @@
 .frontPage .headline { font-family:var(--font-serif), Georgia, serif; font-weight:450; font-size:clamp(38px,5vw,64px); line-height:1.08; letter-spacing:-.035em; margin:0; text-wrap:balance; font-variant-numeric:tabular-nums; }
 .forecast svg { color:#c8dac0; flex-shrink:0; }
 .frontPage .subline { max-width:56ch; font-size:clamp(16px,1.6vw,18px); line-height:1.65; margin:26px 0 0; color:#e6eddd; }
-.result { display:flex; align-items:baseline; flex-wrap:wrap; gap:6px 12px; margin-top:28px; font-size:13px; color:#c8dac0; font-variant-numeric:tabular-nums; }
-.result strong { font-size:22px; font-weight:500; color:#f5f7ed; }
+.result { font-size:.5em; font-weight:400; white-space:nowrap; }
 .done { color:#52614f; margin:0; padding:8px 0; font-size:14px; text-align:center; }
+.stateCopy { max-width:56ch; color:#e6eddd; line-height:1.65; margin:24px 0; }
+.frontPage .hero :global(.button.secondary) { color:#183d2d; background:#f6f8f4; border-color:#a6ba9e; }
+.skeleton { display:grid; gap:16px; margin-top:32px; }
+.skeleton span { display:block; height:20px; max-width:100%; border-radius:4px; background:#496852; }
+.skeleton span:first-child { height:56px; width:80%; }
+.skeleton span:last-child { width:60%; }
 .frontPage.pro { background:#132820; color:#f5f7ed; border:1px solid #506850; border-radius:12px; padding:24px; gap:16px; font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace; font-size:14px; font-variant-numeric:tabular-nums; }
 .pro .masthead { border-color:#506850; padding-bottom:14px; gap:8px 16px; }
 .pro .name { color:#f5f7ed; font-size:26px; }
@@ -24,8 +29,6 @@
 .pro .forecast { grid-template-columns:minmax(0,1fr) 56px; }
 .pro .forecast svg { width:56px; height:56px; }
 .frontPage.pro .subline { font-size:14px; margin-top:16px; }
-.pro .result { margin-top:16px; }
-.pro .result strong { font-family:inherit; font-size:22px; }
 .pro :global(figcaption) { color:#c8dac0; }
 .pro :global(button[data-laid="false"] svg > path) { stroke:#a6ba9e; }
 .frontPage.pro :focus-visible { outline-color:#f5f7ed; }

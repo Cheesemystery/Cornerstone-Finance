@@ -1,5 +1,5 @@
 import type { PortfolioWeek } from "@/lib/weekly-portfolio";
-import { displayDate, signedMoney } from "@/lib/presentation";
+import { signedMoney } from "@/lib/presentation";
 import styles from "./home-dashboard.module.css";
 
 const signedPercent = (value: number) => {
@@ -11,7 +11,7 @@ export function HomeProHoldings({week}: {week:PortfolioWeek}) {
   const positions = [...week.positions].sort((a,b) => Math.abs(b.contribution) - Math.abs(a.contribution) || a.ticker.localeCompare(b.ticker));
   return <div className={styles.proHoldings}>
     <table>
-      <caption>Holdings · as of {displayDate(week.endDate)}</caption>
+      <caption>Holdings</caption>
       <thead><tr><th scope="col">Ticker</th><th scope="col">Week contribution</th><th scope="col">Contribution %</th></tr></thead>
       <tbody>{positions.map(position => <tr key={position.ticker}>
         <th scope="row">{position.ticker}</th>

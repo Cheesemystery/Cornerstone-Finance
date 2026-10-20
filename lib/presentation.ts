@@ -1,5 +1,19 @@
 import type { PortfolioSnapshot } from "./domain";
 
+export const pluralize = (count: number, singular: string) =>
+  count === 1 ? singular : singular + "s";
+
+const holdingNames: Record<string, string> = {
+  VTI: "Total US stock market",
+  VXUS: "International stocks",
+  BND: "US bonds",
+  AAPL: "Apple Inc.",
+};
+export const holdingSubtitle = (ticker: string) => holdingNames[ticker];
+
+export const dataStamp = (sample: boolean, date: string) =>
+  `${sample ? "Sample data" : "Closing prices"} · as of ${displayDate(date)}`;
+
 export const money = (value: number) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",

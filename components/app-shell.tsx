@@ -14,6 +14,7 @@ import { useEffect, useRef, useState, type Ref } from "react";
 import { useDemo } from "./demo-provider";
 import { useMvp } from "./mvp-provider";
 import { Sheet, SheetTrigger, SheetClose, SheetContent, SheetTitle, SheetDescription } from "./ui/sheet";
+import { aboutContent } from "@/content/about";
 
 const navigation = [
   { href: "/", label: "Home", icon: House },
@@ -77,6 +78,9 @@ function NavigationContent({ onNavigate, closeButtonRef }: {
             <small>Saved on this browser</small>
           </div>
           <Settings size={15} />
+        </Link>
+        <Link prefetch={false} href="/about" className="small" onClick={onNavigate} aria-current={pathname === "/about" ? "page" : undefined}>
+          {aboutContent.navigationLabel}
         </Link>
     </>
   );

@@ -8,7 +8,7 @@ import type { PortfolioWeek } from "@/lib/weekly-portfolio";
 import { weeklyCopy } from "@/lib/weekly-portfolio";
 import { lessons } from "@/lib/lessons";
 import { editionRange, weeklyEditorial } from "@/lib/weekly-editorial";
-import { displayDate, signedMoney } from "@/lib/presentation";
+import { dataStamp, displayDate, signedMoney } from "@/lib/presentation";
 import { WeeklyWeatherIcon } from "./weekly-weather";
 import { LearningWallSnapshot } from "./learning-wall-snapshot";
 import { WeeklySharePreview } from "./weekly-share-preview";
@@ -26,7 +26,7 @@ export function WeeklyStory({beginWeek,...data}: Props) {
     <Dialog.Trigger className={styles.replay}>Replay your week</Dialog.Trigger>
     {open && snapshot && <Dialog.Portal>
       <Dialog.Overlay className={styles.overlay} />
-      <Dialog.Content className={styles.dialog} aria-modal="true" data-reduced-motion={data.reducedMotion || undefined}>
+      <Dialog.Content className={`${styles.dialog} tabular-nums`} aria-modal="true" data-reduced-motion={data.reducedMotion || undefined}>
         <Dialog.Title className="sr-only">Replay your week</Dialog.Title>
         <StoryCards {...snapshot} beginWeek={beginWeek} close={() => setOpen(false)} />
       </Dialog.Content>
@@ -54,7 +54,7 @@ function StoryCards({week,history,completed,learningAsOf,beginWeek,close}: Story
     if (event.key === "ArrowRight" || event.key === "ArrowLeft") { event.preventDefault(); move(event.key === "ArrowRight" ? 1 : -1); }
   }}>
     <header className={styles.header}>
-      <div><p className={styles.masthead}>The Cornerstone Weekly</p><Dialog.Description className={styles.edition}>{editionRange(week.startDate,week.endDate)}<br />{history.mode === "sample" ? "Sample data - as of " : "Closing prices - as of "}{displayDate(week.endDate)}</Dialog.Description></div>
+      <div><p className={styles.masthead}>The Cornerstone Weekly</p><Dialog.Description className={styles.edition}>{editionRange(week.startDate,week.endDate)}<br />{dataStamp(history.mode === "sample", week.endDate)}</Dialog.Description></div>
       <Dialog.Close className={styles.close}>Close</Dialog.Close>
     </header>
     <div className={styles.viewport} onPointerDown={event => { if (event.pointerType !== "mouse") pointer.current = {x:event.clientX,y:event.clientY}; }} onPointerUp={swipeEnd} onPointerCancel={() => {pointer.current = null;}}

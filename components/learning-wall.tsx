@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import { lessons } from "@/lib/lessons";
-import { displayDate } from "@/lib/presentation";
+import { displayDate, pluralize } from "@/lib/presentation";
 import { readSeenStones, saveSeenStones, stoneAppearance, STONE_LAY_MS } from "@/lib/stone-wall";
 import { useMvp } from "./mvp-provider";
 import styles from "./learning-wall.module.css";
@@ -99,7 +99,7 @@ export function LearningWall({ chartEntranceMs = 0, animationsReady = true }: { 
         })}
       </div>)}
     </div>
-    <figcaption id={`${prefix}-caption`}>{completed.length} of {lessons.length} stones laid</figcaption>
+    <figcaption id={`${prefix}-caption`}>{completed.length} of {lessons.length} {pluralize(lessons.length, "stone")} laid</figcaption>
     <span className="sr-only" aria-live="polite" aria-atomic="true">{announcement}</span>
   </figure>;
 }

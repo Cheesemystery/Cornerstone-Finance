@@ -3,7 +3,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { Pause, Play, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import type { PortfolioSnapshot } from "@/lib/domain";
 import { moneyStory, signedAmount } from "@/lib/money-story";
-import { snapshotAsOf, comparisonLabel } from "@/lib/presentation";
+import { comparisonLabel, pluralize, holdingSubtitle } from "@/lib/presentation";
 import { movementHeading } from "@/lib/portfolio-insights";
 import { dayKey } from "@/lib/learning-progress";
 import { useMvp } from "./mvp-provider";
@@ -85,8 +85,7 @@ export function PortfolioStory({
           </div>
           <p className={styles.personalStory}>{story.explanation}</p>
           <p className={styles.storySource}>
-            {snapshotAsOf(portfolio)} · Based on {portfolio.holdings.length}{" "}
-            holdings
+            Based on {portfolio.holdings.length} {pluralize(portfolio.holdings.length, "holding")}
           </p>
         </div>
         <div className={styles.heroMetric}>
@@ -111,7 +110,7 @@ export function PortfolioStory({
             {story.summary.dayChangePercent > 0 ? "+" : ""}
             {story.summary.dayChangePercent.toFixed(2)}%
           </b>
-          <small>{comparisonLabel(portfolio)} · {snapshotAsOf(portfolio)}</small>
+          <small>{comparisonLabel(portfolio)}</small>
         </div>
       </div>
     </section>
@@ -127,9 +126,6 @@ export function PortfolioMovement({
   onSelect: (symbol: string) => void;
 }) {
   const story = moneyStory(portfolio);
-  const active = portfolio.holdings.find(
-    (holding) => holding.symbol === selected,
-  );
   return (
     <section
       id="movement"
@@ -139,13 +135,13 @@ export function PortfolioMovement({
     >
       <p className={styles.meta}>The arithmetic behind your story</p>
       <h2 id="movement-title">Inside the move</h2>
-      <p>{snapshotAsOf(portfolio)}</p>
+      <p className={styles.personalStory}>{story.explanation}</p>
       <BarList
         aria-label="Holding price contributions"
         data={story.ranked.map(item => ({
           key: item.symbol,
           name: item.symbol,
-          description: portfolio.holdings.find(holding => holding.symbol === item.symbol)?.name,
+          description: holdingSubtitle(item.symbol),
           value: item.value,
         }))}
         sortOrder="none"
@@ -158,54 +154,7 @@ export function PortfolioMovement({
         deposits, withdrawals, dividends and fees; it is not a total-return
         calculation. Your current share counts are used at both closes; past positions are not reconstructed.
       </p>
-      <div
-        id="holding-details"
-        tabIndex={-1}
-        className={styles.reporting}
-        aria-live="polite"
-      >
-        <h3>{active ? "Inside " + active.symbol : "Explore a holding"}</h3>
-        {active ? (
-          <>
-            <p>
-              {active.name} ·{" "}
-              {story.summary.allocations
-                .find((item) => item.symbol === active.symbol)
-                ?.percent.toFixed(1)}
-              % of your portfolio ·{" "}
-              {signedAmount(
-                active.quantity * (active.price - active.previousClose),
-              )}{" "}
-              contribution. As of {story.asOf}.
-            </p>
-            <h4>Keep exploring</h4>
-            <p>
-              Open current reporting for context. No verified articles are
-              connected to this snapshot.
-            </p>
-            <a
-              href={
-                "https://finance.yahoo.com/quote/" +
-                encodeURIComponent(active.symbol) +
-                "/news/"
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Browse {active.symbol} news on Yahoo Finance ↗
-            </a>
-            <small>
-              Current coverage may describe a different period. A headline alone
-              does not establish why a price moved.
-            </small>
-          </>
-        ) : (
-          <p>
-            Select a holding or contribution to explore its allocation and
-            related reporting.
-          </p>
-        )}
-      </div>
+
     </section>
   );
 }
