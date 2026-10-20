@@ -1,0 +1,40 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema-jsonc.json",
+  // Keep Next's default route, metadata, instrumentation and config discovery.
+  "next": true,
+  // These classic scripts are loaded by index.html, not by ES module imports.
+  // Keep the list explicit so newly orphaned root scripts can still be reported.
+  "entry": [
+    "state-manager.js",
+    "achievement-queue.js",
+    "app.js",
+    "onboarding.js",
+    "live-market.js",
+    "campus-mode.js",
+    "challenge-mode.js",
+    "ai-coach.js",
+    "dashboard-features.js",
+    "settings-utils.js",
+    "loading-states.js",
+    // Stylesheet links in index.html also sit outside the module graph.
+    "styles.css",
+    "new-features.css",
+    "enhanced-features.css",
+    "dashboard-redesign.css",
+    "new-ui-features.css",
+    "cyberpunk-theme.css",
+    // Vitest uses its default test discovery with no test object in its config.
+    "{components,lib}/**/*.test.{ts,tsx}"
+  ],
+  "project": [
+    "**/*.{js,jsx,ts,tsx,cjs,mjs,mts,cts,css}",
+    "!node_modules/**",
+    "!.next/**",
+    "!coverage/**",
+    "!next-env.d.ts"
+  ],
+  // Next.js resolves this boundary marker internally; installation is optional.
+  "ignoreDependencies": ["server-only"]
+  // Do not ignore deferred integrations or old UI components: their findings
+  // require review against PROJECT.md, not automatic deletion or suppression.
+}

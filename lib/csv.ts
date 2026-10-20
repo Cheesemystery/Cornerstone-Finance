@@ -10,3 +10,4 @@ export function parseHoldingsCsv(input:string):Holding[]{
  const symbols=new Set<string>();
  return lines.slice(1).map((values,index)=>{if(values.length!==headers.length)throw new Error(`Invalid column count on row ${index+2}.`);const raw=Object.fromEntries(headers.map((h,i)=>[h,values[i]]));const parsed=rowSchema.safeParse({symbol:raw.symbol,name:raw.name,quantity:raw.quantity,price:raw.price,previousClose:raw.previousclose||undefined,costBasis:raw.costbasis||undefined,sector:raw.sector||undefined,assetClass:raw.assetclass||undefined});if(!parsed.success)throw new Error(`Invalid holding on row ${index+2}. Check the symbol, name and non-negative numbers.`);const symbol=parsed.data.symbol.toUpperCase();if(symbols.has(symbol))throw new Error(`Duplicate symbol on row ${index+2}. Combine each symbol into one row.`);symbols.add(symbol);return {...parsed.data,symbol,previousClose:parsed.data.previousClose??parsed.data.price};});
 }
+export const parseCsvRows = rows;

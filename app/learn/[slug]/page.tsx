@@ -3,4 +3,4 @@ import { AppShell } from "@/components/app-shell";
 import { LessonReader } from "@/components/lesson-reader";
 import { lessons } from "@/lib/lessons";
 export function generateStaticParams(){return lessons.map(lesson=>({slug:lesson.id}));}
-export default async function LessonPage({params}:{params:Promise<{slug:string}>}){const {slug}=await params;if(!lessons.some(l=>l.id===slug))notFound();return <AppShell><LessonReader id={slug}/></AppShell>}
+export default async function LessonPage({params,searchParams}:{params:Promise<{slug:string}>;searchParams:Promise<{weekly?:string}>}){const {slug}=await params;if(!lessons.some(l=>l.id===slug))notFound();return <AppShell><LessonReader id={slug} weekly={(await searchParams).weekly === "1"}/></AppShell>}

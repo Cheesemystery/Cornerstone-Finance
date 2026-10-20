@@ -78,4 +78,4 @@ export function isPossibleDuplicate(events:ContributionEvent[],candidate:Pick<Co
 export function campusConsistencyPercentile(scores:number[],userScore:number,minimum=30){if(scores.length<minimum)return null;const atOrBelow=scores.filter(score=>score<=userScore).length;return Math.round(atOrBelow/scores.length*100);}
 
 export function weekStart(date:string|Date){const value=typeof date==="string"?new Date(date+"T00:00:00Z"):new Date(date);if(Number.isNaN(value.getTime()))throw new Error("Invalid date");const day=value.getUTCDay()||7;value.setUTCDate(value.getUTCDate()-day+1);return value.toISOString().slice(0,10)}
-export function progressMessage(summary:RecapSummary){if(summary.contributed>0)return summary.streak>1?`That’s ${summary.streak} months of showing up.`:"You showed up for your future this month.";return "Your recap is still yours—even in a quieter month.";}
+export function progressMessage(summary:RecapSummary){return summary.contributed>0?"A moment in your story, at your own pace.":"Your history is here whenever it’s useful.";}

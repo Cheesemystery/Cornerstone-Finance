@@ -26,3 +26,18 @@ Cornerstone is read-only. It must never request brokerage trading or transfer pe
 ## Release gate
 
 Do not invite external users while any high or critical dependency finding, secret-scanning alert, cross-user authorization failure, unverified webhook, failed deletion/revocation check, email deduplication defect or financial-data integrity defect is unresolved. Compiled provider adapters and checked-in SQL are not evidence that these controls passed against live services.
+
+## Browser-only learning and paper practice — 2026-10-12
+
+The read-only restriction above applies to real accounts. The MVP permits explicitly labeled fictional orders in a deterministic, browser-local simulation; it requests no brokerage permissions and moves no money. Practice state must remain separate from real/imported holdings. Integer-cent arithmetic, whole-share validation, stale-preview checks and confirmation prevent invalid simulation orders.
+
+Learning rewards are local convenience data, not trusted financial entitlements or a public competitive ranking. Local browser data can be changed by its owner. Future campus competitions need server-side verification, privacy and anti-abuse controls.
+
+NEXT_PUBLIC_CONNECTED_FEATURES_ENABLED is a presentation boundary, not an authorization control. Existing server authentication and webhook controls remain required. Do not enable connected services simply because the local UI builds.
+
+
+## Browser holdings and historical prices — 2026-10-19
+
+The user explicitly authorized local persistence of normalized ticker/share holdings with optional total cost basis and holdings-only JSON export/import. These records and weekly completion live under cornerstone-holdings-v1, separate from learning and simulation. Raw files, supplied CSV prices and provider credentials are not persisted there. Storage failure is visible and retains a working session. Account/entitlement authorization remains server-side and unchanged.
+
+Historical quotes are requested through a bounded same-origin POST route. Only tickers, date bounds and sample choice are sent; share counts/costs never reach the provider. TWELVE_DATA_API_KEY is server-only, passed to the fixed provider host in an Authorization header, never exposed in a URL, response, client bundle or telemetry. Validate provider symbols, dates, interval, currency and finite positive closes. No partial live/fixture merging or raw provider-error logging. This implementation is not evidence of live-key integration or public-release readiness.

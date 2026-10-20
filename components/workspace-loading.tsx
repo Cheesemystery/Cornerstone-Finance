@@ -1,0 +1,1 @@
+export function WorkspaceLoading({label}:{label:string}) { return <div className="workspace-loading" role="status" aria-live="polite"><span className="eyebrow">{label}</span><div aria-hidden="true" className="loading-placeholder"/><div aria-hidden="true" className="loading-placeholder short"/><p>Getting your local workspace ready…</p></div>; }

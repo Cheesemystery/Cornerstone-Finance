@@ -10,16 +10,21 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "check": "npm run lint && npm run typecheck && npm run test && npm run build"
+    "test:a11y": "vitest run components/accessibility.test.tsx",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "knip": "knip",
+    "knip:report": "knip --reporter json"
   },
   "dependencies": {
     "@sentry/nextjs": "^10.73.0",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
+    "cn": "0.5.0",
     "lucide-react": "latest",
-    "next": "latest",
+    "next": "16.3.8",
     "plaid": "latest",
     "posthog-js": "^1.425.1",
+    "radix-ui": "1.8.1",
     "react": "latest",
     "react-dom": "latest",
     "zod": "latest"
@@ -31,9 +36,11 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "axe-core": "4.14.0",
     "eslint": "latest",
-    "eslint-config-next": "latest",
+    "eslint-config-next": "16.3.8",
     "jsdom": "latest",
+    "knip": "6.41.0",
     "tailwindcss": "latest",
     "typescript": "latest",
     "vitest": "latest"

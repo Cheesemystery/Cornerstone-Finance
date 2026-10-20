@@ -1,0 +1,50 @@
+.frontPage { max-width:960px; gap:24px; padding-top:24px; }
+.masthead { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:12px 24px; padding-bottom:22px; border-bottom:1px solid #cbd4cf; }
+.name { margin:0; font-family:var(--font-serif), Georgia, serif; font-size:clamp(25px,3vw,32px); letter-spacing:-.035em; color:#183d2d; }
+.edition { margin:0; font-size:13px; color:#52614f; font-variant-numeric:tabular-nums; }
+.frontPage .hero { border-radius:4px 4px 20px 4px; padding:clamp(24px,5vw,52px); }
+.source { flex-basis:100%; }
+.source :global(.week-source) { margin:0; font-size:12px; }
+.source :global(.week-sample-banner) { padding:6px 10px; border-color:#80987a; background:#e8edde; border-radius:4px; }
+.forecast { display:grid; grid-template-columns:minmax(0,1fr) 88px; align-items:center; gap:24px; }
+.frontPage .headline { font-family:var(--font-serif), Georgia, serif; font-weight:450; font-size:clamp(38px,5vw,64px); line-height:1.08; letter-spacing:-.035em; margin:0; text-wrap:balance; font-variant-numeric:tabular-nums; }
+.forecast svg { color:#c8dac0; flex-shrink:0; }
+.frontPage .subline { max-width:56ch; font-size:clamp(16px,1.6vw,18px); line-height:1.65; margin:26px 0 0; color:#e6eddd; }
+.result { display:flex; align-items:baseline; flex-wrap:wrap; gap:6px 12px; margin-top:28px; font-size:13px; color:#c8dac0; font-variant-numeric:tabular-nums; }
+.result strong { font-size:22px; font-weight:500; color:#f5f7ed; }
+.done { color:#52614f; margin:0; padding:8px 0; font-size:14px; text-align:center; }
+.frontPage.pro { background:#132820; color:#f5f7ed; border:1px solid #506850; border-radius:12px; padding:24px; gap:16px; font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace; font-size:14px; font-variant-numeric:tabular-nums; }
+.pro .masthead { border-color:#506850; padding-bottom:14px; gap:8px 16px; }
+.pro .name { color:#f5f7ed; font-size:26px; }
+.pro .edition,.pro .done { color:#c8dac0; font-size:12px; }
+.pro .masthead button { color:#d0dcc7; }
+.frontPage.pro .hero { background:#1b3d2d; border-color:#506850; border-radius:6px; padding:24px; }
+.frontPage.pro .headline { font-size:36px; }
+.proNumeral { font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace; font-size:.85em; letter-spacing:-.04em; }
+.pro .forecast { grid-template-columns:minmax(0,1fr) 56px; }
+.pro .forecast svg { width:56px; height:56px; }
+.frontPage.pro .subline { font-size:14px; margin-top:16px; }
+.pro .result { margin-top:16px; }
+.pro .result strong { font-family:inherit; font-size:22px; }
+.pro :global(figcaption) { color:#c8dac0; }
+.pro :global(button[data-laid="false"] svg > path) { stroke:#a6ba9e; }
+.frontPage.pro :focus-visible { outline-color:#f5f7ed; }
+.proHoldings { margin-top:24px; font-variant-numeric:tabular-nums; }
+.proHoldings table { width:100%; table-layout:fixed; border-collapse:collapse; font-family:inherit; font-size:12px; }
+.proHoldings caption { color:#c8dac0; text-align:left; font-size:12px; margin-bottom:12px; }
+.proHoldings th,.proHoldings td { border-bottom:1px solid #506850; padding:10px 4px; text-align:right; overflow-wrap:anywhere; }
+.proHoldings th:first-child { width:26%; text-align:left; padding-left:0; }
+.proHoldings thead th { color:#c8dac0; font-weight:400; vertical-align:bottom; }
+.proHoldings tbody th { font-weight:500; }
+.proHoldings tfoot th,.proHoldings tfoot td { border-bottom:0; padding-top:14px; font-weight:600; }
+.proHoldings > p { margin:10px 0 0; color:#c8dac0; font-size:11px; line-height:1.5; }
+@media(max-width:600px) {
+  .frontPage { padding-top:8px; gap:20px; }
+  .masthead { display:grid; gap:6px; padding-bottom:18px; }
+  .forecast { grid-template-columns:minmax(0,1fr) 56px; gap:12px; }
+  .forecast svg { width:56px; height:56px; }
+  .frontPage.pro { padding:16px; }
+  .frontPage.pro .hero { padding:16px; }
+  .frontPage.pro .headline { font-size:30px; }
+  .proHoldings th,.proHoldings td { padding:10px 2px; }
+}

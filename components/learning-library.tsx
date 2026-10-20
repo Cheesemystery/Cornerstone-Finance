@@ -1,10 +1,106 @@
 "use client";
 import Link from "next/link";
-import { ArrowUpRight, Check, BookOpen, Layers, TrendingUp, Globe2, FileText, ListChecks } from "lucide-react";
-import { useState } from "react";
+import { ArrowRight, BookOpen, Check, Sparkles } from "lucide-react";
 import { lessons } from "@/lib/lessons";
-import { useDemo } from "./demo-provider";
-const icons=[Layers,TrendingUp,Globe2,FileText,BookOpen,ListChecks];
-export function LearningLibrary(){const {preferences}=useDemo();const [filter,setFilter]=useState("All lessons");const done=preferences.completed;const next=lessons.find(l=>!done.includes(l.id));const shown=lessons.filter(l=>filter==="All lessons"||(filter==="To learn"?!done.includes(l.id):done.includes(l.id)));
- return <div className="workspace"><section className="learn-banner"><div><p className="eyebrow">Build confidence, one idea at a time</p><h2>{done.length===6?<>You built your <em>foundation.</em></>:<>Less scrolling.<br/><em>More understanding.</em></>}</h2><p>Six bite-size lessons. A quick check. Something you can actually use.</p><Link href={`/learn/${next?.id??lessons[0].id}`} className="button lime">{done.length===6?"Revisit a lesson":done.length?"Keep learning":"Start your first lesson"}<ArrowUpRight size={17}/></Link></div><div className="learn-progress"><strong>{done.length}<span>/6</span></strong><p>lessons completed</p><div className="mini-progress"><span style={{width:`${done.length/6*100}%`}}/></div><small>{done.length===6?"Foundation builder unlocked":"Your progress stays in this browser"}</small></div></section><div className="demo-toolbar"><h2 className="demo-title">Your learning path</h2><div className="demo-tabs" role="group" aria-label="Filter lessons">{["All lessons","To learn","Completed"].map(f=><button key={f} aria-pressed={filter===f} onClick={()=>setFilter(f)}>{f}</button>)}</div></div><div className="demo-grid">{shown.map(l=>{const index=lessons.findIndex(x=>x.id===l.id);const Icon=icons[index];return <Link className={`learning-card tone-${l.color}`} href={`/learn/${l.id}`} key={l.id}><div className="learning-card-top"><Icon size={25}/><span>{done.includes(l.id)?<><Check size={14}/> Complete</>:`${l.minutes} min`}</span></div><span className="eyebrow">{String(index+1).padStart(2,"0")} · {l.tag}</span><h3>{l.title}</h3><p>{l.intro}</p><span className="demo-link">{done.includes(l.id)?"Review lesson":"Open lesson"}<ArrowUpRight size={16}/></span></Link>;})}</div>{!shown.length&&<div className="demo-empty"><BookOpen/><h3>{filter==="Completed"?"Your first win is one lesson away.":"You’ve finished the path."}</h3><button className="button secondary" onClick={()=>setFilter("All lessons")}>Show all lessons</button></div>}</div>;
+import { learningStats, nextLesson } from "@/lib/learning-progress";
+import { useMvp } from "./mvp-provider";
+import { ProgressSummary, NextLessonLink } from "./mvp-ui";
+export function LearningLibrary() {
+  const { learning, now } = useMvp();
+  const next = nextLesson(learning);
+  const stats = learningStats(
+    learning,
+    now ?? new Date("2026-01-01T12:00:00Z"),
+  );
+  return (
+    <div className="learning-path">
+      <section className="path-intro">
+        <div>
+          <p className="eyebrow">Small ideas. Real understanding.</p>
+          <h2>
+            {next
+              ? "Make your next money move a smarter one."
+              : "Your foundation, built."}
+          </h2>
+          <p>
+            Short investing lessons. Try an answer, learn from the feedback,
+            and build your understanding.
+          </p>
+          <NextLessonLink />
+        </div>
+        <ProgressSummary />
+      </section>
+      <ol className="path-list">
+        {lessons.map((lesson, index) => {
+          const done = learning.completed.includes(lesson.id),
+            current = next?.id === lesson.id;
+          return (
+            <li
+              key={lesson.id}
+              className={done ? "path-done" : current ? "path-current" : ""}
+            >
+              <span className="path-node" aria-hidden="true">
+                {done ? <Check size={22} /> : index + 1}
+              </span>
+              <Link className="path-card" href={"/learn/" + lesson.id}>
+                <div>
+                  <p className="eyebrow">
+                    {done
+                      ? "Complete · review anytime"
+                      : current
+                        ? "Up next"
+                        : lesson.tag}
+                  </p>
+                  <h3>{lesson.title}</h3>
+                  <p>{lesson.intro}</p>
+                  <span className="path-meta">
+                    {lesson.minutes} min · interactive lesson
+                    {(learning.steps[lesson.id] ?? 0) > 0 && !done
+                      ? " · In progress"
+                      : ""}
+                  </span>
+                </div>
+                <ArrowRight size={21} />
+              </Link>
+            </li>
+          );
+        })}
+      </ol>
+      {learning.completed.length > 0 && (
+        <section className="mvp-card review-invitation">
+          <BookOpen />
+          <div>
+            <h2>A little recall goes a long way.</h2>
+            <p>A short review uses ideas you’ve already explored.</p>
+          </div>
+          <Link className="button secondary" href="/learn/review">
+            Review a lesson
+          </Link>
+        </section>
+      )}
+      <section className="mvp-card">
+        <div className="section-heading">
+          <h2>
+            <Sparkles size={21} /> Milestones along the way
+          </h2>
+          <Link className="demo-link" href="/portfolio#recap">
+            See my recap →
+          </Link>
+        </div>
+        <div className="achievement-grid">
+          {stats.achievements.map((item) => (
+            <div
+              key={item.id}
+              className={item.earned ? "achievement earned" : "achievement"}
+            >
+              <Check size={20} />
+              <strong>{item.title}</strong>
+              <small>{item.description}</small>
+              <span>{item.earned ? "Earned" : "At your pace"}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
 }

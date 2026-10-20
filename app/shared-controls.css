@@ -1,0 +1,82 @@
+/* Scoped adaptations of shadcn/ui Sheet and Switch. Existing theme stays intact. */
+.cs-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: rgba(10, 20, 15, .35);
+  animation: cs-overlay-in .2s ease;
+}
+.cs-sheet-overlay[data-state="closed"] { animation: cs-overlay-out .2s ease; }
+.cs-sheet {
+  position: fixed;
+  z-index: 50;
+  outline: none;
+  animation: cs-sheet-in .2s ease;
+}
+.cs-sheet[data-state="closed"] { animation: cs-sheet-out .2s ease; }
+.cs-sheet[data-side="left"] { inset: 0 auto 0 0; --cs-sheet-x: -100%; --cs-sheet-y: 0; }
+.cs-sheet[data-side="right"] { inset: 0 0 0 auto; --cs-sheet-x: 100%; --cs-sheet-y: 0; }
+.cs-sheet[data-side="top"] { inset: 0 0 auto; --cs-sheet-x: 0; --cs-sheet-y: -100%; }
+.cs-sheet[data-side="bottom"] { inset: auto 0 0; --cs-sheet-x: 0; --cs-sheet-y: 100%; }
+.cs-sheet:not(.sidebar) {
+  width: min(400px, 90vw);
+  padding: 24px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+.cs-sheet-close { position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; border: 0; background: transparent; }
+.cs-sheet-title:not(.sr-only) { font-weight: 650; }
+.cs-sheet-description:not(.sr-only) { color: var(--muted); }
+.cs-sheet.sidebar {
+  height: 100dvh;
+  width: min(300px, 90vw);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  visibility: visible;
+  transform: none;
+  transition: none;
+}
+.cs-sheet.sidebar :focus-visible { outline-color: var(--lime, #d6f58d); }
+.cs-switch {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  width: 42px;
+  height: 25px;
+  padding: 3px;
+  border: 0;
+  border-radius: 30px;
+  background: #cbd5c8;
+  cursor: pointer;
+  transition: background .18s;
+}
+.cs-switch::before { content: ""; position: absolute; inset: -10px -1px; }
+.cs-switch[data-state="checked"] { background: var(--green); }
+.cs-switch:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+.cs-switch:disabled { cursor: not-allowed; opacity: .5; }
+.cs-switch-thumb {
+  display: block;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 3px #14322120;
+  pointer-events: none;
+  transition: transform .18s;
+}
+.cs-switch-thumb[data-state="checked"] { transform: translateX(17px); }
+@keyframes cs-overlay-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cs-overlay-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes cs-sheet-in { from { transform: translate(var(--cs-sheet-x), var(--cs-sheet-y)); } to { transform: translate(0, 0); } }
+@keyframes cs-sheet-out { from { transform: translate(0, 0); } to { transform: translate(var(--cs-sheet-x), var(--cs-sheet-y)); } }
+/* Portals live outside MvpProvider's reduced-motion wrapper. Mark them explicitly. */
+.cs-sheet[data-reduced-motion="true"],
+.cs-sheet-overlay[data-reduced-motion="true"] { animation: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .cs-sheet, .cs-sheet-overlay, .cs-switch, .cs-switch-thumb { animation: none !important; transition: none !important; }
+}
+@media (max-width: 760px) {
+  .desktop-sidebar { display: none; }
+}

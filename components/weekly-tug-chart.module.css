@@ -1,0 +1,32 @@
+.chart { margin:32px 0 0; color:#f5f7ed; font-variant-numeric:tabular-nums; }
+.legend { display:grid; grid-template-columns:1fr 1fr; gap:16px; padding-bottom:10px; font-size:12px; }
+.legend span:first-child { color:#dfc3a8; text-align:right; }
+.legend span:last-child { color:#c8dac0; }
+.rows { display:grid; gap:2px; }
+.row { position:relative; min-width:0; }
+.holding { display:block; width:100%; min-height:64px; padding:8px 0; border:0; border-radius:4px; background:transparent; color:inherit; cursor:pointer; text-align:left; }
+.holding:hover { background:#ffffff08; }
+.holding:focus-visible { outline:2px solid #f5f7ed; outline-offset:4px; }
+.labels { display:flex; justify-content:space-between; align-items:baseline; gap:12px; font-size:13px; }
+.labels span:first-child { overflow-wrap:anywhere; min-width:0; }
+.labels span:last-child { flex-shrink:0; }
+.holding svg { display:block; overflow:visible; }
+.chart[data-compact="true"] { margin-top:20px; }
+.chart[data-compact="true"] .holding { min-height:48px; padding:4px 0; }
+.chart[data-compact="true"] .labels { font-size:12px; }
+.axis { stroke:#a6ba9e; stroke-width:1; }
+.bar { transform-box:view-box; transform-origin:50% 50%; animation:grow var(--grow-duration) ease-out var(--bar-delay) both; }
+.down { fill:#dfc3a8; }
+.up { fill:#b5ccaa; }
+.zero { fill:#e6eddd; }
+.tooltip { position:absolute; z-index:5; left:0; right:0; bottom:calc(100% + 8px); padding:16px; border:1px solid #829478; border-radius:8px; color:#183d2d; background:#f6f8f4; box-shadow:0 8px 24px #102b2526; font-size:12px; pointer-events:auto; }
+.tooltip::after { content:""; position:absolute; top:100%; left:0; right:0; height:12px; }
+.tooltip strong { font-weight:600; }
+.tooltip dl { display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; margin:12px 0; }
+.tooltip dl div { min-width:0; }
+.tooltip dt { color:#52614f; }
+.tooltip dd { margin:2px 0 0; overflow-wrap:anywhere; font-size:14px; }
+.tooltip small { font-size:11px; color:#52614f; }
+@keyframes grow { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+@media(prefers-reduced-motion:reduce) { .bar { animation:none; } }
+:global([data-reduced-motion="true"]) .bar { animation:none; }

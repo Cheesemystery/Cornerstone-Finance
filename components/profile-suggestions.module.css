@@ -7,7 +7,7 @@
 .hero { display:grid; grid-template-columns:1.5fr 1fr; gap:20px; background:#163b2c; border-radius:20px; padding:clamp(26px,3vw,42px); overflow:hidden; color:white; }
 .kicker { margin:0 0 10px; text-transform:uppercase; letter-spacing:.075em; font-size:.68rem; font-weight:700; }
 .message .kicker { color:#b7d4bd; }
-.message h2 { font-family:var(--font-sans),Arial,sans-serif; font-size:clamp(2.4rem,3.9vw,3.8rem); font-weight:750; letter-spacing:-.065em; line-height:1.07; margin:20px 0; }
+.message h2 { font-family:var(--font-sans),Arial,sans-serif; font-size:clamp(2.25rem,3.55vw,3.45rem); font-weight:750; letter-spacing:-.06em; line-height:1.08; margin:20px 0; }
 .message h2 em { font-style:normal; color:#d6f58d; }
 .takeaway { max-width:430px; font-size:1.05rem; line-height:1.6; color:#e0ebe1; margin:0 0 25px; }
 .cta { display:inline-flex; gap:16px; align-items:center; justify-content:space-between; background:#d6f58d; color:#143627; border-radius:9px; padding:14px 18px; font-size:.86rem; font-weight:750; text-decoration:none; transition:transform .18s; }

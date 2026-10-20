@@ -1,0 +1,404 @@
+.card {
+  scroll-margin-top: 24px;
+  border: 1px solid var(--line);
+  border-top: 4px solid #244e3e;
+  background: white;
+  border-radius: 14px;
+  padding: 28px;
+  margin-bottom: 28px;
+}
+.card h2 {
+  font-size: 2rem;
+  margin: 10px 0 12px;
+  letter-spacing: -0.035em;
+}
+.card > p {
+  color: #526358;
+  line-height: 1.6;
+}
+.meta {
+  font-size: 0.8rem;
+}
+.total {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.total strong {
+  color: var(--ink);
+  font-size: 1.2rem;
+}
+.total span {
+  font-size: 0.8rem;
+}
+.rows {
+  display: grid;
+  gap: 6px;
+  margin-top: 20px;
+}
+.rows button {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+  text-align: left;
+  background: #f7f9f4;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 14px;
+  color: var(--ink);
+  cursor: pointer;
+}
+.rows button:hover,
+.rows button[aria-pressed="true"] {
+  background: #edf3e5;
+  border-color: #a7bf92;
+}
+.rows button:focus-visible {
+  outline: 3px solid #7558b1;
+  outline-offset: 2px;
+}
+.rows button span:last-child {
+  text-align: right;
+  flex-shrink: 0;
+}
+.rows strong {
+  font-size: 1rem;
+}
+.rows small {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: #58675f;
+}
+.note {
+  font-size: 0.8rem;
+}
+.reporting {
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
+  padding-top: 18px;
+}
+.reporting h3 {
+  font-size: 1.3rem;
+  margin: 0 0 10px;
+}
+.reporting h4 {
+  margin: 18px 0 5px;
+  font-size: 0.95rem;
+}
+.reporting p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #526358;
+}
+.reporting a {
+  color: #24593d;
+  font-size: 0.9rem;
+  text-underline-offset: 3px;
+}
+.reporting small {
+  display: block;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #58675f;
+  margin-top: 12px;
+}
+@media (max-width: 600px) {
+  .card {
+    padding: 20px;
+    scroll-margin-top: 80px;
+  }
+  .card h2 {
+    font-size: 1.8rem;
+  }
+  .rows button {
+    gap: 10px;
+    padding: 12px;
+  }
+  .rows small {
+    font-size: 0.75rem;
+  }
+  .rows button span:first-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+.storyHero {
+  background: #183e2d;
+  border: 1px solid #315b40;
+  border-radius: 22px;
+  padding: 26px 30px;
+  margin-bottom: 24px;
+  color: #f6faed;
+  overflow: hidden;
+  position: relative;
+}
+.storyBrand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #d6f58d;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.025em;
+}
+.storyBrand svg {
+  width: 24px;
+  height: 24px;
+}
+.storyBrand small {
+  margin-left: auto;
+  color: #b9d0ad;
+  font-size: 10px;
+  font-weight: 500;
+}
+.storyBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  gap: 30px;
+  align-items: center;
+  margin-top: 15px;
+}
+.storyHeading {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.storyHeading h2 {
+  font-family: var(--font-sans), Arial, sans-serif;
+  font-size: clamp(23px, 2.2vw, 31px);
+  letter-spacing: -0.02em;
+  font-weight: 550;
+  margin: 0;
+  line-height: 1.3;
+}
+.rotationControl {
+  background: #ffffff0d;
+  border: 1px solid #ffffff25;
+  color: #c3dbad;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.personalStory {
+  font-size: clamp(16px, 1.4vw, 20px);
+  font-weight: 400;
+  line-height: 1.65;
+  color: #e2edda;
+  margin: 14px 0;
+}
+.storySource {
+  font-size: 10px;
+  line-height: 1.6;
+  color: #a9c39d;
+  margin: 0;
+}
+.heroMetric {
+  border-left: 1px solid #ffffff24;
+  padding-left: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.heroMetric > span {
+  font-size: 10px;
+  color: #bbd3ae;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+.heroMetric strong {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.heroMetric b {
+  font-weight: 500;
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+.heroMetric small {
+  font-size: 10px;
+  color: #adc69f;
+  line-height: 1.5;
+}
+.gain {
+  color: #b7ee91;
+}
+.loss {
+  color: #d8dfcf;
+}
+.flat {
+  color: #e3ebd9;
+}
+.positive {
+  color: #1c7850;
+}
+.negative {
+  color: #51654a;
+}
+.card h2 {
+  font-family: var(--font-sans), Arial, sans-serif;
+  font-weight: 550;
+  font-size: 24px;
+  letter-spacing: -0.015em;
+}
+.meta {
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-size: 10px;
+}
+.reporting {
+  background: #244b38;
+  border: 1px solid #386147;
+  border-radius: 16px;
+  padding: 22px 24px;
+  scroll-margin-top: 85px;
+  color: #f1f6e8;
+}
+.reporting h3,
+.reporting h4 {
+  font-family: var(--font-sans), Arial, sans-serif;
+  font-weight: 550;
+  letter-spacing: -0.01em;
+  color: #f3f8ea;
+}
+.reporting p {
+  color: #d4e3c9;
+  font-size: 13px;
+}
+.reporting a {
+  color: #d6f58d;
+  font-weight: 550;
+  font-size: 13px;
+}
+.reporting small {
+  color: #b3caa6;
+  font-size: 11px;
+}
+.rows button {
+  min-height: 64px;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.rows strong {
+  font-weight: 550;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+.rows small {
+  font-size: 12px;
+}
+.card .note {
+  font-size: 11px;
+  line-height: 1.7;
+  margin-top: 16px;
+}
+@media (max-width: 1000px) {
+  .storyHero {
+    padding: 22px;
+  }
+  .storyBody {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .storyBrand {
+    flex-wrap: wrap;
+  }
+  .storyBrand small {
+    margin-left: 0;
+    flex-basis: 100%;
+    padding-left: 33px;
+  }
+  .heroMetric {
+    border-left: 0;
+    border-top: 1px solid #ffffff24;
+    padding: 18px 0 0;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+  .heroMetric > span,
+  .heroMetric small {
+    grid-column: 1/-1;
+  }
+  .heroMetric strong {
+    font-size: 28px;
+  }
+  .personalStory {
+    font-size: 17px;
+  }
+  .rotationControl {
+    min-width: 36px;
+    min-height: 36px;
+  }
+  .storyHeading h2 {
+    font-size: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rows button {
+    transition: none;
+  }
+}
+
+/* Give the result a distinct visual destination without trading rewards. */
+.storyBody {
+  grid-template-columns: minmax(0, 1fr) 240px;
+}
+.heroMetric {
+  position: relative;
+  border: 1px solid #7b9a59;
+  background: linear-gradient(140deg, #365c35, #23452e);
+  border-radius: 20px;
+  padding: 23px;
+  gap: 12px;
+  box-shadow:
+    0 8px 26px #071e1a35,
+    inset 0 1px 0 #d6f58d20;
+}
+.heroMetric > span {
+  font-size: 11px;
+  color: #e0edc6;
+  font-weight: 650;
+}
+.heroMetric strong {
+  font-size: 37px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.heroMetric b {
+  font-size: 25px;
+}
+.heroMetric small {
+  color: #d3e2c6;
+  font-size: 11px;
+}
+@media (max-width: 1000px) {
+  .storyBody {
+    grid-template-columns: 1fr;
+  }
+  .heroMetric {
+    padding: 20px;
+    border: 1px solid #7b9a59;
+  }
+}
+@media (max-width: 400px) {
+  .heroMetric strong {
+    font-size: 29px;
+  }
+  .heroMetric b {
+    font-size: 21px;
+  }
+}

@@ -1,0 +1,56 @@
+/* Focused grant cleanup: preserve the established forest, ivory and lime palette. */
+.portfolio-mode-toggle { display:flex; gap:8px; padding:8px; background:#e6ecdf; border:1px solid #bdcbb6; border-radius:16px; margin:24px 0; }
+.portfolio-mode-toggle button { flex:1; min-height:52px; padding:12px 20px; border:1px solid #8ca181; border-radius:10px; background:#f8faf3; color:#214330; font:inherit; font-weight:650; cursor:pointer; }
+.portfolio-mode-toggle button[aria-pressed="true"] { background:#d6f58d; color:#183d2d; border-color:#183d2d; box-shadow:inset 0 0 0 1px #183d2d; }
+.portfolio-mode-toggle button:focus-visible { outline:3px solid #547b48; outline-offset:3px; }
+.home-value-summary { display:flex; flex-direction:column; gap:12px; padding:28px 0; color:#edf3e7; }
+.home-value-summary > strong { font-size:clamp(36px,5vw,60px); font-weight:550; letter-spacing:-.04em; font-variant-numeric:tabular-nums; }
+.home-value-summary > small { color:#c3d3bb; }
+.home-value-summary .home-open-portfolio { width:fit-content; min-width:200px; }
+.challenge-boxes { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.home-learning-totals { flex-wrap:wrap; }
+.home-learning-totals > small { grid-column:1 / -1; color:#51654a; }
+.home-period .demo-link { display:block; color:#d6f58d; margin:10px 0; font-size:13px; line-height:1.6; }
+.portfolio-recap-fold { margin:30px 0; scroll-margin-top:24px; }
+.portfolio-recap-fold > summary { padding:20px 24px; background:#e8edde; border:1px solid #c2ceb8; border-radius:14px; color:#193d2c; font-size:18px; font-weight:600; cursor:pointer; }
+.portfolio-recap-fold[open] > summary { margin-bottom:20px; }
+.recap-as-of { color:#c4d4bb; padding:0 24px; }
+.monthly-card-body.recap-snapshot-body { grid-template-columns:minmax(0,1fr); }
+.recap-negative, .home-portfolio-card .move-down { color:#d8dfcf; }
+.move-down { color:#51654a; }
+.research-chart-only { grid-template-columns:minmax(0,1fr); }
+.chart-as-of { color:#51654a; font-size:12px; }
+.sidebar .account-chip { margin-top:auto; }
+.table caption { text-align:left; padding:12px 0; color:inherit; font-size:12px; }
+.progress-summary > small { grid-column:1 / -1; }
+@media(max-width:600px) { .portfolio-mode-toggle button { padding:12px 8px; } .home-value-summary .home-open-portfolio { width:100%; } }
+
+/* Phase 2: one dated week, one lesson action, one optional learning row. */
+.weekly-home { max-width:920px; margin:0 auto; display:flex; flex-direction:column; gap:24px; padding:20px 0 40px; }
+.week-hero { background:#204b38; color:#f5f7ed; border:1px solid #41654d; border-radius:22px; padding:clamp(24px,4vw,48px); }
+.week-hero h1 { margin:0 0 22px; font-size:clamp(36px,5vw,54px); font-weight:550; letter-spacing:-.04em; }
+.week-source { font-size:13px; line-height:1.6; margin:18px 0; color:#52644d; }
+.week-hero .week-source { color:#e6eddd; }
+.week-source a { color:inherit; }
+.week-sample-banner { border:1px solid #8fba6d; background:#e8f3d7; border-radius:8px; padding:10px 14px; color:#243f2c; width:fit-content; }
+.week-hero .week-sample-banner { color:#243f2c; }
+.week-result { display:flex; gap:20px; align-items:baseline; flex-wrap:wrap; margin-top:28px; font-variant-numeric:tabular-nums; }
+.week-result strong { font-size:clamp(40px,6vw,70px); font-weight:550; letter-spacing:-.04em; min-width:0; max-width:100%; overflow-wrap:anywhere; }
+.week-result span { font-size:26px; color:#dce7d0; }
+.week-period { font-size:13px; color:#c8dac0; margin:8px 0 28px; }
+.week-story { font-size:clamp(17px,2vw,21px); line-height:1.75; margin:0; }
+.week-done { padding:18px; border-radius:10px; background:#d6f58d; color:#1b3c28; margin-top:26px; font-weight:600; }
+.week-lesson-action { display:flex; justify-content:center; width:100%; min-height:58px; font-size:18px; }
+.continue-learning-row { padding:8px 0; font-size:14px; }
+.continue-learning-row a { color:#385a3d; }
+.holdings-input-options,.holdings-data-controls { display:flex; gap:12px; flex-wrap:wrap; margin:22px 0; }
+.holdings-manual { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; align-items:end; padding:20px; border-radius:12px; background:#f5f8ed; color:#243e2c; margin:18px 0; }
+.holdings-manual small { grid-column:1 / -1; }
+.holdings-manager { margin:24px 0; }
+.saved-holdings-list { list-style:none; padding:0; margin:24px 0; }
+.saved-holdings-list li { display:flex; flex-wrap:wrap; align-items:center; gap:16px; padding:12px 0; border-bottom:1px solid #dce5d3; }
+.saved-holdings-list li strong { max-width:100%; overflow-wrap:anywhere; }
+.saved-holdings-list li span { flex:1; }
+.week-hero .holdings-input p { color:#e4eddc; }
+.week-hero .holdings-input .holdings-manual small { color:#3c5540; }
+@media(max-width:600px) { .weekly-home { padding-top:8px; } .holdings-manual { grid-template-columns:minmax(0,1fr); padding:16px; } .holdings-input-options .button,.holdings-data-controls .button { width:100%; justify-content:center; } .week-result { gap:12px; } }

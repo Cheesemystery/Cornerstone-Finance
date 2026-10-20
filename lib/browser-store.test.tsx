@@ -1,0 +1,8 @@
+// @vitest-environment jsdom
+import { afterEach, expect, it, vi } from "vitest";
+import { act, cleanup, render, screen } from "@testing-library/react";
+import { createBrowserStore } from "./browser-store";
+afterEach(()=>{cleanup();vi.restoreAllMocks();localStorage.clear()});
+it("keeps in-memory progress when writes fail but reads work",()=>{const key="storage-test";localStorage.setItem(key,JSON.stringify({count:2}));const store=createBrowserStore(key,{count:0},raw=>raw as {count:number});expect(JSON.parse(store.read()).count).toBe(2);vi.spyOn(Storage.prototype,"setItem").mockImplementation(()=>{throw new Error("quota")});store.update(s=>({count:s.count+1}));expect(JSON.parse(store.read()).count).toBe(3);store.update(s=>({count:s.count+1}));expect(JSON.parse(store.read()).count).toBe(4)});
+it("refreshes subscribers after another tab changes the store",()=>{const key="tab-test";const store=createBrowserStore(key,{count:0},raw=>raw as {count:number});function View(){return <output>{store.useStore().value.count}</output>}render(<View/>);act(()=>{localStorage.setItem(key,JSON.stringify({count:7}));window.dispatchEvent(new StorageEvent("storage",{key,newValue:JSON.stringify({count:7})}))});expect(screen.getByRole("status").textContent).toBe("7");act(()=>store.update(s=>({count:s.count+1})));expect(screen.getByRole("status").textContent).toBe("8")});
+it("recovers corrupt storage with a visible persistence status",()=>{localStorage.setItem("corrupt","{");const store=createBrowserStore("corrupt",{count:0},raw=>raw as {count:number});function View(){const s=store.useStore();return <output>{s.persistence}:{s.value.count}</output>}render(<View/>);expect(screen.getByRole("status").textContent).toBe("recovered:0")});

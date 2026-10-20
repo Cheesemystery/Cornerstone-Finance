@@ -1,0 +1,700 @@
+{
+  "version": "0.9.18",
+  "mode": "full",
+  "ok": true,
+  "reactDetected": true,
+  "summary": {
+    "errorCount": 2,
+    "warningCount": 74,
+    "affectedFileCount": 34,
+    "totalDiagnosticCount": 76,
+    "score": null,
+    "scoreLabel": null
+  },
+  "diagnostics": [
+    {
+      "filePath": "ai-coach.js",
+      "line": 218,
+      "rule": "dangerous-html-sink",
+      "severity": "warning",
+      "message": "HTML is injected from a dynamic-looking source, which can become XSS if the value is user-controlled or unsanitized.",
+      "help": "Prefer rendering structured React nodes. If HTML is required, sanitize with a well-reviewed sanitizer and keep the trust boundary close to the sink.",
+      "category": "Security"
+    },
+    {
+      "filePath": "app.js",
+      "line": 369,
+      "rule": "no-unguarded-browser-global-at-module-scope",
+      "severity": "warning",
+      "message": "Reading `window` here crashes with \"ReferenceError: window is not defined\" the instant this module is imported during SSR — move the read inside a function or effect, or guard it with `typeof window !== \"undefined\"`.",
+      "help": "Reading `window`/`navigator`/`localStorage` at module scope throws `ReferenceError: window is not defined` when the module is imported during SSR. Move the read inside a function/effect, or guard it with `typeof window !== \"undefined\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "app.js",
+      "line": 421,
+      "rule": "no-unguarded-browser-global-at-module-scope",
+      "severity": "warning",
+      "message": "Reading `window` here crashes with \"ReferenceError: window is not defined\" the instant this module is imported during SSR — move the read inside a function or effect, or guard it with `typeof window !== \"undefined\"`.",
+      "help": "Reading `window`/`navigator`/`localStorage` at module scope throws `ReferenceError: window is not defined` when the module is imported during SSR. Move the read inside a function/effect, or guard it with `typeof window !== \"undefined\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "app.js",
+      "line": 671,
+      "rule": "no-unguarded-browser-global-at-module-scope",
+      "severity": "warning",
+      "message": "Reading `localStorage` here crashes with \"ReferenceError: localStorage is not defined\" the instant this module is imported during SSR — move the read inside a function or effect, or guard it with `typeof localStorage !== \"undefined\"`.",
+      "help": "Reading `window`/`navigator`/`localStorage` at module scope throws `ReferenceError: window is not defined` when the module is imported during SSR. Move the read inside a function/effect, or guard it with `typeof window !== \"undefined\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "app.js",
+      "line": 687,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "app.js",
+      "line": 913,
+      "rule": "no-unguarded-browser-global-at-module-scope",
+      "severity": "warning",
+      "message": "Reading `window` here crashes with \"ReferenceError: window is not defined\" the instant this module is imported during SSR — move the read inside a function or effect, or guard it with `typeof window !== \"undefined\"`.",
+      "help": "Reading `window`/`navigator`/`localStorage` at module scope throws `ReferenceError: window is not defined` when the module is imported during SSR. Move the read inside a function/effect, or guard it with `typeof window !== \"undefined\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "app.js",
+      "line": 930,
+      "rule": "no-unguarded-browser-global-at-module-scope",
+      "severity": "warning",
+      "message": "Reading `window` here crashes with \"ReferenceError: window is not defined\" the instant this module is imported during SSR — move the read inside a function or effect, or guard it with `typeof window !== \"undefined\"`.",
+      "help": "Reading `window`/`navigator`/`localStorage` at module scope throws `ReferenceError: window is not defined` when the module is imported during SSR. Move the read inside a function/effect, or guard it with `typeof window !== \"undefined\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "app.js",
+      "line": 948,
+      "rule": "no-unguarded-browser-global-at-module-scope",
+      "severity": "warning",
+      "message": "Reading `window` here crashes with \"ReferenceError: window is not defined\" the instant this module is imported during SSR — move the read inside a function or effect, or guard it with `typeof window !== \"undefined\"`.",
+      "help": "Reading `window`/`navigator`/`localStorage` at module scope throws `ReferenceError: window is not defined` when the module is imported during SSR. Move the read inside a function/effect, or guard it with `typeof window !== \"undefined\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "app/api/account/route.ts",
+      "line": 16,
+      "rule": "async-await-in-loop",
+      "severity": "warning",
+      "message": "This for…of loop waits before starting the next iteration. If iterations perform independent asynchronous work, consider bounded concurrency; await syntax alone does not establish a speedup.",
+      "help": "Consider concurrent calls only for independent asynchronous work. Shared queues or synchronous work may not benefit. Preserve resource limits, transaction ordering, and failure/cancellation semantics; observe all callback promises.",
+      "category": "Performance"
+    },
+    {
+      "filePath": "app/api/email/unsubscribe/route.ts",
+      "line": 4,
+      "rule": "nextjs-no-side-effect-in-get-handler",
+      "severity": "error",
+      "message": "This GET handler on the \"/unsubscribe\" route performs a side effect (.upsert()) and is prone to CSRF vulnerabilities, since prefetching or a forged request can trigger it.",
+      "help": "GET requests can be prefetched and are open to CSRF. Move the side effect to a POST handler.",
+      "category": "Security"
+    },
+    {
+      "filePath": "app/api/plaid/connections/[id]/route.ts",
+      "line": 21,
+      "rule": "async-await-in-loop",
+      "severity": "warning",
+      "message": "This for…of loop waits before starting the next iteration. If iterations perform independent asynchronous work, consider bounded concurrency; await syntax alone does not establish a speedup.",
+      "help": "Consider concurrent calls only for independent asynchronous work. Shared queues or synchronous work may not benefit. Preserve resource limits, transaction ordering, and failure/cancellation semantics; observe all callback promises.",
+      "category": "Performance"
+    },
+    {
+      "filePath": "app/api/recaps/[id]/card/route.tsx",
+      "line": 8,
+      "rule": "no-high-complexity-react-function",
+      "severity": "warning",
+      "message": "`GET` has cyclomatic complexity 20, cognitive complexity 34, and maximum nesting depth 3, so its React logic is hard to understand and change. Extract independent branches into components or hooks.",
+      "help": "Extract independent render branches and state logic into focused components or hooks until the control flow is easy to follow.",
+      "category": "Maintainability"
+    },
+    {
+      "filePath": "app/auth/callback/route.ts",
+      "line": 3,
+      "rule": "url-prefilled-privileged-action",
+      "severity": "warning",
+      "message": "Client code reads sensitive action state from the URL, which can pre-fill invites, roles, redirects, or sharing flows with attacker values.",
+      "help": "Require server-side validation and explicit confirmation for URL-sourced invite, role, permission, redirect, or sharing parameters.",
+      "category": "Security"
+    },
+    {
+      "filePath": "app/auth/callback/route.ts",
+      "line": 3,
+      "rule": "clickjacking-redirect-risk",
+      "severity": "warning",
+      "message": "Redirect or framing configuration may let attacker-controlled URLs chain into privileged UI or clickjacking.",
+      "help": "Allowlist redirect origins/paths, set `frame-ancestors` for privileged pages, and avoid URL-prefilled privileged dialogs.",
+      "category": "Security"
+    },
+    {
+      "filePath": "components/assistant-client.tsx",
+      "line": 122,
+      "rule": "no-array-index-as-key",
+      "severity": "warning",
+      "message": "Your users can see & submit the wrong data when this list reorders or filters, so use a stable id like `key={item.id}`, not the array index \"i\".",
+      "help": "Use a stable id from the item, like `key={item.id}` or `key={item.slug}`. Index keys break when the list reorders or filters.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/assistant-client.tsx",
+      "line": 155,
+      "rule": "button-has-type",
+      "severity": "warning",
+      "message": "Your users can submit the form by accident because a `<button>` with no `type` defaults to submit.",
+      "help": "Set an explicit button `type` so plain buttons do not submit forms by accident: `type=\"button\"`, `\"submit\"`, or `\"reset\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/demo-provider.tsx",
+      "line": 50,
+      "rule": "no-fetch-in-effect",
+      "severity": "warning",
+      "message": "fetch() inside useEffect can race, double-fire, or leak. Use a data-fetching layer or Server Component instead.",
+      "help": "Use a data-fetching layer or Server Component so fetches do not race, double-fire, or leak from `useEffect`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/demo-provider.tsx",
+      "line": 54,
+      "rule": "jsx-no-constructed-context-values",
+      "severity": "warning",
+      "message": "Every reader of this context redraws on each render because you build its `value` inline.",
+      "help": "Wrap the context value in `useMemo` or move it outside the component so consumers do not redraw every render.",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/demo-settings.tsx",
+      "line": 10,
+      "rule": "button-has-type",
+      "severity": "warning",
+      "message": "Your users can submit the form by accident because a `<button>` with no `type` defaults to submit.",
+      "help": "Set an explicit button `type` so plain buttons do not submit forms by accident: `type=\"button\"`, `\"submit\"`, or `\"reset\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/demo-settings.tsx",
+      "line": 10,
+      "rule": "dialog-has-accessible-name",
+      "severity": "warning",
+      "message": "This dialog has no accessible name, so screen readers announce it as just “dialog.” Add `aria-label` or point `aria-labelledby` at its heading.",
+      "help": "Give every `<dialog>` / `role=\"dialog\"` an accessible name with `aria-label` or `aria-labelledby` (referencing the dialog's title element).",
+      "category": "Accessibility"
+    },
+    {
+      "filePath": "components/discover-search.tsx",
+      "line": 8,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/discover-search.tsx",
+      "line": 10,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/discover-search.tsx",
+      "line": 10,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/discover-search.tsx",
+      "line": 10,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/discover-search.tsx",
+      "line": 10,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/home-dashboard.tsx",
+      "line": 142,
+      "rule": "no-high-complexity-react-function",
+      "severity": "warning",
+      "message": "`HomeDashboard` has cyclomatic complexity 16, cognitive complexity 18, and maximum nesting depth 2, so its React logic is hard to understand and change. Extract independent branches into components or hooks.",
+      "help": "Extract independent render branches and state logic into focused components or hooks until the control flow is easy to follow.",
+      "category": "Maintainability"
+    },
+    {
+      "filePath": "components/home-dashboard.tsx",
+      "line": 179,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/home-dashboard.tsx",
+      "line": 187,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/learning-library.tsx",
+      "line": 35,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/lesson-interaction.tsx",
+      "line": 95,
+      "rule": "no-high-complexity-react-function",
+      "severity": "warning",
+      "message": "`LessonInteraction` has cyclomatic complexity 18, cognitive complexity 17, and maximum nesting depth 2, so its React logic is hard to understand and change. Extract independent branches into components or hooks.",
+      "help": "Extract independent render branches and state logic into focused components or hooks until the control flow is easy to follow.",
+      "category": "Maintainability"
+    },
+    {
+      "filePath": "components/lesson-interaction.tsx",
+      "line": 229,
+      "rule": "no-array-index-as-key",
+      "severity": "warning",
+      "message": "Your users can see & submit the wrong data when this list reorders or filters, so use a stable id like `key={item.id}`, not the array index \"i\".",
+      "help": "Use a stable id from the item, like `key={item.id}` or `key={item.slug}`. Index keys break when the list reorders or filters.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/lesson-reader.tsx",
+      "line": 15,
+      "rule": "no-high-complexity-react-function",
+      "severity": "warning",
+      "message": "`LessonReader` has cyclomatic complexity 18, cognitive complexity 18, and maximum nesting depth 2, so its React logic is hard to understand and change. Extract independent branches into components or hooks.",
+      "help": "Extract independent render branches and state logic into focused components or hooks until the control flow is easy to follow.",
+      "category": "Maintainability"
+    },
+    {
+      "filePath": "components/mvp-settings.tsx",
+      "line": 32,
+      "rule": "button-has-type",
+      "severity": "warning",
+      "message": "Your users can submit the form by accident because a `<button>` with no `type` defaults to submit.",
+      "help": "Set an explicit button `type` so plain buttons do not submit forms by accident: `type=\"button\"`, `\"submit\"`, or `\"reset\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/mvp-settings.tsx",
+      "line": 146,
+      "rule": "dialog-has-accessible-name",
+      "severity": "warning",
+      "message": "This dialog has no accessible name, so screen readers announce it as just “dialog.” Add `aria-label` or point `aria-labelledby` at its heading.",
+      "help": "Give every `<dialog>` / `role=\"dialog\"` an accessible name with `aria-label` or `aria-labelledby` (referencing the dialog's title element).",
+      "category": "Accessibility"
+    },
+    {
+      "filePath": "components/onboarding-flow.tsx",
+      "line": 53,
+      "rule": "button-has-type",
+      "severity": "warning",
+      "message": "Your users can submit the form by accident because a `<button>` with no `type` defaults to submit.",
+      "help": "Set an explicit button `type` so plain buttons do not submit forms by accident: `type=\"button\"`, `\"submit\"`, or `\"reset\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/portfolio-holdings.tsx",
+      "line": 21,
+      "rule": "no-high-complexity-react-function",
+      "severity": "warning",
+      "message": "`PortfolioHoldings` has cyclomatic complexity 31, cognitive complexity 33, and maximum nesting depth 2, so its React logic is hard to understand and change. Extract independent branches into components or hooks.",
+      "help": "Extract independent render branches and state logic into focused components or hooks until the control flow is easy to follow.",
+      "category": "Maintainability"
+    },
+    {
+      "filePath": "components/portfolio-holdings.tsx",
+      "line": 21,
+      "rule": "no-giant-component",
+      "severity": "warning",
+      "message": "Component \"PortfolioHoldings\" is over 300 lines long, which is hard to read & change. Split it into a few smaller components.",
+      "help": "Pull each section into its own component so the parent is easier to read, test, and change.",
+      "category": "Maintainability"
+    },
+    {
+      "filePath": "components/portfolio-holdings.tsx",
+      "line": 57,
+      "rule": "js-hoist-intl",
+      "severity": "warning",
+      "message": "This is slow because new Intl.DateTimeFormat() rebuilds on every call inside a function, so move it to the top of the file, or wrap it in useMemo",
+      "help": "Move `new Intl.NumberFormat(...)` to the top of the file or wrap it in `useMemo`. Building one is slow, so don't redo it on every call",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/portfolio-holdings.tsx",
+      "line": 362,
+      "rule": "click-events-have-key-events",
+      "severity": "warning",
+      "message": "Keyboard users can't trigger this click handler because there's no keyboard one, so add `onKeyUp`, `onKeyDown`, or `onKeyPress`.",
+      "help": "Pair `onClick` with a key handler so keyboard users can trigger it.",
+      "category": "Accessibility"
+    },
+    {
+      "filePath": "components/portfolio-movement.tsx",
+      "line": 17,
+      "rule": "no-high-complexity-react-function",
+      "severity": "warning",
+      "message": "`PortfolioStory` has cyclomatic complexity 17, cognitive complexity 19, and maximum nesting depth 2, so its React logic is hard to understand and change. Extract independent branches into components or hooks.",
+      "help": "Extract independent render branches and state logic into focused components or hooks until the control flow is easy to follow.",
+      "category": "Maintainability"
+    },
+    {
+      "filePath": "components/portfolio-recap.tsx",
+      "line": 85,
+      "rule": "no-high-complexity-react-function",
+      "severity": "warning",
+      "message": "`PortfolioRecap` has cyclomatic complexity 59, cognitive complexity 90, and maximum nesting depth 3, so its React logic is hard to understand and change. Extract independent branches into components or hooks.",
+      "help": "Extract independent render branches and state logic into focused components or hooks until the control flow is easy to follow.",
+      "category": "Maintainability"
+    },
+    {
+      "filePath": "components/portfolio-recap.tsx",
+      "line": 85,
+      "rule": "no-giant-component",
+      "severity": "warning",
+      "message": "Component \"PortfolioRecap\" is over 300 lines long, which is hard to read & change. Split it into a few smaller components.",
+      "help": "Pull each section into its own component so the parent is easier to read, test, and change.",
+      "category": "Maintainability"
+    },
+    {
+      "filePath": "components/portfolio-recap.tsx",
+      "line": 106,
+      "rule": "js-hoist-intl",
+      "severity": "warning",
+      "message": "This is slow because new Intl.DateTimeFormat() rebuilds on every call inside a function, so move it to the top of the file, or wrap it in useMemo",
+      "help": "Move `new Intl.NumberFormat(...)` to the top of the file or wrap it in `useMemo`. Building one is slow, so don't redo it on every call",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/portfolio-recap.tsx",
+      "line": 147,
+      "rule": "js-hoist-intl",
+      "severity": "warning",
+      "message": "This is slow because new Intl.DateTimeFormat() rebuilds on every call inside a function, so move it to the top of the file, or wrap it in useMemo",
+      "help": "Move `new Intl.NumberFormat(...)` to the top of the file or wrap it in `useMemo`. Building one is slow, so don't redo it on every call",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/practice-workspace.tsx",
+      "line": 27,
+      "rule": "no-high-complexity-react-function",
+      "severity": "warning",
+      "message": "`PracticeWorkspace` has cyclomatic complexity 17, cognitive complexity 22, and maximum nesting depth 3, so its React logic is hard to understand and change. Extract independent branches into components or hooks.",
+      "help": "Extract independent render branches and state logic into focused components or hooks until the control flow is easy to follow.",
+      "category": "Maintainability"
+    },
+    {
+      "filePath": "components/practice-workspace.tsx",
+      "line": 27,
+      "rule": "no-giant-component",
+      "severity": "warning",
+      "message": "Component \"PracticeWorkspace\" is over 300 lines long, which is hard to read & change. Split it into a few smaller components.",
+      "help": "Pull each section into its own component so the parent is easier to read, test, and change.",
+      "category": "Maintainability"
+    },
+    {
+      "filePath": "components/practice-workspace.tsx",
+      "line": 396,
+      "rule": "button-has-type",
+      "severity": "warning",
+      "message": "Your users can submit the form by accident because a `<button>` with no `type` defaults to submit.",
+      "help": "Set an explicit button `type` so plain buttons do not submit forms by accident: `type=\"button\"`, `\"submit\"`, or `\"reset\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/practice-workspace.tsx",
+      "line": 528,
+      "rule": "dialog-has-accessible-name",
+      "severity": "warning",
+      "message": "This dialog has no accessible name, so screen readers announce it as just “dialog.” Add `aria-label` or point `aria-labelledby` at its heading.",
+      "help": "Give every `<dialog>` / `role=\"dialog\"` an accessible name with `aria-label` or `aria-labelledby` (referencing the dialog's title element).",
+      "category": "Accessibility"
+    },
+    {
+      "filePath": "components/production-recap-settings.tsx",
+      "line": 9,
+      "rule": "no-fetch-in-effect",
+      "severity": "warning",
+      "message": "fetch() inside useEffect can race, double-fire, or leak. Use a data-fetching layer or Server Component instead.",
+      "help": "Use a data-fetching layer or Server Component so fetches do not race, double-fire, or leak from `useEffect`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/production-recap-settings.tsx",
+      "line": 12,
+      "rule": "no-async-event-handler-without-reentry-guard",
+      "severity": "warning",
+      "message": "This async handler awaits a mutating request and only flips state after the await, so a fast double-click or double Enter fires the request twice. Add a leading `if (busy) return` guard (or set a flag before the await and disable the control) to close the re-entry window.",
+      "help": "An async onClick/onSubmit handler on a host control that awaits a mutating request and sets state only afterward stays interactive across the await, so a double-click fires the write twice. Add a leading `if (busy) return` guard, or set a flag before the await inside `try` and reset it in `finally` while the control is disabled.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/production-recap-settings.tsx",
+      "line": 13,
+      "rule": "no-async-event-handler-without-reentry-guard",
+      "severity": "warning",
+      "message": "This async handler awaits a mutating request and only flips state after the await, so a fast double-click or double Enter fires the request twice. Add a leading `if (busy) return` guard (or set a flag before the await and disable the control) to close the re-entry window.",
+      "help": "An async onClick/onSubmit handler on a host control that awaits a mutating request and sets state only afterward stays interactive across the await, so a double-click fires the write twice. Add a leading `if (busy) return` guard, or set a flag before the await inside `try` and reset it in `finally` while the control is disabled.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/production-recap-settings.tsx",
+      "line": 17,
+      "rule": "no-locale-format-in-render",
+      "severity": "warning",
+      "message": "This can cause a hydration mismatch because toLocaleDateString() formats with the server's locale and timezone during server rendering but the user's in the browser. Format it in a post-mount useEffect, or pass an explicit locale and timeZone.",
+      "help": "Format locale/timezone-dependent values in a post-mount useEffect + state, or pass an explicit locale and timeZone so the server and the browser render the same text. Only runs on SSR-capable projects.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/production-recap-settings.tsx",
+      "line": 17,
+      "rule": "dialog-has-accessible-name",
+      "severity": "warning",
+      "message": "This dialog has no accessible name, so screen readers announce it as just “dialog.” Add `aria-label` or point `aria-labelledby` at its heading.",
+      "help": "Give every `<dialog>` / `role=\"dialog\"` an accessible name with `aria-label` or `aria-labelledby` (referencing the dialog's title element).",
+      "category": "Accessibility"
+    },
+    {
+      "filePath": "components/recap-extra-tools.tsx",
+      "line": 13,
+      "rule": "no-async-event-handler-without-reentry-guard",
+      "severity": "warning",
+      "message": "This async handler awaits a mutating request and only flips state after the await, so a fast double-click or double Enter fires the request twice. Add a leading `if (busy) return` guard (or set a flag before the await and disable the control) to close the re-entry window.",
+      "help": "An async onClick/onSubmit handler on a host control that awaits a mutating request and sets state only afterward stays interactive across the await, so a double-click fires the write twice. Add a leading `if (busy) return` guard, or set a flag before the await inside `try` and reset it in `finally` while the control is disabled.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/recap-home.tsx",
+      "line": 18,
+      "rule": "button-has-type",
+      "severity": "warning",
+      "message": "Your users can submit the form by accident because a `<button>` with no `type` defaults to submit.",
+      "help": "Set an explicit button `type` so plain buttons do not submit forms by accident: `type=\"button\"`, `\"submit\"`, or `\"reset\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/recap-workspace.tsx",
+      "line": 18,
+      "rule": "no-high-complexity-react-function",
+      "severity": "warning",
+      "message": "`RecapWorkspace` has cyclomatic complexity 28, cognitive complexity 28, and maximum nesting depth 2, so its React logic is hard to understand and change. Extract independent branches into components or hooks.",
+      "help": "Extract independent render branches and state logic into focused components or hooks until the control flow is easy to follow.",
+      "category": "Maintainability"
+    },
+    {
+      "filePath": "components/recap-workspace.tsx",
+      "line": 30,
+      "rule": "no-fetch-in-effect",
+      "severity": "warning",
+      "message": "fetch() inside useEffect can race, double-fire, or leak. Use a data-fetching layer or Server Component instead.",
+      "help": "Use a data-fetching layer or Server Component so fetches do not race, double-fire, or leak from `useEffect`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/recap-workspace.tsx",
+      "line": 30,
+      "rule": "no-promise-then-side-effect-in-effect-without-catch",
+      "severity": "warning",
+      "message": "This promise chain runs in an effect, ends in a `.then` that sets state or mutates a ref, and has no `.catch` or enclosing try/catch, so a rejection leaves the state unset and surfaces as an unhandled rejection. Add a `.catch` handler on the chain (`.finally` does not count).",
+      "help": "An async init in an effect that sets state in `.then` but has no `.catch` leaves the component stuck and raises an unhandled rejection when it fails. Add a `.catch` on the chain (`.finally` does not handle the rejection).",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/recap-workspace.tsx",
+      "line": 93,
+      "rule": "button-has-type",
+      "severity": "warning",
+      "message": "Your users can submit the form by accident because a `<button>` with no `type` defaults to submit.",
+      "help": "Set an explicit button `type` so plain buttons do not submit forms by accident: `type=\"button\"`, `\"submit\"`, or `\"reset\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/recap-workspace.tsx",
+      "line": 95,
+      "rule": "button-has-type",
+      "severity": "warning",
+      "message": "Your users can submit the form by accident because a `<button>` with no `type` defaults to submit.",
+      "help": "Set an explicit button `type` so plain buttons do not submit forms by accident: `type=\"button\"`, `\"submit\"`, or `\"reset\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "components/social-leaderboard.tsx",
+      "line": 22,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/social-leaderboard.tsx",
+      "line": 22,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/social-leaderboard.tsx",
+      "line": 22,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "components/stock-price-chart.tsx",
+      "line": 136,
+      "rule": "no-high-complexity-react-function",
+      "severity": "warning",
+      "message": "`TradingViewChart` has cyclomatic complexity 16, cognitive complexity 14, and maximum nesting depth 1, so its React logic is hard to understand and change. Extract independent branches into components or hooks.",
+      "help": "Extract independent render branches and state logic into focused components or hooks until the control flow is easy to follow.",
+      "category": "Maintainability"
+    },
+    {
+      "filePath": "components/stock-researcher.tsx",
+      "line": 25,
+      "rule": "no-high-complexity-react-function",
+      "severity": "warning",
+      "message": "`StockResearcher` has cyclomatic complexity 16, cognitive complexity 15, and maximum nesting depth 2, so its React logic is hard to understand and change. Extract independent branches into components or hooks.",
+      "help": "Extract independent render branches and state logic into focused components or hooks until the control flow is easy to follow.",
+      "category": "Maintainability"
+    },
+    {
+      "filePath": "components/stock-researcher.tsx",
+      "line": 75,
+      "rule": "button-has-type",
+      "severity": "warning",
+      "message": "Your users can submit the form by accident because a `<button>` with no `type` defaults to submit.",
+      "help": "Set an explicit button `type` so plain buttons do not submit forms by accident: `type=\"button\"`, `\"submit\"`, or `\"reset\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "index.html",
+      "line": 1884,
+      "rule": "no-unguarded-browser-global-at-module-scope",
+      "severity": "warning",
+      "message": "Reading `localStorage` here crashes with \"ReferenceError: localStorage is not defined\" the instant this module is imported during SSR — move the read inside a function or effect, or guard it with `typeof localStorage !== \"undefined\"`.",
+      "help": "Reading `window`/`navigator`/`localStorage` at module scope throws `ReferenceError: window is not defined` when the module is imported during SSR. Move the read inside a function/effect, or guard it with `typeof window !== \"undefined\"`.",
+      "category": "Bugs"
+    },
+    {
+      "filePath": "lib/learning-progress.ts",
+      "line": 184,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "lib/learning-progress.ts",
+      "line": 186,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "lib/learning-progress.ts",
+      "line": 191,
+      "rule": "js-set-map-lookups",
+      "severity": "warning",
+      "message": "This scales poorly because `array.includes()` inside a loop scans the whole list every time. Use a Set for constant-time lookups.",
+      "help": "Use a `Set` or `Map` when you check for the same items over and over. `Array.includes`/`find` scans the whole list each time",
+      "category": "Performance"
+    },
+    {
+      "filePath": "lib/money-story.ts",
+      "line": 5,
+      "rule": "js-hoist-intl",
+      "severity": "warning",
+      "message": "This is slow because new Intl.NumberFormat() rebuilds on every call inside a function, so move it to the top of the file, or wrap it in useMemo",
+      "help": "Move `new Intl.NumberFormat(...)` to the top of the file or wrap it in `useMemo`. Building one is slow, so don't redo it on every call",
+      "category": "Performance"
+    },
+    {
+      "filePath": "lib/money-story.ts",
+      "line": 11,
+      "rule": "js-hoist-intl",
+      "severity": "warning",
+      "message": "This is slow because new Intl.DateTimeFormat() rebuilds on every call inside a function, so move it to the top of the file, or wrap it in useMemo",
+      "help": "Move `new Intl.NumberFormat(...)` to the top of the file or wrap it in `useMemo`. Building one is slow, so don't redo it on every call",
+      "category": "Performance"
+    },
+    {
+      "filePath": "lib/practice.test.ts",
+      "line": 7,
+      "rule": "no-json-parse-stringify-clone",
+      "severity": "warning",
+      "message": "`JSON.parse(JSON.stringify(x))` deep-clones by re-serializing: it is slow on large objects and silently drops `undefined`, functions, `Date`/`Map`/`Set`, and cyclic references. Use `structuredClone(x)`.",
+      "help": "Replace `JSON.parse(JSON.stringify(value))` with `structuredClone(value)`. It is faster and preserves Dates, Maps, Sets, and cyclic references.",
+      "category": "Performance"
+    },
+    {
+      "filePath": "lib/presentation.ts",
+      "line": 4,
+      "rule": "js-hoist-intl",
+      "severity": "warning",
+      "message": "This is slow because new Intl.NumberFormat() rebuilds on every call inside a function, so move it to the top of the file, or wrap it in useMemo",
+      "help": "Move `new Intl.NumberFormat(...)` to the top of the file or wrap it in `useMemo`. Building one is slow, so don't redo it on every call",
+      "category": "Performance"
+    },
+    {
+      "filePath": "lib/presentation.ts",
+      "line": 46,
+      "rule": "js-hoist-intl",
+      "severity": "warning",
+      "message": "This is slow because new Intl.DateTimeFormat() rebuilds on every call inside a function, so move it to the top of the file, or wrap it in useMemo",
+      "help": "Move `new Intl.NumberFormat(...)` to the top of the file or wrap it in `useMemo`. Building one is slow, so don't redo it on every call",
+      "category": "Performance"
+    },
+    {
+      "filePath": "supabase/migrations/20260329050432_fix_security_issues.sql",
+      "line": 41,
+      "rule": "supabase-rls-policy-risk",
+      "severity": "error",
+      "message": "Supabase policy SQL disables RLS, permits writes broadly, or references a service-role bypass.",
+      "help": "Keep public-read policies explicit, but gate inserts, updates, deletes, and service-role bypasses behind `auth.uid()` plus trusted tenant membership.",
+      "category": "Security"
+    }
+  ]
+}

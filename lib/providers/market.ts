@@ -4,7 +4,7 @@ import { sampleNews } from "@/lib/sample-data";
 export interface MarketNewsItem { id: string; symbol: string; source: string; publishedAt: string; headline: string; url?: string; summary?: string; }
 export interface MarketProvider { searchNews(symbol?: string): Promise<MarketNewsItem[]>; quote(symbol: string): Promise<{ symbol: string; price: number; previousClose: number; asOf: string } | null>; }
 
-export class FinnhubProvider implements MarketProvider {
+class FinnhubProvider implements MarketProvider {
   async searchNews(symbol?: string) {
     if (!env.FINNHUB_API_KEY) return sampleNews.filter(n=>!symbol||n.symbol===symbol).map(n=>({id:n.id,symbol:n.symbol,source:n.source,publishedAt:new Date().toISOString(),headline:n.headline}));
     const end = new Date(); const start = new Date(end); start.setDate(start.getDate()-7);

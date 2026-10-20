@@ -5,10 +5,8 @@ import Link from "next/link";
 import { useState } from "react";
 import styles from "./profile-suggestions.module.css";
 
-const funds = [
-  { symbol: "VXUS", name: "Vanguard Total International Stock ETF", detail: "A basket of stocks from around the world, outside the U.S.", url: "https://investor.vanguard.com/investment-products/etfs/profile/vxus" },
-  { symbol: "IXUS", name: "iShares Core MSCI Total International Stock ETF", detail: "Another way to own a broad mix of companies outside the U.S.", url: "https://www.ishares.com/us/products/244048/ishares-core-msci-total-international-stock-etf" }
-];
+import { research } from "@/lib/research";
+const funds = research.filter(item=>["vxus","ixus"].includes(item.id)).map(item=>({symbol:item.symbol,name:item.title,detail:item.summary,url:item.source}));
 
 export function ProfileSuggestions() {
   const [scenario, setScenario] = useState("us");
@@ -25,17 +23,17 @@ export function ProfileSuggestions() {
 
     <div className={styles.hero}>
       <div className={styles.message} aria-live="polite">
-        <p className={styles.kicker}>Example portfolio · The big picture</p>
-        <h2 id="suggestions-title">{usOnly ? <>All your stocks.<br/><em>One country.</em></> : <>More countries.<br/><em>A wider mix.</em></>}</h2>
-        <p className={styles.takeaway}>{usOnly ? "If U.S. stocks fall, your whole portfolio could feel it." : "Your stocks reach beyond the U.S. Check that your funds don’t all own the same companies."}</p>
-        <a href="#global-funds" className={styles.cta}>{usOnly ? "Explore beyond the U.S." : "Explore global stock funds"}<ArrowDown size={18} aria-hidden="true"/></a>
+        <p className={styles.kicker}>Example · How location changes risk</p>
+        <h2 id="suggestions-title">{usOnly ? <>100% U.S. stocks means<br/><em>one-market risk.</em></> : <>Adding international stocks<br/><em>spreads country risk.</em></>}</h2>
+        <p className={styles.takeaway}>{usOnly ? "Every stock in this example depends on the U.S. market. If that market struggles, there is no international exposure to soften the impact." : "This example puts 30% outside the U.S., so one country has less influence. It is more diversified by location, but it can still lose value."}</p>
+        <a href="#global-funds" className={styles.cta}>{usOnly ? "See international ETF examples" : "Compare international ETFs"}<ArrowDown size={18} aria-hidden="true"/></a>
       </div>
       <div className={styles.visual}>
         <Globe2 className={styles.globe} aria-hidden="true"/>
         <strong>{usOnly ? "100" : "70"}<span>%</span></strong>
-        <span className={styles.visualLabel}>in U.S. stocks</span>
+        <span className={styles.visualLabel}>of this example is in U.S. stocks</span>
         <div className={styles.bar} aria-hidden="true"><span style={{width:usOnly ? "100%" : "70%"}}/></div>
-        <p>{usOnly ? "0% outside the U.S." : "30% outside the U.S."}</p>
+        <p>{usOnly ? "No exposure to stocks outside the U.S." : "30% is invested outside the U.S."}</p>
       </div>
     </div>
     <p className={styles.note}>Demo only — not your account. Spreading money across countries can reduce reliance on one market, but you can still lose money.</p>

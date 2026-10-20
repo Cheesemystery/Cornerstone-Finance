@@ -1,5 +1,5 @@
-export type PortfolioSource = "plaid" | "csv" | "manual" | "sample";
-export type Freshness = "live" | "delayed" | "stale";
+export type PortfolioSource = "plaid" | "csv" | "manual" | "sample" | "simulation";
+export type Freshness = "live" | "delayed" | "stale" | "simulated";
 
 export interface Holding {
   symbol: string;
@@ -20,6 +20,9 @@ export interface PortfolioSnapshot {
   institution?: string;
   currency: "USD";
   holdings: Holding[];
+  comparisonPeriod?: "week";
+  periodStart?: string;
+  priceProvider?: string;
 }
 
 export interface SourceReference {

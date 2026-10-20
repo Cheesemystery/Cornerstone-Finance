@@ -30,18 +30,18 @@ export function summarizePortfolio(snapshot: PortfolioSnapshot) {
 export function buildBriefing(snapshot: PortfolioSnapshot): Briefing {
   const summary = summarizePortfolio(snapshot);
   const largest = summary.allocations[0];
-  const top = summary.contributors[0];
-  const direction = summary.dayChange >= 0 ? "up" : "down";
+  const top = movementSummary(snapshot).driver;
+  const direction = summary.dayChange > 0.005 ? "up" : summary.dayChange < -0.005 ? "down" : "unchanged";
   const events: Briefing["events"] = [
     {
       id: "daily-move",
       kind: "performance",
       priority: "high",
-      headline: `Your portfolio is ${direction} ${Math.abs(summary.dayChangePercent).toFixed(2)}% today`,
-      summary: `${top?.symbol ?? "Your leading holding"} contributed most to today's move. Review the underlying change before making any decision.`,
+      headline: summary.totalValue === 0 ? "No holdings to summarize" : direction === "unchanged" ? "No net change in this snapshot" : `Latest available change: ${direction} ${Math.abs(summary.dayChangePercent).toFixed(2)}%`,
+      summary: top ? `${top.symbol} made the largest ${direction === "down" ? "negative" : "positive"} contribution versus the supplied previous close. This is arithmetic attribution, not an explanation of why prices moved.` : "No directional driver is implied by an empty or unchanged snapshot.",
       symbols: top ? [top.symbol] : [],
       sources: [{ label: "Portfolio holdings", asOf: snapshot.asOf }],
-      researchPrompt: top ? `What changed for ${top.symbol} today?` : undefined
+      researchPrompt: top ? `What does this snapshot show for ${top.symbol}?` : undefined
     }
   ];
 
@@ -63,10 +63,10 @@ export function buildBriefing(snapshot: PortfolioSnapshot): Briefing {
     kind: "news",
     priority: "low",
     headline: `Research the companies driving ${top?.symbol ?? "your portfolio"}`,
-    summary: "Read the latest sourced coverage and compare the facts with your original investment thesis.",
+    summary: "Open original sources and check their dates. This snapshot does not establish why a price moved.",
     symbols: top ? [top.symbol] : [],
-    sources: [{ label: "Market news feed", asOf: snapshot.asOf }],
-    researchPrompt: top ? `Show sourced news for ${top.symbol}` : "Show today's market news"
+    sources: [{ label: "Educational research prompt", asOf: snapshot.asOf }],
+    researchPrompt: top ? `Show sourced news for ${top.symbol}` : "Open the research checklist"
   });
 
   return {
@@ -93,3 +93,14 @@ export const freeEntitlements = {
   advancedBriefings: false,
   customAlerts: false
 } as const;
+
+
+/** Direction-aware attribution shared by every snapshot summary. */
+export function movementSummary(snapshot: PortfolioSnapshot) {
+  const summary = summarizePortfolio(snapshot);
+  const direction = summary.dayChange < -0.005 ? "lower" : summary.dayChange > 0.005 ? "higher" : "unchanged";
+  const ranked = [...summary.contributors].sort((a,b) => direction === "lower" ? a.value-b.value : b.value-a.value);
+  const driver = direction === "unchanged" ? undefined : ranked.find(item => direction === "lower" ? item.value < 0 : item.value > 0);
+  const offset = direction === "unchanged" ? undefined : [...ranked].reverse().find(item => direction === "lower" ? item.value > 0 : item.value < 0);
+  return { summary, direction, ranked, driver, offset };
+}
