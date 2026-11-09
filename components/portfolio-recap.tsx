@@ -141,7 +141,7 @@ function RecapMovers({ movers, example, simulated, period }: {
   );
 }
 
-export function PortfolioRecap({ embedded = false, initialMode = "snapshot" }: { embedded?: boolean; initialMode?: "snapshot" | "practice" }) {
+export function PortfolioRecap({ embedded = false, initialMode = "snapshot", showLearning = true }: { embedded?: boolean; initialMode?: "snapshot" | "practice"; showLearning?: boolean }) {
   const { portfolio } = useDemo(),
     { practice } = useMvp();
   const [selected, setSelected] = useState<"snapshot" | "example" | "practice">(
@@ -375,12 +375,12 @@ export function PortfolioRecap({ embedded = false, initialMode = "snapshot" }: {
           </Link>}
         </footer>
       </section>
-      <details className="recap-learning-disclosure">
+      {showLearning && <details className="recap-learning-disclosure">
         <summary>
           Learning milestones, history & sharing <ChevronDown size={17} />
         </summary>
         <LearningRecap embedded />
-      </details>
+      </details>}
     </div>
   );
 }

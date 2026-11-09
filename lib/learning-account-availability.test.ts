@@ -1,0 +1,11 @@
+import {afterEach,beforeEach,expect,it,vi} from "vitest";
+const mock=vi.hoisted(()=>({create:vi.fn(),rpc:vi.fn(),env:{NEXT_PUBLIC_SUPABASE_URL:"https://example.supabase.co",NEXT_PUBLIC_SUPABASE_ANON_KEY:"test-anon",APP_URL:"http://localhost:3000"}}));
+vi.mock("server-only",()=>({}));
+vi.mock("@supabase/supabase-js",()=>({createClient:mock.create}));
+vi.mock("@/lib/env",()=>({env:mock.env,integrations:{supabase:true}}));
+import {learningAccountsConfigured,learningAccountsReady} from "./server/learning-account";
+beforeEach(()=>{vi.resetAllMocks();mock.create.mockReturnValue({rpc:mock.rpc});mock.rpc.mockResolvedValue({data:true,error:null});});
+afterEach(()=>vi.unstubAllEnvs());
+it("keys alone do not enable account learning",async()=>{vi.stubEnv("LEARNING_ACCOUNTS_ENABLED","false");expect(learningAccountsConfigured()).toBe(false);expect(await learningAccountsReady()).toBe(false);expect(mock.create).not.toHaveBeenCalled();});
+it("uses an anonymous cookie-independent schema check when explicitly enabled",async()=>{vi.stubEnv("LEARNING_ACCOUNTS_ENABLED","true");expect(await learningAccountsReady()).toBe(true);expect(mock.create.mock.calls[0][1]).toBe("test-anon");expect(mock.create.mock.calls[0][2].auth.persistSession).toBe(false);});
+it("does not present missing account infrastructure as available",async()=>{vi.stubEnv("LEARNING_ACCOUNTS_ENABLED","true");mock.rpc.mockResolvedValue({data:null,error:{code:"missing"}});expect(await learningAccountsReady()).toBe(false);});

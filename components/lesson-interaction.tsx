@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUp, ArrowDown, CheckCircle2, Lightbulb } from "lucide-react";
 import type { LessonActivity } from "@/lib/lesson-activities";
 import { GrowthCalculator } from "./growth-calculator";
@@ -11,10 +11,15 @@ function Feedback({
   correct: boolean;
   children: React.ReactNode;
 }) {
+  const feedback = useRef<HTMLDivElement>(null);
+  useEffect(() => { feedback.current?.focus(); }, []);
   return (
     <div
+      ref={feedback}
+      tabIndex={-1}
       className={`lesson-feedback ${correct ? "is-correct" : ""}`}
       role="status"
+      aria-atomic="true"
     >
       {correct ? <CheckCircle2 size={22} /> : <Lightbulb size={22} />}
       <div>

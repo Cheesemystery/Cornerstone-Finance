@@ -5,9 +5,10 @@ import { lessons } from "@/lib/lessons";
 import { learningStats, nextLesson } from "@/lib/learning-progress";
 import { useMvp } from "./mvp-provider";
 import { ProgressSummary, NextLessonLink } from "./mvp-ui";
+import { LearningAccountControls } from "./learning-account-controls";
 import { LearningBuildingCard } from "./learning-building";
 export function LearningLibrary() {
-  const { learning, now } = useMvp();
+  const { learning, now, account } = useMvp();
   const next = nextLesson(learning);
   const stats = learningStats(
     learning,
@@ -31,6 +32,7 @@ export function LearningLibrary() {
         </div>
         <ProgressSummary />
       </section>
+      {account?.account && <LearningAccountControls key={account.account.userId}/>}
       <LearningBuildingCard />
       <ol className="path-list">
         {lessons.map((lesson, index) => {

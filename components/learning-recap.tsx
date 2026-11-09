@@ -92,7 +92,7 @@ export function LearningRecap({ embedded = false }: { embedded?: boolean }) {
         <h2>Your learning history</h2>
         {learning.events.length ? (
           <ol className="activity-timeline">
-            {[...learning.events].reverse().map((event) => (
+            {[...learning.events].sort((a,b)=>b.at.localeCompare(a.at)).map((event) => (
               <li key={event.id}>
                 <span className="timeline-dot" />
                 <BookOpen size={19} />
@@ -105,7 +105,7 @@ export function LearningRecap({ embedded = false }: { embedded?: boolean }) {
                         ? "A short review completed"
                         : "A practice week reflected on"}
                   </strong>
-                  <small>{displayDate(event.day)}</small>
+                  <small><time dateTime={event.day}>{displayDate(event.day)}</time></small>
                 </div>
               </li>
             ))}

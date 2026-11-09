@@ -9,6 +9,7 @@ import { LessonReader } from "./lesson-reader";
 import { HoldingsInput } from "./holdings-input";
 import { emptySavedHoldings, holdingsIdentity, sampleSavedHoldings } from "@/lib/saved-holdings";
 import { calendarWeek } from "@/lib/weekly-portfolio";
+import { lessonQuiz } from "@/lib/lesson-quiz";
 import { emptyLearning } from "@/lib/learning-progress";
 import { getSampleHistoricalCloses } from "@/lib/sample-history";
 import type { HistoricalData } from "@/lib/historical-data";
@@ -49,13 +50,16 @@ it("completes a related existing lesson, persists done for this week on reload, 
   fireEvent.click(screen.getByLabelText("One share costs $2 less than before."));
   fireEvent.click(screen.getByRole("button",{name:"Check answer"}));
   fireEvent.click(screen.getByRole("button",{name:"Continue"}));
-  fireEvent.click(screen.getByRole("button",{name:"Try one quick check"}));
-  fireEvent.click(screen.getByLabelText("The price fell; you need more context."));
-  fireEvent.click(screen.getByRole("button",{name:"Check answer"}));
+  fireEvent.click(screen.getByRole("button",{name:"Try three quick checks"}));
+  for (const question of lessonQuiz("why-prices-move")) {
+    fireEvent.click(screen.getByLabelText(question.options[question.correct]));
+    fireEvent.click(screen.getByRole("button",{name:"Check answer"}));
+    fireEvent.click(screen.getByRole("button",{name:"Continue"}));
+  }
   fireEvent.click(screen.getByRole("button",{name:"Keep this idea"}));
   const choose = screen.queryByRole("button",{name:"Campus hall"});
   if (choose) fireEvent.click(choose);
-  expect(screen.getByRole("link",{name:"Continue"}).getAttribute("href")).toBe("/learn");
+  expect(screen.getByRole("link",{name:"What do you actually own?"}).getAttribute("href")).toBe("/learn/what-you-own");
   view.rerender(<Providers><HomeDashboard/></Providers>);
   expect(screen.getByRole("status").textContent).toBe("This week’s stone is laid. See you Monday.");
   expect(screen.queryByRole("link",{name:"Start your 2-minute lesson"})).toBeNull();
@@ -114,7 +118,7 @@ it("keeps short history and unsupported tickers in a friendly input state, witho
   localStorage.setItem("cornerstone-holdings-v1",JSON.stringify({...emptySavedHoldings,holdings:[{ticker:"MISSING",shares:2}]}));
   render(<Providers><HomeDashboard/></Providers>);
   await screen.findByRole("button",{name:"Use sample portfolio"});
-  expect(demo.historyStatus).toBe("insufficient");
+  await waitFor(()=>expect(demo.historyStatus).toBe("insufficient"));
   expect(demo.portfolio.holdings).toEqual([]);
   expect(screen.queryByText("Unavailable")).toBeNull();
 });

@@ -1,0 +1,16 @@
+import {beforeEach,expect,it,vi} from "vitest";
+import {NextRequest} from "next/server";
+import {emptyLearning} from "@/lib/learning-progress";
+const mock=vi.hoisted(()=>({ready:vi.fn(),client:vi.fn(),getUser:vi.fn(),read:vi.fn(),rpc:vi.fn(),from:vi.fn()}));
+vi.mock("@/lib/server/learning-account",()=>({learningAccountsReady:mock.ready}));
+vi.mock("@/lib/supabase/server",()=>({createSupabaseServerClient:mock.client}));
+import {GET,PUT} from "./route";
+const A="11111111-1111-4111-8111-111111111111", B="22222222-2222-4222-8222-222222222222";
+beforeEach(()=>{vi.resetAllMocks();mock.ready.mockResolvedValue(true);mock.getUser.mockResolvedValue({data:{user:{id:A}},error:null});mock.read.mockResolvedValue({data:null,error:null});mock.rpc.mockResolvedValue({data:1,error:null});mock.from.mockImplementation(()=>({select:()=>({eq:(_key:string,id:string)=>{expect(id).toBe(A);return {maybeSingle:mock.read};}})}));mock.client.mockResolvedValue({auth:{getUser:mock.getUser},from:mock.from,rpc:mock.rpc});});
+const request=(userId=A,revision=0)=>new NextRequest("http://localhost:3000/api/learning/account",{method:"PUT",headers:{origin:"http://localhost:3000","Content-Type":"application/json"},body:JSON.stringify({userId,revision,state:emptyLearning})});
+it("requires verified authentication on reads and writes",async()=>{mock.getUser.mockResolvedValue({data:{user:null},error:null});expect((await GET()).status).toBe(401);expect((await PUT(request())).status).toBe(401);expect(mock.from).not.toHaveBeenCalled();});
+it("never writes another account's queued progress",async()=>{expect((await PUT(request(B))).status).toBe(409);expect(mock.rpc).not.toHaveBeenCalled();});
+it("rejects stale revisions without overwriting newer progress",async()=>{mock.read.mockResolvedValue({data:{state:emptyLearning,revision:3},error:null});expect((await PUT(request())).status).toBe(409);expect(mock.rpc).not.toHaveBeenCalled();});
+it("returns only the authenticated owner's progress with no caching",async()=>{const response=await GET();expect(response.headers.get("Cache-Control")).toBe("no-store");expect((await response.json()).userId).toBe(A);});
+it("uses the authenticated RPC and reports success only after it saves",async()=>{const response=await PUT(request());expect(response.status).toBe(200);expect((await response.json()).revision).toBe(1);expect(mock.rpc.mock.calls[0][1].expected_revision).toBe(0);});
+it("keeps unavailable or failed saves explicit",async()=>{mock.rpc.mockResolvedValue({error:{code:"offline"}});expect((await PUT(request())).status).toBe(503);mock.ready.mockResolvedValue(false);expect((await GET()).status).toBe(503);});

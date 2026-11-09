@@ -1213,6 +1213,10 @@ progress::-moz-progress-bar {
   transition: none !important;
   scroll-behavior: auto !important;
 }
+/* The viewport scrolls on html, outside the saved-preference wrapper. */
+html:has([data-reduced-motion="true"]) {
+  scroll-behavior: auto !important;
+}
 @keyframes soft-arrive {
   from {
     transform: scale(0.9);
@@ -1601,3 +1605,19 @@ progress::-moz-progress-bar {
   scroll-margin-top: 96px;
 }
 .practice-result h2{scroll-margin-top:100px}
+
+/* Keep learning's quiet secondary actions usable by touch and keyboard. */
+.welcome-setup .demo-link,
+.interactive-lesson .demo-link,
+.interactive-lesson .player-source a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.interactive-lesson h2[tabindex="-1"],
+.interactive-lesson .lesson-feedback {
+  scroll-margin-top: 96px;
+}

@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { BUILDING_CAPACITY, BRICK_DROP_MS, buildingSkins, laidBrickCount, useBuildingChoice, type BuildingSkin } from "@/lib/building";
@@ -60,17 +61,23 @@ export function LearningBuildingCard() {
   const {learning} = useMvp();
   const {choice, choose} = useBuildingChoice();
   const [picking, setPicking] = useState(false);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const wasPicking = useRef(false);
+  useEffect(() => {
+    if (wasPicking.current && !picking) trigger.current?.focus();
+    wasPicking.current = picking;
+  }, [picking]);
   return <section className={`mvp-card ${styles.compact} tabular-nums`} aria-labelledby={picking ? undefined : "your-building-title"} aria-label={picking ? "Your building" : undefined}>
     {picking ? <BuildingPicker completed={learning.completed} skin={choice.skin} onChoose={skin => {choose(skin);setPicking(false);}} /> : <>
       <div className={styles.preview}><BuildingDrawing completed={learning.completed} skin={choice.skin} /></div>
       <div><h2 id="your-building-title">Your building</h2><p className="muted small">{laidBrickCount(learning.completed)} of {BUILDING_CAPACITY} bricks</p>
-        <button type="button" className="demo-link" onClick={() => setPicking(true)}>Change building</button>
+        <button ref={trigger} type="button" className="demo-link" onClick={() => setPicking(true)}>Change building</button>
       </div>
     </>}
   </section>;
 }
 
-export function LessonBuildingCompletion({ completed, newCompletion, reducedMotion }: {completed:readonly string[];newCompletion:boolean;reducedMotion:boolean}) {
+export function LessonBuildingCompletion({ completed, newCompletion, reducedMotion, phaseOne, nextHref = "/learn", nextTitle = "Continue", saved = true, saveLabel }: {completed:readonly string[];newCompletion:boolean;reducedMotion:boolean;phaseOne?:boolean;nextHref?:string;nextTitle?:string;saved?:boolean;saveLabel?:string}) {
   const {choice, choose, persistence} = useBuildingChoice();
   const [changing, setChanging] = useState(false);
   const [animationDone, setAnimationDone] = useState(false);
@@ -79,24 +86,29 @@ export function LessonBuildingCompletion({ completed, newCompletion, reducedMoti
   const reduced = reducedMotion || systemReduced;
   const count = laidBrickCount(completed);
   const added = newCompletion && count > 0 && new Set(completed).size <= BUILDING_CAPACITY;
-  const choosing = !choice.chosen || changing;
+  const choosing = (!phaseOne && !choice.chosen) || changing;
   const settled = reduced || !added || animationDone;
+  // Navigation is available immediately; animation must never move focus later.
+  useEffect(() => {
+    if (!choosing) next.current?.focus();
+  }, [choosing]);
   useEffect(() => {
     if (choosing) return;
-    if (settled) next.current?.focus({preventScroll:true});
     if (!added || animationDone) return;
     // Animation-end is primary; this fallback also covers interrupted CSS animations.
     const timer = setTimeout(() => setAnimationDone(true), reduced ? 200 : BRICK_DROP_MS + 100);
     return () => clearTimeout(timer);
-  }, [choosing, settled, added, animationDone, reduced]);
+  }, [choosing, added, animationDone, reduced]);
 
   return <div className={`${styles.completion} tabular-nums`}>
     {choosing ? <BuildingPicker completed={added ? completed.slice(0,-1) : completed} skin={choice.skin} onChoose={skin => {choose(skin);setChanging(false);}} /> : <>
       <div className={styles.building}><BuildingDrawing completed={completed} skin={choice.skin} incomingIndex={added && !animationDone ? count - 1 : null} reduced={reduced} onSettled={() => setAnimationDone(true)} /></div>
       <h2>{added ? `Brick ${count} laid.` : "Your building"}</h2>
+      <p role="status">{saveLabel ?? (!saved ? "Available for this session" : "Saved in this browser")}</p>
       <p>Each idea you keep becomes part of your building.</p>
       <p className="muted small">{count} of {BUILDING_CAPACITY} bricks</p>
-      <div className={styles.actions}><Link ref={next} className="button primary" href="/learn">Continue</Link>
+      <div className={styles.actions}><Link ref={next} className="button primary" href={nextHref}>{nextTitle}</Link>
+        <Link className="demo-link" href="/recap">View my Recap</Link><Link className="demo-link" href="/learn">Return later</Link>
         <button type="button" className="demo-link" onClick={() => setChanging(true)}>Change building</button></div>
     </>}
     <span className="sr-only" aria-live="polite" aria-atomic="true">{!choosing && settled ? added ? `Brick ${count} of ${BUILDING_CAPACITY} laid` : `Your building: ${count} of ${BUILDING_CAPACITY} bricks laid` : ""}</span>

@@ -2,6 +2,7 @@
 import { useRef, useState, type FormEvent } from "react";
 import { useDemo } from "./demo-provider";
 import { useMvp } from "./mvp-provider";
+import { LearningAccountControls } from "./learning-account-controls";
 import { Switch } from "./ui/switch";
 import { PRIVACY_COPY } from "@/content/about";
 export function MvpSettings() {
@@ -18,6 +19,7 @@ export function MvpSettings() {
   return (
     <div className="settings-grid workspace">
       <div className="demo-stack">
+        <LearningAccountControls/>
         <form className="mvp-card" onSubmit={save}>
           <h2>Make yourself at home</h2>
           <label className="demo-label">

@@ -8,6 +8,7 @@ Coverage includes:
 
 - Mobile navigation open and closed, including Escape/focus restoration.
 - A lesson challenge before feedback, after an incorrect answer and after a correct answer.
+- A resumed three-question quiz, mistake/correct feedback, next-heading focus and completion action (added in Phase 8).
 - Portfolio before and after Explore selects a holding and focuses its details, with Escape clearing.
 - Recap learning/history disclosure closed and open.
 - Settings before/after Reduce motion and with the reset dialog open (never executing reset).

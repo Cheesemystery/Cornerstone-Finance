@@ -5,12 +5,13 @@ import { useState, type FormEvent } from "react";
 import { ArrowRight, Sprout } from "lucide-react";
 import { useDemo } from "./demo-provider";
 import { useMvp } from "./mvp-provider";
+import { BuildingDrawing } from "./learning-building";
 import { nextLesson } from "@/lib/learning-progress";
 import { captureSafeEvent } from "@/lib/analytics";
 export function OnboardingFlow({ inline = false }: { inline?: boolean }) {
   const router = useRouter(),
     { update } = useDemo(),
-    { learning, updateLearning, now } = useMvp();
+    { learning, updateLearning, now, account } = useMvp();
   const [name, setName] = useState("");
   function finish(event: FormEvent) {
     event.preventDefault();
@@ -19,6 +20,7 @@ export function OnboardingFlow({ inline = false }: { inline?: boolean }) {
     captureSafeEvent("onboarding_completed");
     router.push("/learn/" + (nextLesson(learning)?.id ?? "what-you-own"));
   }
+  if (learning.onboarded && now) return <section className="welcome-setup"><h1>Welcome back.</h1><Link className="button primary" href={nextLesson(learning) ? `/learn/${nextLesson(learning)!.id}` : "/recap"}>Continue learning</Link></section>;
   return (
     <section className="welcome-setup">
       <div>
@@ -38,6 +40,7 @@ export function OnboardingFlow({ inline = false }: { inline?: boolean }) {
           Meet stocks, bonds, and funds through a fictional campus café. No
           account needed.
         </p>
+        <Link className="demo-link" href="/sign-in?returnTo=/onboarding">Account sign-in</Link>
         <form onSubmit={finish}>
           <label className="demo-label" htmlFor="welcome-name">
             What should we call you? <span className="muted">(optional)</span>
@@ -51,7 +54,7 @@ export function OnboardingFlow({ inline = false }: { inline?: boolean }) {
             onChange={(event) => setName(event.target.value)}
           />
           <button className="button lime" disabled={!now}>
-            Start my first lesson <ArrowRight size={18} />
+            {account.account ? "Continue learning" : "Continue as guest"} <ArrowRight size={18} />
           </button>
           <Link
             className="demo-link"
@@ -64,18 +67,10 @@ export function OnboardingFlow({ inline = false }: { inline?: boolean }) {
           </Link>
         </form>
         <small>
-          Progress stays in this browser.
+          {account.account ? "Learning saves to your account when connected." : "Progress stays in this browser."}
         </small>
       </div>
-      <div className="setup-illustration" aria-hidden="true">
-        <div className="setup-coffee">☕</div>
-        <span>OWN A LITTLE IDEA.</span>
-        <div className="setup-shares">
-          {Array.from({ length: 12 }, (_, i) => (
-            <i key={i} />
-          ))}
-        </div>
-      </div>
+      <div style={{maxWidth:320}}><BuildingDrawing completed={learning.completed} skin="campus" reduced /><p>Your starting foundation. Each completed lesson adds one brick.</p></div>
     </section>
   );
 }

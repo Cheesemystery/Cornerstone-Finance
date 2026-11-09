@@ -35,3 +35,7 @@ Before promotion:
 - Cross-device retention is not measurable reliably with this browser-only MVP.
 
 Learning analytics allow onboarding_completed, lesson_completed, review_completed and practice_reflected with no custom properties. Retention means learning and return visits, never trading frequency or simulated profit.
+
+
+## Learning account gate — 2026-11-07
+Keep LEARNING_ACCOUNTS_ENABLED=false until the prepared learning migration is reviewed and sandbox-applied with authorization, ownership policies are integration-tested and email-link/session/cross-device checks pass. The broad connected-features flag remains false. Configure Supabase URL/anon key and canonical APP_URL only in the intended environment. The 2026-11-07 Phase 3 handoff lists unperformed live checks; passing mocked tests does not meet this gate.

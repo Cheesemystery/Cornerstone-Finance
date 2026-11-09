@@ -31,7 +31,7 @@ it("backfills five lessons into a fixed grid, bottom to top and left to right, a
   expect(laidBrickCount([...five,...five])).toBe(5);
 });
 
-it("asks for a skin before the first drop, persists only the choice, and focuses Continue on landing", () => {
+it("asks for a skin before the first drop, persists only the choice, and focuses Continue immediately", () => {
   vi.useFakeTimers();
   const view=render(<LessonBuildingCompletion completed={six} newCompletion reducedMotion={false} />);
   expect(screen.getByRole("heading",{name:"Choose your building"})).toBeTruthy();
@@ -41,6 +41,7 @@ it("asks for a skin before the first drop, persists only the choice, and focuses
   expect(view.container.querySelectorAll('[data-incoming="true"]')).toHaveLength(1);
   expect(screen.getByRole("img").getAttribute("aria-label")).toBe("Your building: 6 of 24 bricks laid");
   expect(screen.getByRole("link",{name:"Continue"}).getAttribute("href")).toBe("/learn");
+  expect(document.activeElement).toBe(screen.getByRole("link",{name:"Continue"}));
   act(()=>vi.advanceTimersByTime(BRICK_DROP_MS+100));
   expect(document.activeElement).toBe(screen.getByRole("link",{name:"Continue"}));
   expect(view.container.querySelector('[aria-live="polite"]')?.textContent).toBe("Brick 6 of 24 laid");
@@ -71,6 +72,17 @@ it("shows saved progress quietly in Learn and changing skins never changes that 
   fireEvent.click(screen.getByRole("button",{name:"Skyscraper"}));
   expect(screen.getByRole("img").getAttribute("data-skin")).toBe("skyscraper");
   expect(localStorage.getItem("cornerstone-learning-v1")).toBe(saved);
+  expect(document.activeElement).toBe(screen.getByRole("button",{name:"Change building"}));
+});
+
+it("never takes focus back when the brick animation finishes", () => {
+  vi.useFakeTimers();
+  render(<LessonBuildingCompletion completed={six} newCompletion reducedMotion={false} phaseOne />);
+  expect(document.activeElement).toBe(screen.getByRole("link",{name:"Continue"}));
+  const recap=screen.getByRole("link",{name:"View my Recap"});
+  recap.focus();
+  act(()=>vi.advanceTimersByTime(BRICK_DROP_MS+100));
+  expect(document.activeElement).toBe(recap);
 });
 
 it("falls back to the default picker without crashing on corrupt storage", () => {

@@ -8,7 +8,10 @@ import { DemoProvider } from "./demo-provider";
 import { MvpProvider } from "./mvp-provider";
 import { MvpSettings } from "./mvp-settings";
 import { LessonInteraction } from "./lesson-interaction";
+import { OwnershipQuiz } from "./ownership-quiz";
 import { PortfolioHoldings } from "./portfolio-holdings";
+import { PortfolioWorkspace } from "./portfolio-workspace";
+import { emptyLearning } from "@/lib/learning-progress";
 import { PortfolioRecap } from "./portfolio-recap";
 import { lessonActivities } from "@/lib/lesson-activities";
 import { samplePortfolio } from "@/lib/sample-data";
@@ -74,6 +77,22 @@ it("scans a lesson challenge before and after mistake/correct feedback", async (
   await accessible();
 });
 
+it("scans the saved three-question quiz, feedback, and completion action", async () => {
+  localStorage.setItem("cornerstone-learning-v1",JSON.stringify({...emptyLearning,quizzes:{"what-you-own":{version:1,passed:2}}}));
+  page(<><h1>Ownership checks</h1><OwnershipQuiz onFinish={vi.fn()} onMiss={vi.fn()}/></>);
+  await accessible();
+  fireEvent.click(screen.getByLabelText("Buying guaranteed growth"));
+  fireEvent.click(screen.getByRole("button",{name:"Check answer"}));
+  await accessible();
+  fireEvent.click(screen.getByLabelText("Lending money under payment terms, with risks"));
+  fireEvent.click(screen.getByRole("button",{name:"Check answer"}));
+  await accessible();
+  fireEvent.click(screen.getByRole("button",{name:"Continue"}));
+  expect(document.activeElement).toBe(screen.getByRole("heading",{name:"Three ideas, checked."}));
+  expect(screen.getByRole("button",{name:"Keep this idea"})).toBeTruthy();
+  await accessible();
+});
+
 it("scans Portfolio before and after selection focuses the holding's table row", async () => {
   page(<><h1>Portfolio</h1><PortfolioHoldings portfolio={samplePortfolio} /></>);
   await accessible();
@@ -108,4 +127,13 @@ it("detects an intentionally unnamed button so the axe gate cannot silently pass
   page(<><h1>Scanner control fixture</h1><button /></>);
   const results = await axe.run(document.body, { rules: { "color-contrast": { enabled: false } } });
   expect(results.violations.map(result => result.id)).toContain("button-name");
+});
+
+it("scans learning recap without holdings and after opening its history",async()=>{
+ localStorage.setItem("cornerstone-learning-v1",JSON.stringify({...emptyLearning,completed:["what-you-own"]}));
+ page(<PortfolioWorkspace/>);
+ expect(screen.getByRole("region",{name:"Learning progress"})).toBeTruthy();
+ await accessible();
+ fireEvent.click(screen.getByText("Learning milestones, history & sharing"));
+ await accessible();
 });

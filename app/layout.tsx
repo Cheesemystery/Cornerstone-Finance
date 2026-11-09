@@ -1,3 +1,4 @@
+import { learningAccountsConfigured } from "@/lib/server/learning-account";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
-      <body className={`${inter.variable} ${newsreader.variable}`}><DemoProvider><MvpProvider>{children}</MvpProvider></DemoProvider></body>
+      <body className={`${inter.variable} ${newsreader.variable}`}><DemoProvider><MvpProvider accountsEnabled={learningAccountsConfigured()}>{children}</MvpProvider></DemoProvider></body>
     </html>
   );
 }

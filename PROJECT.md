@@ -1,5 +1,13 @@
 # Cornerstone Finance — project context
 
+## Guest learning MVP — current handoff, 2026-11-09
+
+The verified guest loop is onboarding → one of six existing lessons → a separate versioned three-question quiz → saved completion → exactly one derived building brick/Home wall stone → next lesson or review → matching Recap. `cornerstone-learning-v1` is the guest learning authority; appearance and animation receipts do not award progress. Existing valid and undated completions remain valid. Guest recovery and active-tab reconciliation use the existing store and a default-zero reset generation.
+
+Recap learning is directly accessible on `/recap` and `/portfolio#recap` without financial history. Keyboard feedback/question/completion focus, 44px secondary learning targets and saved/device motion behavior retain the existing design. The latest implementation validation is Phase 9: lint/typecheck/build, 296 tests in 56 files and 8 accessibility tests pass. Browser verification includes all six activities/eighteen questions, refresh, repeat prevention, two tabs, matching weekly review and responsive checks. Scope/method limits are in the [final handoff](docs/project/handoffs/2026-11-09-final-review-handoff-phase-10.md).
+
+Learning accounts are prepared behind disabled `LEARNING_ACCOUNTS_ENABLED`, independently of disabled connected financial features. Their migration/RLS and real email/session/two-account/cross-device checks are not integration-verified. Guest success does not authorize enabling accounts or releasing publicly. Earlier performance/student-study gates and moderate dependency triage remain pending. Phase 10 consolidates documentation only; no source/dependency change, commit, push or deployment.
+
 ## Home states and polish — 2026-10-20, Step F
 
 Home without holdings or seven days of shared closing history shows Your first edition is waiting, the existing CSV/manual/sample inputs, the cumulative wall and a link to the first catalog lesson. No financial chart is rendered. Loading uses static skeletons; price errors offer retry and inputs without clearing holdings. Data more than ten UTC calendar days old gets a gentle note using the actual shared closing date. Home secondary input buttons have explicit accessible colors. See docs/project/handoffs/2026-10-20-home-weekly-step-f.md.
@@ -187,3 +195,11 @@ Portfolio leads with a prominent source-labeled Cornerstone narrative and rotati
 ## Grant weekly-loop direction — 2026-10-19 (current)
 
 The user is narrowing the grant MVP to “Understand your week in 60 seconds”: one dated portfolio result and arithmetic explanation, a related existing lesson, then a weekly completion state. This supersedes the earlier eight-tab and broad practice/research promotion directions. Work is phased and must stop after each requested phase. Phase 1 cleanup is implemented: primary navigation is exactly Home, Learn, Portfolio, Ask; Settings is reached through the account link, Recap is folded into Portfolio, and unlinked routes/code remain retained. Progress is called lessons and reads the learning store. Donut allocation belongs only to Portfolio. Guided Q&A uses shared sample/imported holdings and retains the not-live-AI disclosure. Keep current identity, date/source every displayed financial figure, use neutral loss colors, and do not mix authored fixtures with provider data. Ask before any dependency addition; lesson content is protected. Weekly market history and completion wiring are not yet implemented. See the Phase 1 handoff for verification and date semantics.
+
+
+## Learning account preparation — 2026-11-07
+Learning accounts have their own server-only LEARNING_ACCOUNTS_ENABLED gate, default false and independent of connected financial features. Prepared account state uses per-user revisions and deduplicated lesson receipts; guest import is explicit and excludes financial/demo data. Schema application and live auth/RLS/cross-device verification remain deferred. Local tests do not establish live readiness. See docs/project/handoffs/2026-11-07-account-learning-phase-3.md.
+
+
+## Guest Recap reliability — 2026-11-07
+Recap learning access is independent of holdings/history on /recap and /portfolio#recap. The authoritative learning record now includes resetGeneration, a default-zero reset receipt used by guest-tab reconciliation to preserve explicit deletions. It is not a reward count. Existing valid/undated completions remain valid. See docs/project/handoffs/2026-11-07-recap-guest-reliability-phase-4.md for verification and storage-event limitations.

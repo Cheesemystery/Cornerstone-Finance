@@ -10,6 +10,7 @@ const eventSchema = object({
 });
 export const learningSchema = object({
   version: literal(1).default(1),
+  resetGeneration: number().int().nonnegative().default(0),
   onboarded: boolean().default(false),
   timezone: string()
     .refine((value) => {
@@ -26,6 +27,7 @@ export const learningSchema = object({
   reducedMotion: boolean().default(false),
   completed: array(string()).default([]),
   steps: record(string(), number().int().min(0).max(6)).default({}),
+  quizzes: record(string(), object({ version: literal(1), passed: number().int().min(0).max(3) })).default({}),
   missed: record(string(), number().int().nonnegative()).default({}),
   events: array(eventSchema).default([]),
 });

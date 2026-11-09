@@ -6,6 +6,8 @@ export function createBrowserStore<T>(
   initial: T,
   decode: (raw: unknown) => T,
   migrate?: () => T,
+  merge?: (known: T, incoming: T) => T,
+  recover?: (raw: unknown, known: T) => T,
 ) {
   const server = JSON.stringify(initial);
   let memory = server;
@@ -21,12 +23,21 @@ export function createBrowserStore<T>(
         if (memory === server && migrate) memory = JSON.stringify(migrate());
         return memory;
       }
+      let parsed: unknown;
       try {
-        const normalized = JSON.stringify(decode(JSON.parse(raw)));
+        parsed = JSON.parse(raw);
+        const incoming = decode(parsed);
+        const normalized = JSON.stringify(merge && listeners.size > 0 ? merge(JSON.parse(memory) as T, incoming) : incoming);
         memory = normalized;
         return normalized;
       } catch {
         status = "recovered";
+        if (memory === server && migrate) {
+          try { memory = JSON.stringify(decode(migrate())); } catch { /* Keep the last usable record. */ }
+        }
+        if (recover && parsed && typeof parsed === "object") {
+          try { memory = JSON.stringify(decode(recover(parsed, JSON.parse(memory) as T))); } catch { /* Keep the last usable record. */ }
+        }
         return memory;
       }
     } catch {
@@ -50,6 +61,20 @@ export function createBrowserStore<T>(
     const sync = (event: StorageEvent) => {
       if (event.key === key || event.key === null) {
         if (event.newValue === null) memory = server;
+        else if (merge) {
+          try {
+            memory = JSON.stringify(decode(merge(JSON.parse(memory) as T, decode(JSON.parse(event.newValue)))));
+            if (status === "saved") {
+              const latest = localStorage.getItem(key);
+              if (latest !== null) {
+                memory = JSON.stringify(decode(merge(JSON.parse(memory) as T, decode(JSON.parse(latest)))));
+                if (latest !== memory) {
+                  try { localStorage.setItem(key, memory); } catch { status = "session"; }
+                }
+              }
+            }
+          } catch { /* read() preserves usable memory and reports storage problems. */ }
+        }
         listener();
       }
     };
