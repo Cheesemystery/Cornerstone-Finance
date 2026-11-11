@@ -13,6 +13,9 @@ it("preserves saved field notes and unrelated data while preparing the final les
  localStorage.setItem("cornerstone-ideas-v1:guest:0",JSON.stringify(["what-you-own","inflation"]));
  localStorage.setItem("cornerstone-holdings-v1",'untouched');
  render(<MvpProvider><FinalLessonDemoReset/></MvpProvider>);
+ const sync=vi.fn();window.addEventListener("cornerstone-progress-sync",sync);
+ fireEvent.keyDown(window,{key:"R",shiftKey:true});
+ expect(sync).toHaveBeenCalled();window.removeEventListener("cornerstone-progress-sync",sync);
  fireEvent.click(screen.getByRole("button",{name:"Replay final lesson"}));
  const state=JSON.parse(localStorage.getItem("cornerstone-learning-v1")!);
  expect(state.completed).toHaveLength(7);expect(state.completed).not.toContain("inflation");

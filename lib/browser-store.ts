@@ -78,6 +78,8 @@ export function createBrowserStore<T>(
         listener();
       }
     };
+    const progressSync=()=>{read();listener();};
+    window.addEventListener("cornerstone-progress-sync",progressSync);
     window.addEventListener("storage", sync);
     try {
       const probe = `${key}:check`;
@@ -90,6 +92,7 @@ export function createBrowserStore<T>(
     return () => {
       listeners.delete(listener);
       window.removeEventListener("storage", sync);
+      window.removeEventListener("cornerstone-progress-sync",progressSync);
     };
   }
   function useStore() {

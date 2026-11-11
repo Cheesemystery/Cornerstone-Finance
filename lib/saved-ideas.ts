@@ -1,5 +1,5 @@
 "use client";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { createBrowserStore } from "./browser-store";
 import { lessons } from "./lessons";
 export function validIdeaIds(raw: unknown): string[] {
@@ -22,6 +22,10 @@ function sharedStore(key:string) {
 export function useSavedIdeas(owner:string,resetGeneration:number) {
  const store=useMemo(()=>sharedStore(`cornerstone-ideas-v1:${owner}:${resetGeneration}`),[owner,resetGeneration]);
  const {value,update,persistence}=store.useStore();
+ const seeded=useRef<string|null>(null);
+ useEffect(()=>{
+  if(owner==="guest"&&seeded.current!==`${owner}:${resetGeneration}`){seeded.current=`${owner}:${resetGeneration}`;if(!value.length)update(()=>["what-you-own","fees-and-time"]);}
+ },[owner,resetGeneration,update,value.length]);
  return {ids:value,persistence,
   save:(id:string)=>update(ids=>ids.includes(id)?ids:[...ids,id]),
   remove:(id:string)=>update(ids=>ids.filter(saved=>saved!==id)),

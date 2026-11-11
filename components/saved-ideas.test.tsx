@@ -8,7 +8,7 @@ import { emptyLearning } from "@/lib/learning-progress";
 const id = "what-you-own";
 afterEach(() => { cleanup(); localStorage.clear(); });
 it("saves a completed takeaway across remounts and removes it", () => {
- localStorage.setItem("cornerstone-ideas-v1:guest:0","[]");
+ localStorage.setItem("cornerstone-ideas-v1:guest:0",JSON.stringify(["fees-and-time"]));
  localStorage.setItem("cornerstone-learning-v1", JSON.stringify({...emptyLearning, completed:[id]}));
  const ui=<MvpProvider><SavedIdeas lessonId={id}/><SavedIdeas/></MvpProvider>;
  const view=render(ui);
@@ -20,12 +20,14 @@ it("saves a completed takeaway across remounts and removes it", () => {
  fireEvent.click(screen.getByRole("button",{name:"Remove idea from What do you actually own?"}));
  expect(screen.queryByRole("link",{name:/Review: What/})).toBeNull();
 });
-it("does not offer a reward for incomplete learning or expose ideas after reset", () => {
+it("seeds empty guest notes after reset without awarding learning", () => {
  localStorage.setItem("cornerstone-ideas-v1:guest:0",JSON.stringify([id]));
  localStorage.setItem("cornerstone-learning-v1",JSON.stringify({...emptyLearning,resetGeneration:1}));
  render(<MvpProvider><SavedIdeas lessonId={id}/><SavedIdeas/></MvpProvider>);
  expect(screen.queryByRole("button",{name:"Save this idea"})).toBeNull();
- expect(screen.queryByRole("link",{name:/Review: What/})).toBeNull();
+ expect(screen.getByRole("link",{name:/Review: What/})).toBeTruthy();
+ expect(JSON.parse(localStorage.getItem("cornerstone-ideas-v1:guest:1")!)).toEqual([id,"fees-and-time"]);
+ expect(JSON.parse(localStorage.getItem("cornerstone-learning-v1")!).completed).toEqual([]);
 });
 
 it("normalizes duplicate and unknown saved IDs without creating concepts",()=>{

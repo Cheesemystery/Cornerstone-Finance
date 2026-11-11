@@ -357,3 +357,37 @@ Next-cornerstone card now shows actual valid completion progress with eight pill
 
 ## Portfolio clarity — 2026-11-10
 Demo-period banner, My Portfolio/Practice Sandbox names, descriptive legend, signed coral/mint contribution bars, simplified caption and lighter holdings rows implemented. Typecheck/lint and 34 focused tests pass across final runs; desktop browser verified. See handoffs/2026-11-10-portfolio-clarity.md. No deployment.
+
+## Conference demo defaults — 2026-11-10
+Explicit user direction: guest demo initializes seven catalog lesson IDs once per document load; sidebar replay and Shift+R prepare the same state with incremented reset generation and cornerstone-progress-sync event. Empty guest field notes seed Ownership and Fees, including after resets; this supersedes the earlier empty-record precedence for this demo. Accounts remain separate. Home/Learn display the final inflation hook and segmented progress.
+Validation: lint/typecheck pass, targeted tests 11/11, production build passes. Home and Learn observed in side browser with seven stones and two notes. No deployment or dependency change.
+
+## Tactile foundation — 2026-11-11
+LearningFoundation now uses scoped architectural emerald gradients, carved numerals, laid badges, mortar and physical ledges. Next lesson uses a glowing dashed blueprint. Existing validated arrival drives a 22px drop and lime aura; local Campus Leaderboard preview derives from unique saved completions, with delayed final count and +1 Stone during arrival. Reduced motion disables effects. No live campus ranking is implied.
+Files: components/learning-foundation.tsx and learning-foundation.module.css. Learn browser confirms seven laid and one next slot. Typecheck passed before final scroll preservation edit; lint/test command pending at handoff. No dependency, financial calculation or deployment changes.
+
+## Roth IRA flight simulator — 2026-11-11
+Portfolio practice tab now launches the four-step Roth simulator, retaining the existing sandbox in a disclosure. Home/Learn launch /portfolio#roth-simulator. All transfers, quotes and orders are fictional. VTI supports market/limit teaching; FXAIX uses next-NAV fund purchase. Corrected 2026 under-50 annual IRA cap to $7,500, compensation/income constraints and qualified withdrawal conditions. Removed unsupported 4-in-10 statistic. End-of-month contributions at hypothetical 8%/12 for 480 months derive the projection. Bonus is a separate browser-local one-time flag, never catalog completion.
+Validation: typecheck, lint, production build and three simulator tests pass. Browser completed $50 VTI market flow through preview/receipt, focus progression and projection. Full suite and mobile viewport checks not run. No real financial requests, new dependencies, account activation or deployment.
+
+## Campus Foundations — 2026-11-11
+Learn includes CampusLeaderboard immediately after foundation; Home has a shared compact rank pill. Five illustrative colleges rank only by stones; UI explicitly identifies demo totals/student counts. cornerstone-campus-foundations-v1 stores selected campus and unique source-to-campus awards. Default Tuskegee; changing selection affects future awards only. Genuine new lesson completion calls contribution from MvpProvider.complete; demo seed/reset does not. Simulator finish contributes once. Stable lesson IDs and simulator source prevent replay inflation. Existing foundation lesson authority and financial state unchanged.
+Validation: typecheck/lint/build pass; five tests across campus, simulator and reset pass. Browser verified five ranked rows, selector and brick bars. Live increment/duplicate/selection behavior tested with shared full and compact components. No backend/cross-device campus service; full suite/mobile browser checks not run.
+
+## Learning challenge path — 2026-11-11
+Selected Learn curriculum section now uses scoped LearningChallengePath with compact two-column chapter cards, numbered lesson metadata, completion nodes, chapter meters, current-challenge highlight, stone indicators and continue footer. Single-column responsive fallback; all catalog lessons accessible. Uses existing learning state only; no XP/reward/storage changes. Sidebar, foundation, campus leaderboard and simulator untouched. Typecheck/lint and six library/arrival tests pass; desktop screenshot verified. Production rebuild and mobile browser check not run for this presentation-only change.
+
+## Learning path hierarchy — 2026-11-11
+Selected path section now gives next lesson a prominent dark-forest action banner. Section heading and chapter headings use larger editorial type; completed rows use quieter small checks and omit redundant status/reward labels. Progress summary is secondary. Lesson access/state unchanged. Typecheck/lint pass; desktop screenshot verified. No new tests for this presentation-only refinement.
+
+## Interactive learning path — 2026-11-11
+Added eight-stone interactive visualizer with earned catalog takeaways, active float and preview snap; inflation warm-up with deterministic no-interest buying-power arithmetic; chapter filters and pocket takeaways linking to sample Portfolio/replay; active chapter hover meter; 8/8 completion summary with Portfolio/Ask links. Preview explicitly changes presentation only, never saved completion or campus rewards. Actual catalog completion also displays summary. Sidebar reset generation keys the component to clear ephemeral controls. Scoped palette from user request; saved/device reduced motion disables effects. Existing CSS module architecture retained.
+Checks: typecheck, lint, nine focused path/library/arrival tests and build pass. Desktop browser verified warm-up, feedback and reversible preview. Full suite/mobile browser not run. No dependency, financial state, sidebar or routing changes.
+
+## Simulator trade ticket — 2026-11-11
+Trade ticket now uses brokerage-style account/quote strips and labeled Symbol, Buy/Sell, Dollars/Shares, and Market/Limit selects. Quantity starts empty and accepts user entry; preview validates positive finite values, available practice cash and owned practice shares. Market fills adjust in-session cash/positions; another-order control supports buy then sell. Limit orders remain open with no balance mutation; buy max/sell min descriptions and receipts reflect action. FXAIX retains next-NAV behavior (no ETF market/limit). Real portfolio state unaffected.
+Checks: typecheck/lint and four simulator tests pass, including empty field, cash validation, limit handling, mutual-fund distinction and buy/sell receipt. Browser verified empty-input ticket and dropdown layout. Production build run separately. No dependency, brokerage connection or deployment.
+
+## Home brick wall — 2026-11-11
+Home LearningWall now spans the content width with five staggered eight-slot courses. Actual earned lessons fill from the bottom in existing valid completion order; unearned lesson faces and future decorative spaces are blank. Header/count distinguishes actual eight catalog lessons from decorative future capacity. Existing receipts, visibility timing, dates, keyboard/touch tooltips and reduced motion preserved. No progress/schema changes.
+Validation: typecheck/lint and nine LearningWall tests pass. Desktop browser verifies full-width five-course layout. No production rebuild or mobile browser pass for this scoped presentation edit.

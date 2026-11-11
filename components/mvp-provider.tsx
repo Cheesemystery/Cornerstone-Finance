@@ -17,6 +17,7 @@ import {
   type LearningEvent,
 } from "@/lib/learning-progress";
 import { emptyPractice, practiceSchema } from "@/lib/practice";
+import { contributeCampusStone } from "@/lib/campus-foundations";
 import { captureSafeEvent } from "@/lib/analytics";
 
 const learningStore = createBrowserStore(
@@ -58,6 +59,7 @@ function useMvpState(accountsEnabled:boolean) {
   function complete(kind: LearningEvent["kind"], target: string) {
     updateActiveLearning((state) => {
       const result = recordActivity(state, kind, target);
+      if(kind==="lesson"&&!state.completed.includes(target)&&result.completed.includes(target))contributeCampusStone(`lesson:${target}`);
       if (result !== state)
         captureSafeEvent(
           kind === "lesson"

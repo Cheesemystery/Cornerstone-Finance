@@ -69,18 +69,21 @@ export function LearningWall({ chartEntranceMs = 0, animationsReady = true }: { 
     return () => { cancelled = true; clearTimeout(timer); motion.removeEventListener("change", changeMotion); };
   }, [completedKey, ready, visible, learning.reducedMotion, chartEntranceMs]);
 
-  const courses = Array.from({length:Math.ceil(lessons.length / 3)}, (_, index) => ordered.slice(index * 3, index * 3 + 3));
+  const columns=8;
+  const courses = Array.from({length:Math.max(5,Math.ceil(ordered.length/columns))}, (_, row) => Array.from({length:columns},(_,col)=>ordered[row*columns+col]));
   return <figure ref={wall} className={styles.wall} aria-labelledby={`${prefix}-caption`}>
+    <header className={styles.heading}><div><p>BUILT BY YOU</p><h2>Your knowledge. Set in stone.</h2><span>Every lesson you understand adds to your foundation.</span></div><strong>{completed.length}<small>stones laid</small></strong></header>
     <div className={styles.courses}>
-      {courses.map((course, courseIndex) => <div key={course[0].id} className={styles.course} data-course={courseIndex % 2} style={{order:courses.length-courseIndex}}>
-        {course.map(lesson => {
+      {courses.map((course, courseIndex) => <div key={courseIndex} className={styles.course} data-course={courseIndex % 2} style={{order:courses.length-courseIndex}}>
+        {course.map((lesson,slotIndex) => {
+          if(!lesson)return <div key={`empty-${slotIndex}`} className={styles.blank} aria-hidden="true"/>;
           const appearance = stoneAppearance(lesson.id);
           const laid = completed.includes(lesson.id);
           const event = learning.events.find(event => event.kind === "lesson" && event.target === lesson.id);
           const date = laid ? event ? `Laid ${displayDate(event.day)}` : "Date not recorded" : "Ready when you are";
           const tooltipId = `${prefix}-${lesson.id}-details`;
-          const textureId = `${prefix}-${lesson.id}-texture`;
-          return <div key={lesson.id} className={styles.slot} style={{flexGrow:appearance.weight} as CSSProperties}
+
+          return <div key={lesson.id} className={styles.slot}
             onPointerEnter={event => { if (event.pointerType !== "touch") setOpen(lesson.id); }}
             onPointerLeave={event => { if (!event.currentTarget.contains(document.activeElement)) setOpen(null); }}>
             <button type="button" className={styles.stone} data-laid={laid} data-laying={active === lesson.id || undefined}
@@ -89,20 +92,14 @@ export function LearningWall({ chartEntranceMs = 0, animationsReady = true }: { 
               aria-expanded={open === lesson.id} aria-controls={tooltipId} aria-describedby={open === lesson.id ? tooltipId : undefined}
               onFocus={() => setOpen(lesson.id)} onBlur={() => setOpen(null)} onClick={() => setOpen(lesson.id)}
               onKeyDown={event => { if (event.key === "Escape") { setOpen(null); event.stopPropagation(); } }}>
-              <svg viewBox="0 0 100 64" width="100%" height="64" preserveAspectRatio="none" aria-hidden="true">
-                <defs><pattern id={textureId} width="19" height="17" patternUnits="userSpaceOnUse"><path d="m2 5 5-1m5 8 3 1" stroke="#506249" strokeWidth="0.5" opacity="0.24" /></pattern></defs>
-                <path d={appearance.path} className={styles.shape} vectorEffect="non-scaling-stroke" />
-                {laid && <path d={appearance.path} fill={`url(#${textureId})`} />}
-                <text x="50" y="38" textAnchor="middle" fill="#183d2d" fontSize="12">{String(lessons.findIndex(item=>item.id===lesson.id)+1).padStart(2,"0")}{laid ? " ✓" : ""}</text>
-                {active === lesson.id && <path d={appearance.path} className={styles.fresh} vectorEffect="non-scaling-stroke" />}
-              </svg>
+              {laid&&<><span className={styles.number}>{String(lessons.findIndex(item=>item.id===lesson.id)+1).padStart(2,"0")} <span>✓</span></span><span className={styles.topic}>{lesson.title}</span></>}
             </button>
             <div id={tooltipId} role="tooltip" hidden={open !== lesson.id} className={styles.tooltip}><strong>{lesson.title}</strong><span>{date}</span></div>
           </div>;
         })}
       </div>)}
     </div>
-    <figcaption id={`${prefix}-caption`}>{completed.length} of {lessons.length} {pluralize(lessons.length, "stone")} laid</figcaption>
+    <figcaption id={`${prefix}-caption`}><strong>{completed.length} of {lessons.length} {pluralize(lessons.length, "stone")} laid</strong><span>Blank spaces leave room for what comes next. More challenges to come.</span></figcaption>
     <span className="sr-only" aria-live="polite" aria-atomic="true">{announcement}</span>
   </figure>;
 }
