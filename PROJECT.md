@@ -1,5 +1,45 @@
 # Cornerstone Finance — project context
 
+## Continuous eight-lesson path — 2026-11-10
+
+The catalog now includes time-horizon and inflation lessons, each with an interactive example and three checked questions. Existing six-lesson receipts remain valid. Home presents learning before the weekly chart and continues to the next unfinished lesson after weekly completion. Weekly receipts remain separate from lifetime lesson completions. Home wall, Learn, reward and share snapshot use unique valid completion order, building from the bottom. Counts and foundation geometry derive from the catalog; replay never adds stones.
+
+
+## Persistence compatibility — 2026-11-09
+
+The earliest unscoped prototype idea key is read-only fallback migration into original guest generation zero only when no scoped record exists. Explicit empty scoped records win. Never import that data into accounts or after resets. Static reward markup must not depend on browser-only observer availability.
+
+## Beginner task flow — 2026-11-09
+
+Zero-completion Home explains Cornerstone and prioritizes a direct first lesson with no account/holdings requirement. Quiz uses Finish lesson to distinguish completion from optional Save this idea. No-history Home resumes/reviews existing learning; animation skipping keeps keyboard focus.
+
+## Supporting page direction — 2026-11-09
+
+Home’s weekly result leads to one existing concept/lesson with real catalog duration. Portfolio explains price contribution separately from holding percentage change and total return; financial calculations stay unchanged. Ask remains local curated Q&A, with prominent input and links into lessons/portfolio. Shared page polish lives in app/page-polish.css.
+
+## Saved ideas — 2026-11-09
+
+Optional end-of-lesson bookmarks live in lib/saved-ideas.ts using the existing browser-store architecture and unchanged owner/reset-scoped keys. /learn#saved-ideas provides concepts, existing explanatory copy, review and removal. Save/remove never awards progress. Bookmarks are device-local, including for account users; no cross-device sync claim.
+
+## Signature reward — 2026-11-09
+
+Lesson reward and Learn use the same six-slot foundation ordered by valid unique completion sequence. CornerstoneReward animation is a view of already-saved progress, never a reward authority. It runs only for new lesson completion, waits for visibility, supports skip/reduced motion and never gates next navigation. Recap now also uses the six-stone foundation; the retained 24-slot building is explicitly an optional style sketch.
+
+## Lesson flow — 2026-11-09
+
+Learn → Apply → existing explanatory context → three checked answers with feedback → optional saved idea → cornerstone/reward → next lesson. Keep original step indices and quiz validation. Completion receipts distinguish new awards from replay, show real totals and focus the heading before the save/continue controls.
+
+## Learn hierarchy — 2026-11-09
+
+Learn prioritizes a compact dashboard, actual six-lesson financial foundation, resumed/next lesson, grouped curriculum, saved ideas and compact milestones. Keep all lessons accessible. Learn cornerstone count is catalog-derived; the older completion/Recap building remains a separate visual of the same completion authority.
+
+## Editorial learning studio — 2026-11-09
+
+Design tokens and shared primitive guidance live in docs/project/DESIGN-SYSTEM.md; app/design-system.css is the semantic source of truth.
+
+Approved visual direction: premium financial education, forest/ivory surfaces, editorial serif statements and clear sans-serif controls. Learning stages derive from catalog completions, with selectable foundation lesson controls. Saved takeaway bookmarks use the existing browser-store architecture, scoped by guest/account identity and reset generation; they remain device-local and do not award progress. Existing quizzes, completion receipts, XP arithmetic and financial math stay authoritative. See docs/project/handoffs/2026-11-09-studio-implementation.md for implementation and verification.
+
+
 ## Guest learning MVP — current handoff, 2026-11-09
 
 The verified guest loop is onboarding → one of six existing lessons → a separate versioned three-question quiz → saved completion → exactly one derived building brick/Home wall stone → next lesson or review → matching Recap. `cornerstone-learning-v1` is the guest learning authority; appearance and animation receipts do not award progress. Existing valid and undated completions remain valid. Guest recovery and active-tab reconciliation use the existing store and a default-zero reset generation.
@@ -203,3 +243,6 @@ Learning accounts have their own server-only LEARNING_ACCOUNTS_ENABLED gate, def
 
 ## Guest Recap reliability — 2026-11-07
 Recap learning access is independent of holdings/history on /recap and /portfolio#recap. The authoritative learning record now includes resetGeneration, a default-zero reset receipt used by guest-tab reconciliation to preserve explicit deletions. It is not a reward count. Existing valid/undated completions remain valid. See docs/project/handoffs/2026-11-07-recap-guest-reliability-phase-4.md for verification and storage-event limitations.
+
+## Completion presentation — 2026-11-10
+New awards show a numbered celebration and link to /learn?justCompleted=N. Learn validates saved completion before animating placement; the query grants no rewards and is consumed after placement. Starter field notes apply only to absent original guest records; explicit empty/reset/account namespaces retain precedence. See docs/project/handoffs/2026-11-10-celebration-foundation.md.

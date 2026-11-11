@@ -56,7 +56,7 @@ describe("Home overview periods and personalization", () => {
       inspectHomeView(samplePortfolio),
       state,
     );
-    expect(recap.learning).toContain("1 of 6");
+    expect(recap.learning).toContain(`1 of ${lessons.length}`);
     expect(recap.href).toBe("/learn/" + lessons[2].id);
   });
 });

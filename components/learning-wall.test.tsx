@@ -105,3 +105,13 @@ it("shows real laid dates or an honest missing-date label, supports focus/Escape
   state.now = new Date("2026-10-26T12:00:00Z"); view.rerender(<LearningWall />); settle();
   expect(screen.getByText(`2 of ${lessons.length} stones laid`)).toBeTruthy();
 });
+
+it("uses unique valid completion order and fills the foundation from the bottom",()=>{
+ state.learning!.completed=[lessons[3].id,lessons[0].id,lessons[3].id,"unknown"];
+ const view=render(<LearningWall/>);settle();
+ const buttons=screen.getAllByRole("button");
+ expect(buttons[0].getAttribute("aria-label")).toContain(lessons[3].title);
+ expect(buttons[1].getAttribute("aria-label")).toContain(lessons[0].title);
+ expect(view.container.querySelectorAll('[data-laid="true"]')).toHaveLength(2);
+ expect(screen.getByText(`2 of ${lessons.length} stones laid`)).toBeTruthy();
+});

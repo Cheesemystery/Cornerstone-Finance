@@ -23,3 +23,5 @@
 @media(prefers-reduced-motion:reduce) { .stone[data-laying="true"] svg,.fresh { animation:none; } .fresh { opacity:0; } }
 :global([data-reduced-motion="true"]) .stone[data-laying="true"] svg,:global([data-reduced-motion="true"]) .fresh { animation:none; }
 :global([data-reduced-motion="true"]) .fresh { opacity:0; }
+
+.stone[data-laid="true"] svg{filter:drop-shadow(0 3px 0 #183d2d20)}

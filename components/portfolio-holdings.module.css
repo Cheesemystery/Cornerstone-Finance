@@ -793,3 +793,10 @@
 }
 .detailHint { color: #c3d6c6; }
 .tableCard td.neutral { color: #e3eadc; }
+
+/* Studio refinements preserve chart values and selection behavior. */
+.workspace{margin-top:24px}.overview{border-radius:var(--radius-card);padding:28px;gap:24px}.overview h2{letter-spacing:-.045em;font-weight:650}.chartCard,.tableCard{border-radius:var(--radius-card);box-shadow:var(--shadow-card)}.sectionTop h2,.tableCard h2{font-family:var(--font-serif),Georgia,serif;font-weight:500;font-size:28px}.legendRow{min-height:52px;border-radius:12px}.legendRow:focus-visible{outline:3px solid var(--color-focus);outline-offset:3px}.source{line-height:1.7;font-size:13px}.tableCard th,.tableCard td{padding-block:16px}.tableCard th{font-size:11px;letter-spacing:.05em}.tableCard td{font-size:14px}.tableCard tbody tr:hover{background:#244a3c}
+@media(max-width:600px){.overview{padding:22px}.overview p:last-child{flex-wrap:wrap}.chartCard,.tableCard{padding:22px 16px}.quickFacts{gap:18px}}
+
+/* Keep each table row a single surface; use explicit signed change badges. */
+.holdingOpen{border:0;background:transparent;box-shadow:none;padding:4px 0}.holdingName small{display:block;font-size:11px;line-height:1.4;color:#d0dfd2;margin-top:4px}.tableCard td.down{color:#ffb5a8;font-weight:650}.tableCard td.up{color:#b8efc9;font-weight:650}

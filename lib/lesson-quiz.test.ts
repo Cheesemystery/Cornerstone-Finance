@@ -28,7 +28,7 @@ describe("Phase 1 ownership quiz", () => {
 });
 
 
-it("keeps six complete quizzes and six unique lifetime bricks across repeats", () => {
+it("keeps complete quizzes and catalog-sized unique lifetime bricks across repeats", () => {
  let state = learningSchema.parse({});
  for (const lesson of lessons) {
   const questions = lessonQuiz(lesson.id);
@@ -41,6 +41,6 @@ it("keeps six complete quizzes and six unique lifetime bricks across repeats", (
  const original = state;
  for (const lesson of lessons) state = recordActivity(state,"lesson",lesson.id);
  expect(state).toEqual(original);
- expect(laidBrickCount(state.completed)).toBe(6);
- expect(state.events).toHaveLength(6);
+ expect(laidBrickCount(state.completed)).toBe(lessons.length);
+ expect(state.events).toHaveLength(lessons.length);
 });

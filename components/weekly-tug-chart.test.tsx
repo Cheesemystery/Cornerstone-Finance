@@ -13,7 +13,7 @@ it("sorts by absolute contribution without mutating the result and draws from th
   const original = sample.positions.map(h => h.ticker);
   const {container} = render(<WeeklyTugChart week={sample} />);
   const buttons = screen.getAllByRole("button");
-  expect(buttons.map(button => button.textContent)).toEqual(["VTI−$41.04", "VXUS+$25.52", "BND+$19.57", "AAPL−$15.28"]);
+  expect(buttons.map(button => button.textContent)).toEqual(["VTI · US Total Stock Market−$41.04", "VXUS · International Stocks+$25.52", "BND+$19.57", "AAPL−$15.28"]);
   expect(sample.positions.map(h => h.ticker)).toEqual(original);
   const bars = [...container.querySelectorAll("rect")];
   expect(Number(bars[0].getAttribute("x")) + Number(bars[0].getAttribute("width"))).toBe(50);

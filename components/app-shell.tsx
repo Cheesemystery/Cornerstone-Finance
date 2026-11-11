@@ -14,6 +14,7 @@ import { useEffect, useRef, useState, type Ref } from "react";
 import { useDemo } from "./demo-provider";
 import { useMvp } from "./mvp-provider";
 import { Sheet, SheetTrigger, SheetClose, SheetContent, SheetTitle, SheetDescription } from "./ui/sheet";
+import { FinalLessonDemoReset } from "./final-lesson-demo-reset";
 import { aboutContent } from "@/content/about";
 
 const navigation = [
@@ -26,8 +27,7 @@ function NavigationContent({ onNavigate, closeButtonRef }: {
   onNavigate?: () => void;
   closeButtonRef?: Ref<HTMLButtonElement>;
 }) {
-  const pathname = usePathname(),
-    { preferences } = useDemo();
+  const pathname = usePathname();
   return (
     <>
         <div>
@@ -66,19 +66,11 @@ function NavigationContent({ onNavigate, closeButtonRef }: {
           className="account-chip"
           onClick={onNavigate}
         >
-          <span>
-            {preferences.name === "Alex"
-              ? "CS"
-              : preferences.name.slice(0, 2).toUpperCase()}
-          </span>
-          <div>
-            <strong>
-              {preferences.name === "Alex" ? "Your space" : preferences.name}
-            </strong>
-            <small>Saved on this browser</small>
-          </div>
+          <span>ML</span>
+          <div><strong>Maya Lin</strong><small>Class of &#39;28 · First-Gen Foundation</small></div>
           <Settings size={15} />
         </Link>
+        <FinalLessonDemoReset onNavigate={onNavigate}/>
         <Link prefetch={false} href="/about" className="small" onClick={onNavigate} aria-current={pathname === "/about" ? "page" : undefined}>
           {aboutContent.navigationLabel}
         </Link>

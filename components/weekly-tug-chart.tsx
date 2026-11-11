@@ -5,6 +5,7 @@ import { displayDate, money, signedMoney, pluralize } from "@/lib/presentation";
 import type { PortfolioWeek } from "@/lib/weekly-portfolio";
 import styles from "./weekly-tug-chart.module.css";
 
+const holdingNames: Record<string,string> = {VTI:"US Total Stock Market", VXUS:"International Stocks"};
 const GROW_DURATION_MS = 400;
 const BAR_STAGGER_MS = 60;
 const signedContribution = (value: number) => {
@@ -31,11 +32,11 @@ export function WeeklyTugChart({ week, compact = false }: { week: PortfolioWeek;
         return <div key={ticker} className={styles.row}
           onPointerEnter={event => { if (event.pointerType !== "touch") setOpen(ticker); }}
           onPointerLeave={event => { if (!event.currentTarget.contains(document.activeElement)) setOpen(null); }}>
-          <button type="button" className={styles.holding} aria-label={`${ticker}: ${signedContribution(contribution)}, ${direction(contribution).toLowerCase()}. Show contribution details.`}
+          <button type="button" className={styles.holding} aria-label={`${ticker}: ${signedContribution(contribution)}, ${direction(contribution).toLowerCase()}. Show contribution details.${holdingNames[ticker] ? ` ${holdingNames[ticker]}.` : ""}`}
             aria-describedby={open === ticker ? tooltipId : undefined} aria-expanded={open === ticker} aria-controls={tooltipId}
             onFocus={() => setOpen(ticker)} onBlur={() => setOpen(null)} onClick={() => setOpen(ticker)}
             onKeyDown={event => { if (event.key === "Escape") { setOpen(null); event.stopPropagation(); } }}>
-            <span className={styles.labels} aria-hidden="true"><span>{ticker}</span><span>{signedContribution(contribution)}</span></span>
+            <span className={styles.labels} aria-hidden="true"><span>{ticker}{holdingNames[ticker] ? ` · ${holdingNames[ticker]}` : ""}</span><span>{signedContribution(contribution)}</span></span>
             <svg viewBox="0 0 100 24" preserveAspectRatio="none" width="100%" height="24" aria-hidden="true">
               <line x1="50" x2="50" y1="0" y2="24" className={styles.axis} vectorEffect="non-scaling-stroke" />
               <rect x={down ? 50 - width : 50} y="6" width={width} height="12" rx="1"

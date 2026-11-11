@@ -19,3 +19,12 @@
 @keyframes brick-fade { from { opacity:0; } to { opacity:1; } }
 @media(prefers-reduced-motion:reduce) { .incoming { animation:brick-fade 200ms ease-out both; } }
 @media(max-width:600px) { .picker { grid-template-columns:1fr; } .skin { display:flex; align-items:center; gap:16px; text-align:left; } .skin .drawing { width:64px; flex-shrink:0; } }
+
+.compact { padding:clamp(24px,4vw,44px); gap:40px; background:#fffef9; border:1px solid #d5ded2; }
+.preview { width:clamp(150px,25vw,250px); padding:20px; background:#eef1e3; border-radius:20px; }
+.stoneChoices { display:flex; flex-wrap:wrap; gap:8px; margin:22px 0 14px; }
+.stoneChoices button { border:1px dashed #738575; border-radius:10px; background:transparent; color:#102f2b; font:inherit; cursor:pointer; }
+.stoneChoices button[data-complete="true"] { background:#183e38;color:#ddf27d;border-style:solid; }
+.stoneChoices button[aria-pressed="true"] { outline:2px solid #8e682f;outline-offset:3px; }
+.stoneDetail { min-height:110px; padding-top:12px; border-top:1px solid #d5ded2; }
+@media(max-width:600px) { .compact { flex-direction:column; align-items:stretch; gap:24px; }.preview { width:180px;align-self:center; } }

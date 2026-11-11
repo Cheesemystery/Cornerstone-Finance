@@ -145,15 +145,12 @@ export function PortfolioMovement({
           value: item.value,
         }))}
         sortOrder="none"
-        valueFormatter={signedAmount}
+        valueFormatter={value=>`${value<0?"↘ ":value>0?"↗ ":""}${signedAmount(value)}`}
+        caption={`Each bar shows how much that holding's price change moved your total balance ${portfolio.comparisonPeriod === "week" ? "this week" : "in this period"} (shares × ${portfolio.comparisonPeriod === "week" ? "weekly " : ""}price change).`}
         selectedKey={selected}
         onValueChange={item => onSelect(item.key)}
       />
-      <p className={styles.note}>
-        Each contribution is shares × price change. This snapshot excludes
-        deposits, withdrawals, dividends and fees; it is not a total-return
-        calculation. Your current share counts are used at both closes; past positions are not reconstructed.
-      </p>
+
 
     </section>
   );

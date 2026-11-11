@@ -37,9 +37,10 @@ it.each(["blocked","full"])("keeps a completed lesson and matching Recap usable 
   fireEvent.click(screen.getByLabelText("Lending money under payment terms, with risks"));
   fireEvent.click(screen.getByRole("button",{name:"Check answer"}));
   fireEvent.click(screen.getByRole("button",{name:"Continue"}));
-  fireEvent.click(screen.getByRole("button",{name:"Keep this idea"}));
-  expect(screen.getByRole("img",{name:"Your building: 1 of 24 bricks laid"})).toBeTruthy();
-  expect(screen.getByRole("region",{name:"Learning progress"}).textContent).toContain("1 of 6 lessons completed · 1 earned brick");
+  fireEvent.click(screen.getByRole("button",{name:"Finish lesson"}));
+ if(screen.queryByRole("button",{name:"Stay with this lesson"}))fireEvent.click(screen.getByRole("button",{name:"Stay with this lesson"}));
+  expect(screen.getByRole("img",{name:"Your foundation: 1 of 8 cornerstones laid"})).toBeTruthy();
+  expect(screen.getByRole("region",{name:"Learning progress"}).textContent).toContain("1 of 8 lessons completed · 1 earned brick");
   expect(screen.getByText("Available for this session")).toBeTruthy();
   expect(screen.getByText(/Browser storage is unavailable/).textContent).toContain("may disappear when you close or reload");
   expect(screen.getByRole("link",{name:"Why did the price move?"})).toBeTruthy();
@@ -54,6 +55,6 @@ it.each(["blocked","full"])("keeps a completed lesson and matching Recap usable 
   view.unmount();
   render(<Journey/>);
   expect(screen.getByRole("button",{name:"Review this lesson"})).toBeTruthy();
-  expect(screen.getByRole("img",{name:"Your building: 1 of 24 bricks laid"})).toBeTruthy();
+  expect(screen.getByRole("img",{name:"Your foundation: 1 of 8 cornerstones laid"})).toBeTruthy();
   expect(JSON.parse(localStorage.getItem(key)!).events).toEqual(saved.events);
 });

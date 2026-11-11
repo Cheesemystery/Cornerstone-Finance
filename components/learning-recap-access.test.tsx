@@ -18,14 +18,14 @@ it.each(["empty","loading","insufficient","error","ready"])("exposes matching le
  state.historyStatus=status;
  const view=render(<MvpProvider><PortfolioWorkspace/></MvpProvider>);
  const summary=screen.getByRole("region",{name:"Learning progress"});
- expect(summary.textContent).toContain("1 of 6 lessons completed · 1 earned brick");
+ expect(summary.textContent).toContain("1 of 8 lessons completed · 1 earned brick");
  expect(summary.querySelector("time")?.getAttribute("datetime")).toBe("2026-11-07");
  expect(within(summary).getByRole("link",{name:"Resume: Read past the headline."}).getAttribute("href")).toBe("/learn/read-earnings");
  expect(view.container.querySelector("#recap")).toContain(summary);
  fireEvent.click(screen.getByText("Learning milestones, history & sharing"));
  expect(screen.getByRole("heading",{name:"Your learning history"})).toBeTruthy();
- fireEvent.click(screen.getByRole("button",{name:"Fictional practice"}));
- expect(screen.getByRole("region",{name:"Learning progress"}).textContent).toContain("1 of 6");
+ fireEvent.click(screen.getByRole("button",{name:"Practice Sandbox"}));
+ expect(screen.getByRole("region",{name:"Learning progress"}).textContent).toContain("1 of 8");
 });
 it("preserves undated legacy progress and offers review when all six are complete",()=>{
  localStorage.setItem("cornerstone-learning-v1",JSON.stringify({...emptyLearning,completed:lessons.map(l=>l.id)}));

@@ -9,6 +9,7 @@ import { LessonReader } from "./lesson-reader";
 import { HoldingsInput } from "./holdings-input";
 import { emptySavedHoldings, holdingsIdentity, sampleSavedHoldings } from "@/lib/saved-holdings";
 import { calendarWeek } from "@/lib/weekly-portfolio";
+import { lessons } from "@/lib/lessons";
 import { lessonQuiz } from "@/lib/lesson-quiz";
 import { emptyLearning } from "@/lib/learning-progress";
 import { getSampleHistoricalCloses } from "@/lib/sample-history";
@@ -38,7 +39,7 @@ it("offers exactly three holdings input choices for an empty portfolio without f
 it("completes a related existing lesson, persists done for this week on reload, and sends no share counts to the price route",async()=>{
   const view=render(<Providers><HomeDashboard/></Providers>);
   fireEvent.click(screen.getByRole("button",{name:"Use sample portfolio"}));
-  const lesson=await screen.findByRole("link",{name:"Start your 2-minute lesson"});
+  const lesson=await screen.findByRole("link",{name:"Explore this week’s lesson"});
   expect(screen.getByText(/Sample data · as of Sep 2, 2026/)).toBeTruthy();
   const [url,options]=vi.mocked(fetch).mock.calls[0];
   expect(url).toBe("/api/prices/history");
@@ -56,23 +57,25 @@ it("completes a related existing lesson, persists done for this week on reload, 
     fireEvent.click(screen.getByRole("button",{name:"Check answer"}));
     fireEvent.click(screen.getByRole("button",{name:"Continue"}));
   }
-  fireEvent.click(screen.getByRole("button",{name:"Keep this idea"}));
+  fireEvent.click(screen.getByRole("button",{name:"Finish lesson"}));
+ if(screen.queryByRole("button",{name:"Stay with this lesson"}))fireEvent.click(screen.getByRole("button",{name:"Stay with this lesson"}));
   const choose = screen.queryByRole("button",{name:"Campus hall"});
   if (choose) fireEvent.click(choose);
   expect(screen.getByRole("link",{name:"What do you actually own?"}).getAttribute("href")).toBe("/learn/what-you-own");
   view.rerender(<Providers><HomeDashboard/></Providers>);
-  expect(screen.getByRole("status").textContent).toBe("This week’s stone is laid. See you Monday.");
-  expect(screen.queryByRole("link",{name:"Start your 2-minute lesson"})).toBeNull();
+  expect(screen.getByRole("status").textContent).toBe("Foundation Progress: 1 of 8 stones laid");
+  expect(screen.queryByRole("link",{name:"Explore this week’s lesson"})).toBeNull();
+  expect(screen.getByRole("link",{name:/Continue learning:/}).getAttribute("href")).toBe("/learn/what-you-own");
   expect(JSON.parse(localStorage.getItem("cornerstone-learning-v1")!).completed).toEqual(["why-prices-move"]);
   view.unmount();
   render(<Providers><HomeDashboard/></Providers>);
-  await screen.findByText("This week’s stone is laid. See you Monday.");
+  await screen.findByText("Foundation Progress: 1 of 8 stones laid");
 });
 
 it("does not let a previously completed lesson, a wrong lesson, or stale holdings finish the weekly loop",async()=>{
   localStorage.setItem("cornerstone-holdings-v1",JSON.stringify({...emptySavedHoldings,holdings:sampleSavedHoldings,source:"sample"}));
   render(<Providers><HomeDashboard/></Providers>);
-  await screen.findByRole("link",{name:"Start your 2-minute lesson"});
+  await screen.findByRole("link",{name:"Explore this week’s lesson"});
   expect(demo.weekDone).toBe(false);
   act(()=>{demo.beginWeek();demo.finishWeek("what-you-own");});
   expect(demo.weekDone).toBe(false);
@@ -86,12 +89,12 @@ it("reopens the task on Monday in the saved timezone without losing the previous
   vi.useFakeTimers({toFake:["Date"]});vi.setSystemTime(new Date("2026-10-18T20:00:00Z"));
   localStorage.setItem("cornerstone-holdings-v1",JSON.stringify({...emptySavedHoldings,holdings:sampleSavedHoldings,source:"sample"}));
   const view=render(<Providers><HomeDashboard/></Providers>);
-  await screen.findByRole("link",{name:"Start your 2-minute lesson"});
+  await screen.findByRole("link",{name:"Explore this week’s lesson"});
   act(()=>demo.beginWeek());act(()=>demo.finishWeek("why-prices-move"));
   expect(demo.weekDone).toBe(true);view.unmount();
   vi.setSystemTime(new Date("2026-10-19T06:00:00Z"));
   render(<Providers><HomeDashboard/></Providers>);
-  await screen.findByRole("link",{name:"Start your 2-minute lesson"});
+  await screen.findByRole("link",{name:"Explore this week’s lesson"});
   expect(demo.weekDone).toBe(false);
   expect(Object.keys(demo.savedHoldings.completedWeeks)).toHaveLength(1);
 });
@@ -100,9 +103,9 @@ it("keeps the action visible when this week's stored completion belongs to anoth
   const key = `${calendarWeek(new Date(),emptySavedHoldings.timezone)}:sample:${holdingsIdentity(sampleSavedHoldings)}`;
   localStorage.setItem("cornerstone-holdings-v1", JSON.stringify({...emptySavedHoldings,holdings:sampleSavedHoldings,source:"sample",completedWeeks:{[key]:{lessonId:"spread-your-risk",completedAt:new Date().toISOString()}}}));
   render(<Providers><HomeDashboard /></Providers>);
-  await screen.findByRole("link",{name:"Start your 2-minute lesson"});
+  await screen.findByRole("link",{name:"Explore this week’s lesson"});
   expect(demo.weekDone).toBe(false);
-  expect(screen.queryByText("This week’s stone is laid. See you Monday.")).toBeNull();
+  expect(screen.queryByText("Foundation Progress: 1 of 8 stones laid")).toBeNull();
 });
 
 it("requires actual lesson completion as well as the matching weekly receipt",async()=>{
@@ -110,8 +113,8 @@ it("requires actual lesson completion as well as the matching weekly receipt",as
   localStorage.setItem("cornerstone-learning-v1",JSON.stringify({...emptyLearning,completed:[]}));
   localStorage.setItem("cornerstone-holdings-v1", JSON.stringify({...emptySavedHoldings,holdings:sampleSavedHoldings,source:"sample",completedWeeks:{[key]:{lessonId:"why-prices-move",completedAt:new Date().toISOString()}}}));
   render(<Providers><HomeDashboard /></Providers>);
-  await screen.findByRole("link",{name:"Start your 2-minute lesson"});
-  expect(screen.queryByText("This week’s stone is laid. See you Monday.")).toBeNull();
+  await screen.findByRole("link",{name:"Explore this week’s lesson"});
+  expect(screen.queryByText("Foundation Progress: 1 of 8 stones laid")).toBeNull();
 });
 
 it("keeps short history and unsupported tickers in a friendly input state, without a partial portfolio",async()=>{
@@ -158,7 +161,19 @@ it("shows a visible storage warning even after the priced Home replaces its inpu
   });
   render(<Providers><HomeDashboard/></Providers>);
   fireEvent.click(screen.getByRole("button",{name:"Use sample portfolio"}));
-  await screen.findByRole("link",{name:"Start your 2-minute lesson"});
+  await screen.findByRole("link",{name:"Explore this week’s lesson"});
   expect(screen.getByText(/This browser could not fully save or read holdings/)).toBeTruthy();
   expect(demo.holdingsPersistence).toBe("session");
+});
+
+it.each([7,8])("shows actual %i-of-eight foundation progress above the continuing action",async count=>{
+ localStorage.setItem("cornerstone-learning-v1",JSON.stringify({...emptyLearning,completed:lessons.slice(0,count).map(l=>l.id)}));
+ localStorage.setItem("cornerstone-holdings-v1",JSON.stringify({...emptySavedHoldings,holdings:sampleSavedHoldings,source:"sample"}));
+ render(<Providers><HomeDashboard/></Providers>);
+ await screen.findByRole("link",{name:"Explore this week’s lesson"});
+ act(()=>demo.beginWeek());act(()=>demo.finishWeek("why-prices-move"));
+ const status=screen.getByRole("status");
+ expect(status.textContent).toBe(count===8?"All 8 foundation stones complete! Review any lesson at your pace.":"Foundation Progress: 7 of 8 stones laid");
+ expect(status.parentElement!.querySelectorAll('[data-laid="true"]')).toHaveLength(count);
+ if(count===7)expect(screen.getByRole("link",{name:/Continue learning: What will your money buy/}).getAttribute("href")).toBe("/learn/inflation");
 });

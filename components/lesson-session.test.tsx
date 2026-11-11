@@ -18,7 +18,7 @@ it("restarts an open quiz when another surface resets learning",()=>{
  expect(screen.getByRole("heading",{name:"Question 3 of 3"})).toBeTruthy();
  fireEvent.click(screen.getByRole("button",{name:"Reset fixture"}));
  expect(screen.getByRole("heading",{name:"Question 1 of 3"})).toBeTruthy();
- expect(screen.queryByRole("button",{name:"Keep this idea"})).toBeNull();
+ expect(screen.queryByRole("button",{name:"Finish lesson"})).toBeNull();
 });
 it("clears a completed reader session on reset and on changing lessons",()=>{
  localStorage.setItem("cornerstone-learning-v1",JSON.stringify({...emptyLearning,completed:["what-you-own"]}));

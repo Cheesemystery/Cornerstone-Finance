@@ -16,7 +16,7 @@ import { PortfolioRecap } from "./portfolio-recap";
 import { lessonActivities } from "@/lib/lesson-activities";
 import { samplePortfolio } from "@/lib/sample-data";
 
-vi.mock("next/navigation", () => ({ usePathname: () => "/settings" }));
+vi.mock("next/navigation", () => ({ usePathname: () => "/settings", useRouter: () => ({push:vi.fn()}) }));
 const originalScroll = Object.getOwnPropertyDescriptor(Element.prototype, "scrollIntoView");
 const originalShowModal = Object.getOwnPropertyDescriptor(HTMLDialogElement.prototype, "showModal");
 
@@ -89,7 +89,7 @@ it("scans the saved three-question quiz, feedback, and completion action", async
   await accessible();
   fireEvent.click(screen.getByRole("button",{name:"Continue"}));
   expect(document.activeElement).toBe(screen.getByRole("heading",{name:"Three ideas, checked."}));
-  expect(screen.getByRole("button",{name:"Keep this idea"})).toBeTruthy();
+  expect(screen.getByRole("button",{name:"Finish lesson"})).toBeTruthy();
   await accessible();
 });
 

@@ -4,9 +4,9 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { AppShell } from "./app-shell";
 
 const state = vi.hoisted(() => ({ reducedMotion: false }));
-vi.mock("next/navigation", () => ({ usePathname: () => "/settings" }));
+vi.mock("next/navigation", () => ({ usePathname: () => "/settings", useRouter: () => ({push:vi.fn()}) }));
 vi.mock("./demo-provider", () => ({ useDemo: () => ({ preferences: { compact: false, name: "Alex" } }) }));
-vi.mock("./mvp-provider", () => ({ useMvp: () => ({ learning: { completed: [], reducedMotion: state.reducedMotion } }) }));
+vi.mock("./mvp-provider", () => ({ useMvp: () => ({ learning: { completed: [], resetGeneration:0, reducedMotion: state.reducedMotion }, account:{account:null}, now:new Date(), persistence:"saved", updateLearning:vi.fn() }) }));
 let desktop = false;
 let resize: () => void;
 beforeEach(() => {

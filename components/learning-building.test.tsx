@@ -8,7 +8,7 @@ import { emptyLearning } from "@/lib/learning-progress";
 import { lessons } from "@/lib/lessons";
 
 const five = lessons.slice(0,5).map(lesson => lesson.id);
-const six = lessons.map(lesson => lesson.id);
+const six = lessons.slice(0,6).map(lesson => lesson.id);
 let deviceReduced=false;
 beforeEach(() => {
   deviceReduced=false;

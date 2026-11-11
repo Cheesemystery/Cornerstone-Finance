@@ -16,7 +16,7 @@ it.each(lessons)("$id gates completion and resumes checked answers", ({id}) => {
  fireEvent.click(screen.getByLabelText(ownershipQuiz[0].options[(ownershipQuiz[0].correct + 1) % 3]));
  fireEvent.click(screen.getByRole("button",{name:"Check answer"}));
  expect(miss).toHaveBeenCalledOnce();
- expect(screen.queryByRole("button",{name:"Keep this idea"})).toBeNull();
+ expect(screen.queryByRole("button",{name:"Finish lesson"})).toBeNull();
  fireEvent.click(screen.getByLabelText(ownershipQuiz[0].options[ownershipQuiz[0].correct]));
  fireEvent.click(screen.getByRole("button",{name:"Check answer"}));
  view.unmount();
@@ -27,7 +27,7 @@ it.each(lessons)("$id gates completion and resumes checked answers", ({id}) => {
   fireEvent.click(screen.getByRole("button",{name:"Check answer"}));
   fireEvent.click(screen.getByRole("button",{name:"Continue"}));
  }
- fireEvent.click(screen.getByRole("button",{name:"Keep this idea"}));
+ fireEvent.click(screen.getByRole("button",{name:"Finish lesson"}));
  expect(finish).toHaveBeenCalledOnce();
  expect(JSON.parse(localStorage.getItem("cornerstone-learning-v1")!).quizzes[id]).toEqual({version:1,passed:3});
 });

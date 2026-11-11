@@ -36,7 +36,7 @@ function activity(id:string) {
  fireEvent.click(screen.getByRole("button",{name:"Continue"}));
  fireEvent.click(screen.getByRole("button",{name:"Try three quick checks"}));
 }
-it("walks all six real activities and quizzes, restores the final review state and never adds a seventh brick",()=>{
+it("walks all catalog activities and quizzes, restores review and prevents duplicate bricks",()=>{
  vi.stubGlobal("matchMedia",vi.fn(()=>({matches:true,addEventListener:vi.fn(),removeEventListener:vi.fn()})));
  Object.defineProperty(Element.prototype,"scrollIntoView",{configurable:true,value:vi.fn()});
  localStorage.setItem("cornerstone-learning-v1",JSON.stringify(emptyLearning));
@@ -51,19 +51,21 @@ it("walks all six real activities and quizzes, restores the final review state a
    fireEvent.click(screen.getByRole("button",{name:"Check answer"}));
    fireEvent.click(screen.getByRole("button",{name:"Continue"}));
   }
-  fireEvent.click(screen.getByRole("button",{name:"Keep this idea"}));
-  expect(screen.getByRole("img",{name:`Your building: ${index+1} of 24 bricks laid`})).toBeTruthy();
+  fireEvent.click(screen.getByRole("button",{name:"Finish lesson"}));
+ if(screen.queryByRole("button",{name:"Stay with this lesson"}))fireEvent.click(screen.getByRole("button",{name:"Stay with this lesson"}));
+  expect(screen.getByRole("img",{name:`Your foundation: ${index+1} of ${lessons.length} cornerstones laid`})).toBeTruthy();
   const saved=JSON.parse(localStorage.getItem("cornerstone-learning-v1")!);
   expect(saved.completed).toHaveLength(index+1);expect(saved.events).toHaveLength(index+1);
   expect(screen.getByRole("link",{name:lessons[index+1]?.title ?? "Review lessons"})).toBeTruthy();
  }
  fireEvent.click(screen.getByRole("button",{name:"Review this lesson"}));
  fireEvent.click(screen.getByRole("button",{name:"Let’s try it"}));
- activity("research-checklist");
- fireEvent.click(screen.getByRole("button",{name:"Keep this idea"}));
- expect(JSON.parse(localStorage.getItem("cornerstone-learning-v1")!).events).toHaveLength(6);
+ activity(lessons[lessons.length-1].id);
+ fireEvent.click(screen.getByRole("button",{name:"Finish lesson"}));
+ if(screen.queryByRole("button",{name:"Stay with this lesson"}))fireEvent.click(screen.getByRole("button",{name:"Stay with this lesson"}));
+ expect(JSON.parse(localStorage.getItem("cornerstone-learning-v1")!).events).toHaveLength(lessons.length);
  view.unmount();
  render(<MvpProvider><LearningSummary/></MvpProvider>);
  expect(screen.getByRole("link",{name:"Review lessons"}).getAttribute("href")).toBe("/learn");
- expect(screen.getByRole("region",{name:"Learning progress"}).textContent).toContain("6 of 6 lessons completed · 6 earned bricks");
+ expect(screen.getByRole("region",{name:"Learning progress"}).textContent).toContain(`${lessons.length} of ${lessons.length} lessons completed · ${lessons.length} earned bricks`);
 });

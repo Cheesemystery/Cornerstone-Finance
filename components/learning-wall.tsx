@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
+import { foundationLessons } from "@/lib/foundation";
 import { lessons } from "@/lib/lessons";
 import { displayDate, pluralize } from "@/lib/presentation";
 import { readSeenStones, saveSeenStones, stoneAppearance, STONE_LAY_MS } from "@/lib/stone-wall";
@@ -15,7 +16,8 @@ export function LearningWall({ chartEntranceMs = 0, animationsReady = true }: { 
   const [active, setActive] = useState<string | null>(null);
   const [announcement, setAnnouncement] = useState("");
   const [open, setOpen] = useState<string | null>(null);
-  const completed = lessons.filter(lesson => learning.completed.includes(lesson.id)).map(lesson => lesson.id);
+  const {earned, ordered} = foundationLessons(learning.completed);
+  const completed = earned.map(lesson => lesson.id);
   const completedKey = JSON.stringify(completed);
   const ready = now !== null && animationsReady;
 
@@ -67,10 +69,10 @@ export function LearningWall({ chartEntranceMs = 0, animationsReady = true }: { 
     return () => { cancelled = true; clearTimeout(timer); motion.removeEventListener("change", changeMotion); };
   }, [completedKey, ready, visible, learning.reducedMotion, chartEntranceMs]);
 
-  const courses = Array.from({length:Math.ceil(lessons.length / 3)}, (_, index) => lessons.slice(index * 3, index * 3 + 3));
+  const courses = Array.from({length:Math.ceil(lessons.length / 3)}, (_, index) => ordered.slice(index * 3, index * 3 + 3));
   return <figure ref={wall} className={styles.wall} aria-labelledby={`${prefix}-caption`}>
     <div className={styles.courses}>
-      {courses.map((course, courseIndex) => <div key={course[0].id} className={styles.course} data-course={courseIndex % 2}>
+      {courses.map((course, courseIndex) => <div key={course[0].id} className={styles.course} data-course={courseIndex % 2} style={{order:courses.length-courseIndex}}>
         {course.map(lesson => {
           const appearance = stoneAppearance(lesson.id);
           const laid = completed.includes(lesson.id);
@@ -91,6 +93,7 @@ export function LearningWall({ chartEntranceMs = 0, animationsReady = true }: { 
                 <defs><pattern id={textureId} width="19" height="17" patternUnits="userSpaceOnUse"><path d="m2 5 5-1m5 8 3 1" stroke="#506249" strokeWidth="0.5" opacity="0.24" /></pattern></defs>
                 <path d={appearance.path} className={styles.shape} vectorEffect="non-scaling-stroke" />
                 {laid && <path d={appearance.path} fill={`url(#${textureId})`} />}
+                <text x="50" y="38" textAnchor="middle" fill="#183d2d" fontSize="12">{String(lessons.findIndex(item=>item.id===lesson.id)+1).padStart(2,"0")}{laid ? " ✓" : ""}</text>
                 {active === lesson.id && <path d={appearance.path} className={styles.fresh} vectorEffect="non-scaling-stroke" />}
               </svg>
             </button>

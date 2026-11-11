@@ -19,14 +19,15 @@ function QuizSession({ id = "what-you-own", onFinish, onMiss }:QuizProps) {
  useEffect(() => { heading.current?.focus(); }, [position]);
  const done = quizPassed(position);
  const question = questions[position];
- return <>
+ return <div className="lesson-quiz-panel">
+ <p className="eyebrow">Check your understanding</p>
  <h2 ref={heading} tabIndex={-1}>{done ? "Three ideas, checked." : `Question ${position + 1} of 3`}</h2>
- <progress max={3} value={passed} aria-label="Quiz progress" />
+ <progress className="lesson-progress" max={3} value={passed} aria-label="Quiz progress" />
  {question && <ChoiceQuestion key={question.id} {...question} onMiss={onMiss} onReady={() => updateLearning(state => {
   if(state.resetGeneration !== generation || (state.quizzes[id]?.passed ?? 0) !== position) return state;
   return {...state,quizzes:{...state.quizzes,[id]:{version:1,passed:position+1}}};
  })} />}
  {passed > position && <button className="button lime player-continue" onClick={() => setPosition(passed)}>Continue</button>}
- {done && <><p role="status">All three answers checked correctly.</p><button className="button lime player-continue" onClick={onFinish}>Keep this idea</button></>}
- </>;
+ {done && <><p role="status">All three answers checked correctly.</p><p className="lesson-step-hint">Finish to save your completion, keep the takeaway and place your cornerstone.</p><button className="button lime player-continue" onClick={onFinish}>Finish lesson</button></>}
+ </div>;
 }

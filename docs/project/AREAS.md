@@ -50,6 +50,8 @@ Read [PROJECT.md](../../PROJECT.md) first. These boundaries are for scoping work
 
 ## Learn
 
+- 2026-11-09: LearningLibrary uses app/learn-studio.css and LearningFoundation for the six catalog-derived positions. Completion/Recap 24-slot drawing is retained. See phase3-learn-cleanup handoff for tests and boundaries.
+
 - 2026-10-20: `components/learning-building.tsx` and its CSS module own the compact Learn building and post-completion picker/drop. `lib/building.ts` derives capped brick counts from existing completed IDs and stores only skin choice in `cornerstone.building.v1` through the existing browser-store helper. No Home wall migration. `/about` is rendered from `content/about.ts`; shared privacy copy also feeds Settings. See [handoff](handoffs/2026-10-20-about-lesson-building.md).
 
 - Routes: `app/learn/page.tsx`, `app/learn/[slug]/page.tsx`. Content: `lib/lessons.ts`; UI: `components/learning-library.tsx`, `components/lesson-reader.tsx`, `components/growth-calculator.tsx`.
@@ -283,3 +285,6 @@ Fresh check passes lint/typecheck, 296 tests/56 files and build; explicit access
 
 ## Final review handoff Phase 10 — 2026-11-09
 Documentation-only consolidation is complete. PROJECT.md now leads with the implemented six-lesson guest loop and account boundaries; [final review handoff](handoffs/2026-11-09-final-review-handoff-phase-10.md) follows the template and records reused features, changes, verified journey, exact checks, pre-existing/generated work and blockers. Latest full checks remain Phase 9: 296 tests/56 files, accessibility 8/8, lint/typecheck/build pass; no new implementation test run is claimed. Fresh side-browser observation shows six completed lessons/six earned bricks at http://127.0.0.1:3013/recap. Phase 10 preserves source/config/dependency files and all existing user progress; no commit, push, deploy, migration or service activation. Live account/RLS/email/device checks, full browser-process restart, Lighthouse, student study and moderate advisory triage remain open. Stopped for review.
+
+## Continuous learning path — 2026-11-10
+Catalog additions: lib/lessons.ts, lesson-activities.ts, lesson-quiz.ts and components/lesson-visual.tsx. Home weekly completion now offers the next lesson as a primary action before the chart. lib/foundation.ts supplies completion order to Home wall, Learn, reward and lib/weekly-share.ts snapshots. Foundation row counts scale with catalog length. See handoffs/2026-11-10-continuous-learning.md.

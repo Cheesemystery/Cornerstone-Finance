@@ -1,3 +1,47 @@
+# Phase 11 final demonstration — 2026-11-09
+
+Final demo completed in browser on localhost:3005: first real lesson/quiz, save, visible cornerstone placement, refresh preserving one lesson/20 XP/one stone/one saved idea, plus Home/Portfolio/Ask. Learn left open. Original dev server localhost:3000 and original profile preserved. Final 318 tests/60 files, lint/typecheck/build pass. Saved-ideas shortcut fixed after demo inspection. See [final handoff](handoffs/2026-11-09-phase11-final-demonstration.md).
+
+# Phase 10 redesign QA — 2026-11-09
+
+Full suite: 317 tests / 60 files pass. Recap main-foundation mismatch fixed, followed by 30 passing targeted checks. Final lint/typecheck/build pass. Browser verified wrong/correct answers, one award, saved idea refresh/removal, partial/full progress, navigation and supporting-page visuals. See [QA handoff](handoffs/2026-11-09-phase10-redesign-qa.md) for methods and outstanding limits.
+
+# Phase 9 technical audit — 2026-11-09
+
+Confirmed no dependency/auth/backend/math/curriculum changes. Fixed static reward environment-dependent markup and safe import of earliest guest bookmark key. See [audit](handoffs/2026-11-09-phase9-technical-audit.md) for evidence and limits.
+
+# Phase 8 beginner flows — 2026-11-09
+
+Home now leads new learners directly into a first lesson without financial setup. Finish lesson is distinct from Save this idea; returning empty-financial states resume/review correctly; skipping animation preserves focus. See [handoff](handoffs/2026-11-09-phase8-beginner-flows.md).
+
+# Phase 7 supporting pages — 2026-11-09
+
+Home connects dated weekly movement to a real lesson; Portfolio adds metric definitions and table polish; Ask prioritizes input, suggestions, answers and learning links. Full suite 310 tests / 59 files passes. See [handoff](handoffs/2026-11-09-phase7-supporting-pages.md).
+
+# Phase 6 saved ideas — 2026-11-09
+
+Optional saved takeaways now have direct collection navigation, counts, existing concept explanations and focus-safe removal. Persistence is shared, deduplicated and device-local. See [handoff](handoffs/2026-11-09-phase6-saved-ideas.md).
+
+# Phase 5 cornerstone reward — 2026-11-09
+
+Six-stone SVG placement reward shares Learn completion order; short visibility-triggered animation, skip and saved/device motion support. All 307 tests / 59 files pass; lint/typecheck/build pass. Isolated first-completion/refresh browser check confirms 20 XP and one stone. See [handoff](handoffs/2026-11-09-phase5-cornerstone-reward.md).
+
+# Phase 4 lesson experience — 2026-11-09
+
+Lesson stages, concept introduction, interaction/quiz presentation and completion/save/reward receipts refined. Reader completion now focuses result heading. See [handoff](handoffs/2026-11-09-phase4-lesson-experience.md) for checks and limits.
+
+# Phase 3 Learn cleanup — 2026-11-09
+
+Learn now follows dashboard → six-stone foundation → next/review recommendation → grouped curriculum → saved ideas → compact milestones. Existing learning data/formulas preserved. See [handoff](handoffs/2026-11-09-phase3-learn-cleanup.md).
+
+# Phase 2 design system — 2026-11-09
+
+Semantic palette and shared component foundation added. See [design contract](DESIGN-SYSTEM.md) and [handoff](handoffs/2026-11-09-phase2-design-system.md) for adoption, checks and scope limits.
+
+# Studio design implementation — 2026-11-09
+
+Editorial Learn, selectable lesson cornerstones, local saved takeaways and shared page polish implemented. Existing learning/financial arithmetic retained. Lint, typecheck, build and all 298 tests / 57 files pass. See [implementation handoff](handoffs/2026-11-09-studio-implementation.md) for validation and limits.
+
 # Current state
 
 ## About and lesson building — 2026-10-20
@@ -298,3 +342,18 @@ Fresh check passes lint/typecheck, 296 tests/56 files and build; explicit access
 
 ## Final review handoff Phase 10 — 2026-11-09
 Documentation-only consolidation is complete. PROJECT.md now leads with the implemented six-lesson guest loop and account boundaries; [final review handoff](handoffs/2026-11-09-final-review-handoff-phase-10.md) follows the template and records reused features, changes, verified journey, exact checks, pre-existing/generated work and blockers. Latest full checks remain Phase 9: 296 tests/56 files, accessibility 8/8, lint/typecheck/build pass; no new implementation test run is claimed. Fresh side-browser observation shows six completed lessons/six earned bricks at http://127.0.0.1:3013/recap. Phase 10 preserves source/config/dependency files and all existing user progress; no commit, push, deploy, migration or service activation. Live account/RLS/email/device checks, full browser-process restart, Lighthouse, student study and moderate advisory triage remain open. Stopped for review.
+
+## Continuous learning — 2026-11-10
+Eight catalog lessons now continue after weekly completion through a prominent Home action. Stone order is shared across Home, Learn, reward and share artwork; existing completions are preserved. 323 tests/60 files, typecheck, lint and build pass. See handoffs/2026-11-10-continuous-learning.md for scope, browser checks and intermittent weekly-test note. Uncommitted; no deployment.
+
+## Conference presentation — 2026-11-10
+Presentation profile and unified Ask copy are applied; Next development indicator is disabled. Guest Replay final lesson near the profile prepares 7 of 8, preserves notes/holdings and resets the final animation receipt. See handoffs/2026-11-10-conference-polish.md for implementation and validation. No deployment.
+
+## Celebration to foundation — 2026-11-10
+First-time lesson awards now open the numbered celebration; Lay Stone routes to Learn for validated placement and automatic selection. Dynamic CTA, accurate topic labels, balanced capstones, initial guest starter notes and expanded milestones are implemented. 329 full-suite tests pass; additional modal/arrival tests pass; typecheck/lint/build pass. Browser verified final lesson to completed foundation; Home restored to 7 of 8 for the pitch. See handoffs/2026-11-10-celebration-foundation.md for note precedence and verification limits.
+
+## Home progress clarity — 2026-11-10
+Next-cornerstone card now shows actual valid completion progress with eight pill segments above its CTA; full-completion copy requires the whole catalog. VTI/VXUS chart rows include plain-English names. Typecheck and 23 focused tests pass; desktop verified at seven of eight. See handoffs/2026-11-10-home-foundation-progress.md.
+
+## Portfolio clarity — 2026-11-10
+Demo-period banner, My Portfolio/Practice Sandbox names, descriptive legend, signed coral/mint contribution bars, simplified caption and lighter holdings rows implemented. Typecheck/lint and 34 focused tests pass across final runs; desktop browser verified. See handoffs/2026-11-10-portfolio-clarity.md. No deployment.

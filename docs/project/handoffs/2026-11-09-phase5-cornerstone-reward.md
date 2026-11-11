@@ -1,0 +1,11 @@
+# Phase 5 — signature cornerstone reward
+
+Reader now uses CornerstoneReward: six SVG blocks matching the six current lessons, first-completion-only 150ms anticipation plus 900ms transform placement/settle, threshold-based visibility start, animation-end with timeout fallback, skip control and immediate next navigation. Receipt/XP persists before animation; no animation writes progress. Saved/device reduced motion settles immediately. Refresh/replay uses newCompletion=false so no repeated animation. No dependencies.
+
+lib/foundation.ts filters/deduplicates completion IDs and orders earned stones by the existing completion sequence, followed by unfinished catalog positions. Learn and reward share this model, so out-of-order lesson completions do not move old stones. Existing 24-slot building remains only in retained building/Recap surfaces; lesson reward now uses the requested actual six-lesson foundation. Reader journey tests updated to the new accurate image label.
+
+Files: components/cornerstone-reward.tsx, .module.css, .test.tsx; lib/foundation.ts; components/learning-foundation.tsx, lesson-reader.tsx; reader completion/full journey/storage acceptance tests. No financial, quiz, XP, session/account-store or backend logic changes.
+
+Validation: 307 tests / 59 files pass. Five focused final reward tests pass after a lint-compatible fallback adjustment. Lint/typecheck/build/diff check pass. Tests cover correct incoming lesson, stable old positions, dedupe/invalid IDs, timed settling, skip, no focus theft, replay, both motion preferences, full journeys, existing account/guest store behavior. Actual live learning-account integrations remain gated/unverified; no cross-device readiness claim.
+
+Browser: isolated production preview started at reported localhost:3002; completed first real matching activity and all three quiz questions, confirmed +20 XP and one of six stones. Verified settled reward screenshot and refresh preserving 20 XP/one stone without fresh award. Timed interpolation itself covered by component/CSS tests rather than captured intermediate screenshot. Original localhost:3000 user's six completions/125 XP untouched. Isolated preview tab kept as deliverable. No deployment/commit. Production preview reflects build before lint-only fallback adjustment; default browser path unchanged by that adjustment.

@@ -39,7 +39,7 @@ it("limits Home to the dated hero, one lesson action, and cumulative wall",()=>{
   expect(screen.getByRole("heading",{name:"A quiet week: down 0.16% (−$11.23)"})).toBeTruthy();
   expect(screen.getAllByText("Sample data · as of Sep 2, 2026")).toHaveLength(1);
   expect(container.textContent).not.toContain("Data is from");
-  expect(screen.getByRole("link",{name:"Start your 2-minute lesson"}).getAttribute("href")).toBe("/learn/why-prices-move?weekly=1");
+  expect(screen.getByRole("link",{name:"Explore this week’s lesson"}).getAttribute("href")).toBe("/learn/why-prices-move?weekly=1");
   expect(container.querySelectorAll(".weekly-home > *")).toHaveLength(4);
   expect(container.querySelector(".home-pie")).toBeNull();
   expect(container.textContent).not.toMatch(/XP|streak|challenges/);
@@ -54,9 +54,9 @@ it("uses singular day for one learning day and omits the progress date", () => {
 
 it("keeps one Portfolio source badge even with its embedded recap, and retains the arithmetic note", () => {
   const {container} = render(<PortfolioWorkspace />);
-  expect(screen.getAllByText("Sample data · as of Sep 2, 2026")).toHaveLength(1);
+  expect(screen.getAllByText("Demo Portfolio · Week of Aug 26 – Sep 2, 2026")).toHaveLength(1);
   expect(container.textContent).not.toContain("Sample data - as of");
-  expect(screen.getByText(/Each contribution is shares × price change/)).toBeTruthy();
+  expect(screen.getByText(/Each bar shows how much that holding/)).toBeTruthy();
   expect(screen.getByRole("table",{name:"Your holdings"})).toBeTruthy();
 });
 
@@ -100,7 +100,7 @@ it("answers from imported holdings even when fictional practice exists, and keep
   rerender(<AssistantClient />);
   expect(within(log).getByText("CSV prices - as of Oct 15, 2026")).toBeTruthy();
   expect(screen.getByRole("button", { name: "VTI" })).toBeTruthy();
-  expect(screen.getByText(/Not live AI/)).toBeTruthy();
+  expect(screen.getByText(/Educational guidance for student investors/)).toBeTruthy();
   expect(screen.queryByText(/Cornerstone\+/)).toBeNull();
 });
 

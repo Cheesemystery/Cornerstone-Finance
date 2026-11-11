@@ -17,6 +17,7 @@ type Bar = {
 };
 interface BarListProps extends HTMLAttributes<HTMLDivElement> {
   data: Bar[];
+  caption?: string;
   valueFormatter: (value: number) => string;
   onValueChange?: (item: Bar) => void;
   selectedKey?: string | null;
@@ -27,6 +28,7 @@ interface BarListProps extends HTMLAttributes<HTMLDivElement> {
 
 export function BarList({
   data,
+  caption = "Bar length shows the size of each price contribution. Signed amounts show gains and losses.",
   valueFormatter,
   onValueChange,
   selectedKey,
@@ -71,7 +73,7 @@ export function BarList({
           </li>;
         })}
       </ul>
-      <p id={captionId} className={styles.caption}>Bar length shows the size of each price contribution. Signed amounts show gains and losses.</p>
+      <p id={captionId} className={styles.caption}>{caption}</p>
     </div>
   );
 }

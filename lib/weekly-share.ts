@@ -1,3 +1,4 @@
+import { foundationLessons } from "./foundation";
 import { lessons } from "./lessons";
 import { displayDate, signedMoney } from "./presentation";
 import type { HistoricalData } from "./historical-data";
@@ -11,9 +12,10 @@ export const SHARE_HEIGHT = 1350;
 
 export function wallSnapshot(completed: readonly string[]) {
   const rows = Math.ceil(lessons.length / 3);
-  const slots = lessons.map((lesson,index) => {
+  const {ordered} = foundationLessons(completed);
+  const slots = ordered.map((lesson,index) => {
     const course = Math.floor(index / 3);
-    const peers = lessons.slice(course * 3, course * 3 + 3);
+    const peers = ordered.slice(course * 3, course * 3 + 3);
     const weights = peers.map(peer => stoneAppearance(peer.id).weight);
     const total = weights.reduce((sum,weight) => sum + weight,0);
     const inset = course % 2 ? 28 : 0;
@@ -21,7 +23,7 @@ export function wallSnapshot(completed: readonly string[]) {
     const column = index % 3;
     return {id:lesson.id, ...stoneAppearance(lesson.id), laid:completed.includes(lesson.id),
       x:inset + weights.slice(0,column).reduce((sum,weight) => sum + weight / total * available + 6,0),
-      y:course * 68, width:weights[column] / total * available, height:64};
+      y:(rows - 1 - course) * 68, width:weights[column] / total * available, height:64};
   });
   return {slots,width:560,height:Math.max(64,rows * 68 - 4),count:slots.filter(slot => slot.laid).length,total:lessons.length};
 }

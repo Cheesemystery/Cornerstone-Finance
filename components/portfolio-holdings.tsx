@@ -186,7 +186,7 @@ export function PortfolioHoldings({
                     style={{ background: assetColor(allocation.symbol) }}
                   />
                   <span className={styles.holdingName}>
-                    <strong>{allocation.symbol}</strong>
+                    <strong>{allocation.symbol}</strong><small>{{VTI:"Total US Stock Market",VXUS:"International Stocks",BND:"US Total Bond Market",AAPL:"Apple Inc."}[allocation.symbol] ?? holdingSubtitle(allocation.symbol)}</small>
                   </span>
                   <span className={styles.holdingAmount}>
                     <strong>{allocation.percent.toFixed(1)}%</strong>
@@ -222,6 +222,7 @@ export function PortfolioHoldings({
           </span>
         </div>
         <div className={styles.tableWrap}>
+          <p className="portfolio-table-hint">Scroll the table horizontally to see shares, allocation, value and price changes.</p>
           <table className="table" aria-labelledby="all-holdings-title">
             <thead>
               <tr>
@@ -293,6 +294,7 @@ export function PortfolioHoldings({
           </table>
         </div>
       </section>
+      <details className="portfolio-metric-guide"><summary>How to read these figures</summary><dl><div><dt>Market value</dt><dd>Current share count × the dated closing price. It is a snapshot, not money earned.</dd></div><div><dt>Your mix</dt><dd>A holding’s market value divided by the portfolio’s total market value.</dd></div><div><dt>Price contribution</dt><dd>Share count × the change between two closing prices. A holding’s own percentage change is different from its contribution to the portfolio.</dd></div><div><dt>Not total investment return</dt><dd>These price comparisons exclude deposits, withdrawals, dividends and fees. Current share counts are used at both dates; past positions are not reconstructed.</dd></div></dl></details>
       <p className={styles.source}>
         Values and chart use the same
         holdings. Rounded percentages may not add up to exactly 100%.

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { BUILDING_CAPACITY, BRICK_DROP_MS, buildingSkins, laidBrickCount, useBuildingChoice, type BuildingSkin } from "@/lib/building";
+import { lessons } from "@/lib/lessons";
 import { stoneAppearance } from "@/lib/stone-wall";
 import { useMvp } from "./mvp-provider";
 import styles from "./learning-building.module.css";
@@ -35,7 +36,7 @@ export function BuildingDrawing({ completed, skin, incomingIndex = null, reduced
       const laid = index < count;
       const incoming = laid && index === incomingIndex;
       return <g key={index} transform={`translate(${43 + index % 4 * 80} ${76 + (5 - Math.floor(index / 4)) * 48})`} data-brick={index + 1} data-laid={laid}>
-        <g className={incoming ? styles.incoming : undefined} data-incoming={incoming || undefined} onAnimationEnd={incoming ? onSettled : undefined}>
+        <title>{laid ? lessons.find(l => l.id === completed[index])?.title ?? "Completed cornerstone" : "Future cornerstone"}</title><g className={incoming ? styles.incoming : undefined} data-incoming={incoming || undefined} onAnimationEnd={incoming ? onSettled : undefined}>
           <path d={appearance.path} transform="scale(.74 .65625)" className={laid ? styles.laid : styles.empty} fill={laid ? appearance.tint : undefined} />
         </g>
       </g>;
@@ -61,6 +62,8 @@ export function LearningBuildingCard() {
   const {learning} = useMvp();
   const {choice, choose} = useBuildingChoice();
   const [picking, setPicking] = useState(false);
+  const [selected, setSelected] = useState<string>(lessons[0].id);
+  const selectedLesson = lessons.find(lesson => lesson.id === selected)!;
   const trigger = useRef<HTMLButtonElement>(null);
   const wasPicking = useRef(false);
   useEffect(() => {
@@ -70,14 +73,16 @@ export function LearningBuildingCard() {
   return <section className={`mvp-card ${styles.compact} tabular-nums`} aria-labelledby={picking ? undefined : "your-building-title"} aria-label={picking ? "Your building" : undefined}>
     {picking ? <BuildingPicker completed={learning.completed} skin={choice.skin} onChoose={skin => {choose(skin);setPicking(false);}} /> : <>
       <div className={styles.preview}><BuildingDrawing completed={learning.completed} skin={choice.skin} /></div>
-      <div><h2 id="your-building-title">Your building</h2><p className="muted small">{laidBrickCount(learning.completed)} of {BUILDING_CAPACITY} bricks</p>
+      <div><p className="eyebrow">KNOWLEDGE, MADE VISIBLE</p><h2 id="your-building-title">Your financial foundation.</h2><p>One completed lesson. One cornerstone. Something lasting to build on.</p><p className="muted small">{laidBrickCount(learning.completed)} of {BUILDING_CAPACITY} bricks</p>
         <button ref={trigger} type="button" className="demo-link" onClick={() => setPicking(true)}>Change building</button>
+        <div className={styles.stoneChoices} role="group" aria-label="Explore your cornerstones">{lessons.map((lesson, index) => <button key={lesson.id} type="button" aria-pressed={selected === lesson.id} aria-label={`${lesson.title}: ${learning.completed.includes(lesson.id) ? "completed" : "not completed"}`} data-complete={learning.completed.includes(lesson.id)} onMouseEnter={() => setSelected(lesson.id)} onClick={() => setSelected(lesson.id)} onFocus={() => setSelected(lesson.id)}>{String(index + 1).padStart(2, "0")}</button>)}</div>
+        <div className={styles.stoneDetail} aria-live="polite"><strong>{selectedLesson.title}</strong><p>{learning.completed.includes(selected) ? "Cornerstone earned · review anytime" : `${selectedLesson.minutes} minutes · ready when you are`}</p><Link className="demo-link" href={`/learn/${selected}`}>{learning.completed.includes(selected) ? "Review this idea" : "Explore this lesson"} →</Link></div>
       </div>
     </>}
   </section>;
 }
 
-export function LessonBuildingCompletion({ completed, newCompletion, reducedMotion, phaseOne, nextHref = "/learn", nextTitle = "Continue", saved = true, saveLabel }: {completed:readonly string[];newCompletion:boolean;reducedMotion:boolean;phaseOne?:boolean;nextHref?:string;nextTitle?:string;saved?:boolean;saveLabel?:string}) {
+export function LessonBuildingCompletion({ completed, newCompletion, reducedMotion, phaseOne, nextHref = "/learn", nextTitle = "Continue", saved = true, saveLabel, focusNext = true }: {completed:readonly string[];newCompletion:boolean;reducedMotion:boolean;phaseOne?:boolean;nextHref?:string;nextTitle?:string;saved?:boolean;saveLabel?:string;focusNext?:boolean}) {
   const {choice, choose, persistence} = useBuildingChoice();
   const [changing, setChanging] = useState(false);
   const [animationDone, setAnimationDone] = useState(false);
@@ -90,8 +95,8 @@ export function LessonBuildingCompletion({ completed, newCompletion, reducedMoti
   const settled = reduced || !added || animationDone;
   // Navigation is available immediately; animation must never move focus later.
   useEffect(() => {
-    if (!choosing) next.current?.focus();
-  }, [choosing]);
+    if (!choosing && focusNext) next.current?.focus();
+  }, [choosing, focusNext]);
   useEffect(() => {
     if (choosing) return;
     if (!added || animationDone) return;
@@ -107,6 +112,7 @@ export function LessonBuildingCompletion({ completed, newCompletion, reducedMoti
       <p role="status">{saveLabel ?? (!saved ? "Available for this session" : "Saved in this browser")}</p>
       <p>Each idea you keep becomes part of your building.</p>
       <p className="muted small">{count} of {BUILDING_CAPACITY} bricks</p>
+      {!settled && <button className="demo-link" onClick={() => setAnimationDone(true)}>Skip animation</button>}
       <div className={styles.actions}><Link ref={next} className="button primary" href={nextHref}>{nextTitle}</Link>
         <Link className="demo-link" href="/recap">View my Recap</Link><Link className="demo-link" href="/learn">Return later</Link>
         <button type="button" className="demo-link" onClick={() => setChanging(true)}>Change building</button></div>

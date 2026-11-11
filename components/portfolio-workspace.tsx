@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useDemo } from "./demo-provider";
 import { HoldingsInput } from "./holdings-input";
+import { editionRange } from "@/lib/weekly-editorial";
 import { WeekSource } from "./week-source";
 import { DemoPortfolio } from "./demo-portfolio";
 import { PracticeWorkspace } from "./practice-workspace";
@@ -19,10 +20,10 @@ export function PortfolioWorkspace() {
   const [mode, setMode] = useState("holdings");
   const { historyStatus, history, week, retryHistory } = useDemo();
   return <div className="tabular-nums">
-    {mode === "holdings" && history && <WeekSource history={history} endDate={week?.endDate} />}
+    {mode === "holdings" && history && (history.mode === "sample" && week ? <p className="week-source week-sample-banner" role="note">Demo Portfolio · {editionRange(week.startDate,week.endDate)}</p> : <WeekSource history={history} endDate={week?.endDate} />)}
     <div className="portfolio-mode-toggle" role="group" aria-label="Portfolio mode">
-      <button aria-pressed={mode === "holdings"} onClick={() => setMode("holdings")}>Your holdings</button>
-      <button aria-pressed={mode === "practice"} onClick={() => setMode("practice")}>Fictional practice</button>
+      <button aria-pressed={mode === "holdings"} onClick={() => setMode("holdings")}>My Portfolio</button>
+      <button aria-pressed={mode === "practice"} onClick={() => setMode("practice")}>Practice Sandbox</button>
     </div>
     {mode === "practice" ? <PracticeWorkspace /> : <>
       {historyStatus === "ready" ? <DemoPortfolio controls={<details className="privacy-detail"><summary>Manage holdings</summary><HoldingsInput manage /></details>} /> : <>

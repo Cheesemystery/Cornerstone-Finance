@@ -9,6 +9,8 @@ import { lessons } from "@/lib/lessons";
 import { displayDate, pluralize } from "@/lib/presentation";
 import { learningShareSvg } from "@/lib/learning-share";
 import { PageHeader } from "./page-header";
+import { SavedIdeas } from "./saved-ideas";
+import { LearningFoundation } from "./learning-foundation";
 export function LearningRecap({ embedded = false }: { embedded?: boolean }) {
   const { learning, now } = useMvp();
   const [showShare, setShowShare] = useState(false),
@@ -71,6 +73,8 @@ export function LearningRecap({ embedded = false }: { embedded?: boolean }) {
           </Link>
         </section>
       </div>
+      {!embedded && <LearningFoundation />}
+      {!embedded && <SavedIdeas />}
       <section className="mvp-card workspace">
         <h2>Milestones you’ve earned</h2>
         <div className="achievement-grid">

@@ -402,3 +402,6 @@
     font-size: 21px;
   }
 }
+
+/* Signed contribution encoding, scoped to Inside the move. */
+.card [aria-hidden="true"][data-direction="negative"]{background:#f9e5e2}.card [aria-hidden="true"][data-direction="positive"]{background:#dcf2e4}.card [data-direction="negative"] strong{color:#b43c2f;background:#f9e5e2}.card [data-direction="positive"] strong{color:#15653b;background:#dcf2e4}.card [data-direction] strong{padding:4px 8px;border-radius:6px}

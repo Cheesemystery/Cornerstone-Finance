@@ -1,5 +1,5 @@
 export type LessonActivity = {
-  scene: "cafe" | "prices" | "baskets" | "earnings" | "fees" | "checklist";
+  scene: "timeline" | "inflation" | "cafe" | "prices" | "baskets" | "earnings" | "fees" | "checklist";
   story: string;
   hook: string;
   prompt: string;
@@ -122,3 +122,6 @@ export const quizFeedback: Record<string, readonly string[]> = {
     "Likes measure popularity, not whether a fee claim is accurate. Check the official documents.",
   ],
 };
+
+lessonActivities["time-horizon"] = {"scene": "timeline", "kind": "choice", "hook": "When will you need the money?", "story": "Imagine tuition is due in one month. A separate long-term goal is thirty years away. Both matter, but they need different plans.", "prompt": "Which goal leaves less time to wait through a market decline?", "options": ["Tuition due next month", "A goal thirty years away", "Both always have the same timeline"], "correct": 0, "explanation": "A bill next month has a short time horizon. There may be no time to wait for prices to recover."};
+lessonActivities["inflation"] = {"scene": "inflation", "kind": "choice", "hook": "What will your money buy?", "story": "A fictional basket costs $100 today and $110 a year later. Your balance stays at $100. The account number stayed still; prices did not.", "prompt": "A fictional basket rises from $100 to $110. What can an unchanged $100 buy?", "options": ["More of the same basket", "Less of the same basket", "Exactly the same basket"], "correct": 1, "explanation": "The basket now costs more, so the unchanged balance buys less."};

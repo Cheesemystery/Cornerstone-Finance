@@ -10,6 +10,7 @@ import {
 import type { LessonActivity } from "@/lib/lesson-activities";
 
 export function LessonVisual({ scene }: { scene: LessonActivity["scene"] }) {
+  if (scene === "timeline" || scene === "inflation") return <div className="lesson-art" style={{padding:24,background:"#edf1e5",borderRadius:16}}><svg viewBox="0 0 600 150" role="img" aria-label={scene === "timeline" ? "Fictional goals: tuition next month and a long-term goal thirty years away." : "Fictional basket price: 100 dollars today, 110 dollars one year later."}><path d="M60 80H540" stroke="#235346" strokeWidth="3"/><circle cx="60" cy="80" r="9" fill="#235346"/><circle cx="540" cy="80" r="9" fill="#235346"/><g fill="#183d2d" fontSize="20"><text x="35" y="45">{scene === "timeline" ? "Next month" : "$100 today"}</text><text x="350" y="45">{scene === "timeline" ? "30 years away" : "$110 a year later"}</text><text x="35" y="130" fontSize="16">{scene === "timeline" ? "Different goals. Different timelines." : "Same basket. Higher price."}</text></g></svg></div>;
   if (scene === "cafe")
     return (
       <div

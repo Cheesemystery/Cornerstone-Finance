@@ -9,6 +9,11 @@ import "./research-home.css";
 import "./portfolio-polish.css";
 import "./shared-controls.css";
 import "./grant-cleanup.css";
+import "./studio.css";
+import "./design-system.css";
+import "./learn-studio.css";
+import "./lesson-studio.css";
+import "./page-polish.css";
 
 const inter = localFont({ src: "./fonts/inter-latin.woff2", weight: "100 900", display: "optional", variable: "--font-sans" });
 const newsreader = localFont({ src: "./fonts/newsreader-latin.woff2", weight: "200 800", display: "optional", variable: "--font-serif" });

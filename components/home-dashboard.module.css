@@ -51,3 +51,5 @@
   .frontPage.pro .headline { font-size:30px; }
   .proHoldings th,.proHoldings td { padding:10px 2px; }
 }
+
+.foundationSummary{margin:0 0 16px}.foundationSummary .done{text-align:left;margin:0 0 10px;font-size:13px;line-height:1.5}.foundationPills{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:5px;max-width:320px}.foundationPills span{height:8px;border:1px solid #a2b29a;border-radius:12px;background:#edf0e5}.foundationPills span[data-laid="true"]{background:#16382c;border-color:#16382c}
