@@ -38,9 +38,9 @@
     "@types/react-dom": "latest",
     "axe-core": "4.14.0",
     "eslint": "latest",
-    "eslint-config-next": "16.4.5",
+    "eslint-config-next": "16.4.6",
     "jsdom": "latest",
-    "knip": "6.41.0",
+    "knip": "6.45.1",
     "tailwindcss": "latest",
     "typescript": "latest",
     "vitest": "latest"
